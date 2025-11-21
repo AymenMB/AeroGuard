@@ -142,4 +142,4 @@ This project demonstrates that combining **Classical Statistics** (for interpret
 
 ---
 
-*© 2023 Aymen Mabrouk - Ecole Polytechnique Sousse*
+*© 2025 Aymen Mabrouk - Ecole Polytechnique Sousse*
