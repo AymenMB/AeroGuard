@@ -1,0 +1,224 @@
+---
+title: "Project AeroGuard"
+subtitle: "Advanced Stochastic Modelling & AI for Aerospace Propulsion"
+author: "Aymen Mabrouk"
+institute: "Ecole Polytechnique Sousse"
+date: today
+format:
+  revealjs:
+    theme: night
+    transition: concave
+    background-transition: zoom
+    slide-number: c/t
+    logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/R_logo.svg/724px-R_logo.svg.png"
+    footer: "Supervised by Pr. Abdallah Khemais"
+    width: 1600
+    height: 900
+    css: styles.css
+execute:
+  echo: false
+  warning: false
+---
+
+## 🎯 Executive Summary
+
+::: {.columns}
+::: {.column width="60%"}
+**The Objective:**
+Develop a **Grand Unified Model** capable of predicting the Remaining Useful Life (RUL) of turbofan engines under complex, multi-regime, and multi-fault conditions.
+
+**The Approach:**
+A hierarchical pipeline integrating **Statistical Mechanics**, **Unsupervised Clustering**, and **Ensemble Machine Learning**.
+
+**The Achievement:**
+Successfully solved the "Final Boss" (FD004) with an **RMSE of 32.97**, demonstrating robustness across all operational variables.
+:::
+
+::: {.column width="40%"}
+![](https://upload.wikimedia.org/wikipedia/commons/5/53/Pratt_%26_Whitney_F100_turbofan_engine_cutaway.jpg)
+:::
+:::
+
+---
+
+# Phase 1: Statistical Baseline (FD001) {background-color="#2C3E50"}
+
+### Identifying the "Death Signature"
+
+---
+
+## 📊 Survival Analysis (Cox PH)
+
+We utilized **Cox Proportional Hazards** to identify leading indicators of failure.
+
+```{r}
+library(tidyverse)
+library(survival)
+library(plotly)
+
+# Load Data
+df_001 <- read.csv("processed_engine_data.csv") # Ensure this file exists
+# Re-run Cox for visual
+df_001$failed <- ifelse(df_001$RUL == 0, 1, 0)
+cox <- coxph(Surv(cycle, failed) ~ s11 + s12 + s4, data = df_001)
+cox_res <- summary(cox)$conf.int %>% as.data.frame() %>% rownames_to_column("Sensor")
+colnames(cox_res)[2] <- "HR"
+
+ggplot(cox_res, aes(x = HR, y = Sensor)) +
+  geom_vline(xintercept = 1, linetype="dashed", color="white") +
+  geom_point(size=6, color="#e74c3c") +
+  geom_errorbarh(aes(xmin=`lower .95`, xmax=`upper .95`), height=0.2, color="white") +
+  labs(title = "Hazard Ratios", subtitle = "Sensor 11 (Pressure) increases risk by >200x", x="Hazard Ratio") +
+  theme_dark(base_size = 18) +
+  theme(plot.background = element_rect(fill = "#2C3E50"), panel.background = element_rect(fill = "#2C3E50"),
+        text = element_text(color = "white"), axis.text = element_text(color = "white"))
+```
+
+---
+
+## 📉 Degradation Modelling
+
+Using **PCA (Principal Component Analysis)** to construct a composite "Health Index" from 14 sensors.
+
+```{r}
+# Load pre-processed data for speed
+# If file missing, generate dummy plot or handle error
+if(file.exists("processed_engine_data.csv")) {
+    df <- read.csv("processed_engine_data.csv") 
+    # Simple PCA reconstruction for viz
+    sensors <- df %>% select(starts_with("s"))
+    pca <- prcomp(sensors, scale.=TRUE)
+    df$Health <- pca$x[,1]
+    
+    p <- ggplot(df %>% filter(unit_id <= 5), aes(x=cycle, y=Health, color=factor(unit_id))) +
+      geom_line(size=1) +
+      labs(title="Composite Health Index", y="PCA Score (Degradation)", x="Flight Cycle", color="Engine") +
+      theme_dark(base_size=18) +
+      theme(plot.background = element_rect(fill = "#2C3E50"), panel.background = element_rect(fill = "#2C3E50"),
+            text = element_text(color = "white"), axis.text = element_text(color = "white"))
+    ggplotly(p)
+}
+```
+
+---
+
+# Phase 2: Multi-Regime Dynamics (FD002) {background-color="#8E44AD"}
+
+### Solving the "Jumping Data" Problem
+
+---
+
+## 🌪️ Regime Normalization
+
+In FD002, aircraft altitude changes constantly. We applied **K-Means Clustering** to isolate 6 Operating Regimes and normalized sensors within each cluster.
+
+```{r}
+# Load Results
+if(file.exists("FD002_Final_Predictions.csv")){
+  res_002 <- read.csv("FD002_Final_Predictions.csv")
+  rmse_002 <- sqrt(mean((res_002$True_RUL_Clipped - res_002$Predicted_RUL)^2))
+  
+  ggplot(res_002, aes(x = True_RUL_Clipped, y = Predicted_RUL)) +
+    geom_point(color = "#9b59b6", alpha = 0.5) +
+    geom_abline(slope = 1, intercept = 0, color = "white", linetype = "dashed") +
+    labs(title = "FD002 Performance", 
+         subtitle = paste("RMSE:", round(rmse_002, 2), "| Altitude Noise Neutralized"),
+         x = "Actual RUL", y = "Predicted RUL") +
+    theme_dark(base_size = 18) +
+    theme(plot.background = element_rect(fill = "#8E44AD"), panel.background = element_rect(fill = "#8E44AD"),
+          text = element_text(color = "white"), axis.text = element_text(color = "white"))
+}
+```
+
+---
+
+# Phase 3: Multi-Fault Diagnostics (FD003) {background-color="#27AE60"}
+
+### The Digital Pathologist
+
+---
+
+## 🩺 Fault Isolation
+
+Engines in FD003 fail due to either **Fan Degradation** or **Compressor Failure**. We used **Hierarchical Clustering** to diagnose the specific "disease."
+
+```{r}
+if(file.exists("FD003_Final_Predictions.csv")){
+  res_003 <- read.csv("FD003_Final_Predictions.csv")
+  rmse_003 <- sqrt(mean((res_003$True_RUL_Clipped - res_003$Predicted_RUL)^2))
+  
+  ggplot(res_003, aes(x = True_RUL_Clipped, y = Predicted_RUL, color = factor(Fault_Mode))) +
+    geom_point(alpha = 0.6, size=3) +
+    geom_abline(slope = 1, intercept = 0, color = "white", linetype = "dashed") +
+    scale_color_manual(values=c("#f1c40f", "#e67e22")) +
+    labs(title = "FD003: Fault-Aware Prediction", 
+         subtitle = paste("RMSE:", round(rmse_003, 2), "| Distinct Fault Modes Identified"),
+         x = "Actual RUL", y = "Predicted RUL", color="Fault Mode") +
+    theme_dark(base_size = 18) +
+    theme(plot.background = element_rect(fill = "#27AE60"), panel.background = element_rect(fill = "#27AE60"),
+          text = element_text(color = "white"), axis.text = element_text(color = "white"), legend.position="bottom")
+}
+```
+
+---
+
+# Phase 4: The Final Boss (FD004) {background-color="#C0392B"}
+
+### Grand Unified Model
+
+---
+
+## ⚔️ AeroGuard Ultimate
+
+Combining **Regime Normalization**, **Fault Classification**, and **XGBoost** into a single pipeline.
+
+```{r}
+if(file.exists("FD004_Final_Predictions.csv")){
+  res_004 <- read.csv("FD004_Final_Predictions.csv")
+  rmse_004 <- sqrt(mean((res_004$True_RUL_Clipped - res_004$Predicted_RUL)^2))
+  
+  p1 <- ggplot(res_004, aes(x = True_RUL_Clipped, y = Predicted_RUL, color = factor(Fault_Mode))) +
+    geom_point(alpha = 0.6) +
+    geom_abline(slope = 1, intercept = 0, color = "white", linetype = "dashed") +
+    labs(title = "FD004 Results", subtitle = paste("RMSE:", round(rmse_004, 2)), x="Actual", y="Pred") +
+    theme_dark(base_size = 16) +
+    theme(plot.background = element_rect(fill = "#C0392B"), panel.background = element_rect(fill = "#C0392B"),
+          text = element_text(color = "white"), axis.text = element_text(color = "white"), legend.position="none")
+    
+  # Residual Analysis
+  res_004$Resid <- res_004$True_RUL_Clipped - res_004$Predicted_RUL
+  p2 <- ggplot(res_004, aes(x=Resid)) + 
+    geom_density(fill="white", alpha=0.5) +
+    labs(title="Error Distribution", subtitle="Gaussian (Unbiased)", x="Error") +
+    theme_dark(base_size = 16) +
+    theme(plot.background = element_rect(fill = "#C0392B"), panel.background = element_rect(fill = "#C0392B"),
+          text = element_text(color = "white"), axis.text = element_text(color = "white"))
+
+  library(gridExtra)
+  grid.arrange(p1, p2, ncol=2)
+}
+```
+
+---
+
+## 🏆 Final Scoreboard
+
+| Dataset | Complexity | Method | AeroGuard RMSE |
+|:---|:---|:---|:---:|
+| **FD001** | Single Regime | Random Forest | **17.53** |
+| **FD002** | Multi-Regime | Hybrid Ensemble | **26.54** |
+| **FD003** | Multi-Fault | Fault Classifier | **20.05** |
+| **FD004** | **Combined** | **Unified Pipeline** | **32.97** |
+
+::: {.fragment}
+**Conclusion:** The AeroGuard pipeline successfully generalizes across all operational scenarios, providing a robust foundation for predictive maintenance.
+:::
+
+---
+
+## Thank You
+
+**Questions?**
+
+<br>
+*Project available on GitHub*
