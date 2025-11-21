@@ -124,6 +124,6 @@ predictions <- predict(model, as.matrix(new_data))
 
 This project is licensed under the MIT License.
 
-> *"In God we trust. All others must bring data."* - W. Edwards Deming
+
 
 <!-- Images updated -->
