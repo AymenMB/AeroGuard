@@ -41,18 +41,21 @@ This system integrates **Statistical Mechanics (Cox PH)**, **Unsupervised Forens
 
 ## 📊 Key Visualizations
 
-### 1. The "Death Signature" (FD001)
-*Statistical proof that Static Pressure (Sensor 11) is the leading indicator of failure.*
-![Hazard Ratio Plot](path/to/your/hazard_ratio_plot.png)
-*(Note: Replace this link with your actual image path if available)*
+### 1. The Signal in the Noise (FD002/FD004)
+*Raw Sensor 11 (Left) vs Normalized Signal (Right). We recover the degradation trend from chaotic flight data using Regime Normalization.*
+![Normalization Plot](images/FD004%20RAW%20SENSOR%2011%20VS%20NORMALIZED.png)
 
-### 2. Multi-Regime Normalization (FD002)
-*Recovering the degradation signal from raw noisy flight data using Regime Clustering.*
-![Normalization Plot](path/to/your/normalization_plot.png)
+### 2. The Digital Pathologist (FD003)
+*Unsupervised Clustering separates the two failure modes (Fan vs Compressor) based on sensor fingerprints.*
+![Fault Isolation](images/FD004%20Statistical%20Fingerprints.png)
 
-### 3. The Oracle (Prediction vs Truth)
-*The AI (Blue line) accurately predicting the "Knee" of the failure curve.*
-![Prediction Plot](path/to/your/prediction_plot.png)
+### 3. Survival Analysis (Risk Modeling)
+*Kaplan-Meier curves showing different degradation rates for different fault modes.*
+![Survival Analysis](images/FD003FLIGHT%20CYCLES.png)
+
+### 4. The Oracle: Final Performance (FD004)
+*Predicted RUL vs Actual RUL. The tight alignment along the diagonal proves the model's accuracy (RMSE 32.97).*
+![Prediction Plot](images/FD004%20FINAL%20SCORE%20(RMSE).png)
 
 ---
 
