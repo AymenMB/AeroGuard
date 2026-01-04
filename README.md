@@ -5,10 +5,11 @@
 ![Machine Learning](https://img.shields.io/badge/Model-XGBoost%20%7C%20Random%20Forest%20%7C%20CoxPH-green.svg)
 ![RMSE](https://img.shields.io/badge/Best%20RMSE-17.53-brightgreen.svg)
 ![License](https://img.shields.io/badge/License-MIT-yellow.svg)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/stately-froyo-db2315/deploy-status)](https://stately-froyo-db2315.netlify.app)
 
 > **A Grand Unified Model for Remaining Useful Life (RUL) Prediction of Turbofan Engines under Complex Operational Conditions.**
 
-**📊 [View Presentation](presentation/final_presentation.html)** | **📓 [Browse Notebooks](notebooks/)**
+**� [View Live Presentation](https://stately-froyo-db2315.netlify.app)** | **📓 [Browse Notebooks](notebooks/)**
 
 
 ---
