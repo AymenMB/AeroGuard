@@ -1,0 +1,8 @@
+[build]
+  publish = "presentation"
+  command = "echo 'No build needed - using pre-built HTML'"
+
+[[redirects]]
+  from = "/"
+  to = "/final_presentation.html"
+  status = 200
