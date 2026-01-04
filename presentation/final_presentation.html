@@ -10,7 +10,7 @@
   <meta name="generator" content="quarto-1.8.26">
 
   <meta name="author" content="Aymen Mabrouk">
-  <meta name="dcterms.date" content="2026-01-04">
+  <meta name="dcterms.date" content="2026-01-05">
   <title>Project AeroGuard</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -209,133 +209,290 @@ Aymen Mabrouk
     </div>
 </div>
 
-  <p class="date">2026-01-04</p>
+  <p class="date">2026-01-05</p>
 </section>
 <section>
-<section id="executive-summary" class="title-slide slide level1 center" data-background-color="#1a1a2e">
-<h1>🚀 Executive Summary</h1>
+<section id="the-50-billion-question" class="title-slide slide level1 hero center" data-background-color="#1a1a2e">
+<h1>💰 The $50 Billion Question</h1>
+
+</section>
 <div class="columns">
-<div class="column" style="width:60%;">
-<p><strong>The Challenge:</strong> Aircraft engines are expensive. Replacing them too early wastes money; replacing them too late risks catastrophic failure.</p>
-<p><strong>The Goal:</strong> Predict the <strong>Remaining Useful Life (RUL)</strong> of turbofan engines using high-frequency sensor data.</p>
-<p><strong>The Dataset:</strong> NASA C-MAPSS — 4 subsets with increasing complexity.</p>
-</div><div class="column" style="width:40%;">
+<div class="column" style="width:55%;">
+<div class="fragment fade-in">
+<p>A single <strong>turbofan engine</strong> costs <strong>$10-35 million</strong></p>
+</div>
+<div class="fragment fade-in">
+<p><strong>Unplanned maintenance</strong> costs <strong>10x more</strong> than scheduled</p>
+</div>
+<div class="fragment fade-in">
+<p><strong>One wrong prediction</strong> = Grounded fleet or catastrophic failure</p>
+</div>
+<div class="fragment fade-up" style="margin-top: 1.5em;">
+<h3 id="the-question">The Question:</h3>
+<p><strong>“How many flights before this engine fails?”</strong></p>
+</div>
+</div><div class="column" style="width:45%;">
 <p><img data-src="https://upload.wikimedia.org/wikipedia/commons/5/53/Pratt_%26_Whitney_F100_turbofan_engine_cutaway.jpg"></p>
+</div>
+</div>
+<section id="what-we-predict-remaining-useful-life-rul" class="slide level2" data-auto-animate="true">
+<h2 data-id="quarto-animate-title">🎯 What We Predict: Remaining Useful Life (RUL)</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><strong>The Concept:</strong></p>
+<ul>
+<li>Engine starts <strong>HEALTHY</strong> (RUL = 200 cycles)</li>
+<li>Engine <strong>DEGRADES</strong> over time</li>
+<li>Our AI predicts: <strong>“How many cycles left?”</strong></li>
+</ul>
+<p><strong>The Formula:</strong> <span class="math display">\[\huge RUL = MaxCycle - CurrentCycle\]</span></p>
+<p><strong>Example:</strong><br>
+Engine ran 150 cycles, failed at 200<br>
+→ At cycle 150: <strong>RUL = 50 cycles</strong></p>
+</div><div class="column" style="width:50%;">
+<pre><code>        HEALTHY                    FAILURE
+           │                          │
+   ┌───────┴───────┬──────────────────┴───┐
+   │               │                      │
+   ▼               ▼                      ▼
+Cycle 1      Cycle 150              Cycle 200
+RUL=199      RUL=50 ← PREDICT THIS  RUL=0</code></pre>
+<div class="fragment fade-up">
+<p><strong>Business Impact:</strong><br>
+✅ Predict early → Schedule maintenance<br>
+❌ Predict late → Engine fails in flight</p>
+</div>
 </div></div>
 </section>
-<section id="the-solution-aeroguard" class="slide level2" data-auto-animate="true">
-<h2 data-id="quarto-animate-title">🚀 The Solution: AeroGuard</h2>
-<p><strong>AeroGuard</strong> — a hierarchical AI pipeline integrating:</p>
-<ol type="1">
-<li class="fragment"><strong>Statistical Survival Analysis</strong> (Cox Proportional Hazards)</li>
-<li class="fragment"><strong>Unsupervised Forensics</strong> (K-Means &amp; Hierarchical Clustering)</li>
-<li class="fragment"><strong>Ensemble Machine Learning</strong> (Random Forest + XGBoost)</li>
-</ol>
+<section id="the-dataset-nasa-c-mapss" class="slide level2" data-auto-animate="true">
+<h2 data-id="quarto-animate-title">📂 The Dataset: NASA C-MAPSS</h2>
+<div class="columns">
+<div class="column" style="width:45%;">
+<p><strong>What is C-MAPSS?</strong></p>
+<ul>
+<li>Created by <strong>NASA</strong> for research</li>
+<li><strong>Simulated</strong> but highly realistic</li>
+<li>Engines “fly” until they break</li>
+</ul>
+<p><strong>Format:</strong> <code>.txt</code> files (space-separated)</p>
+<p><strong>Structure:</strong> 26 columns - Column 1: <code>unit_id</code> (engine number) - Column 2: <code>cycle</code> (flight number) - Columns 3-5: <code>settings</code> (flight conditions) - Columns 6-26: <code>sensors</code> (21 measurements)</p>
+</div><div class="column" style="width:55%;">
+<p><strong>The 3 File Types:</strong></p>
+<div class="dataset-card">
+<p>📗 <strong>train_FD001.txt</strong> — Full History<br>
+Engines run <strong>until failure</strong> (RUL=0 at end)</p>
+</div>
+<div class="dataset-card test">
+<p>📕 <strong>test_FD001.txt</strong> — Partial History<br>
+Stops <strong>before failure</strong> → We predict remaining RUL</p>
+</div>
+<div class="dataset-card rul">
+<p>📙 <strong>RUL_FD001.txt</strong> — Ground Truth<br>
+Real RUL values to evaluate our predictions</p>
+</div>
+</div></div>
 </section>
-<section id="the-scoreboard" class="slide level2" data-auto-animate="true">
-<h2 data-id="quarto-animate-title">🏆 The Scoreboard</h2>
-<p>We systematically conquered each NASA C-MAPSS dataset with increasing complexity.</p>
+<section id="fd001-fd004-from-simple-to-ultimate" class="slide level2" data-auto-animate="true">
+<h2 data-id="quarto-animate-title">🔢 FD001 → FD004: From Simple to Ultimate</h2>
 <table class="caption-top">
-<colgroup>
-<col style="width: 19%">
-<col style="width: 19%">
-<col style="width: 19%">
-<col style="width: 19%">
-<col style="width: 23%">
-</colgroup>
 <thead>
 <tr class="header">
 <th style="text-align: left;">Dataset</th>
-<th style="text-align: left;">Complexity</th>
-<th style="text-align: left;">Key Challenge</th>
-<th style="text-align: left;">Method</th>
-<th style="text-align: center;">AeroGuard RMSE</th>
+<th style="text-align: center;">Flight Conditions</th>
+<th style="text-align: center;">Fault Types</th>
+<th style="text-align: center;">Engines</th>
+<th style="text-align: left;">Difficulty</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td style="text-align: left;"><strong>FD001</strong></td>
-<td style="text-align: left;">Baseline</td>
-<td style="text-align: left;">Single Regime, Single Fault</td>
-<td style="text-align: left;">Survival + Random Forest</td>
-<td style="text-align: center;"><strong>17.53</strong></td>
+<td style="text-align: center;">1 (Sea Level)</td>
+<td style="text-align: center;">1 (HPC)</td>
+<td style="text-align: center;">100</td>
+<td style="text-align: left;">⭐ Baseline</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;"><strong>FD002</strong></td>
-<td style="text-align: left;">Multi-Regime</td>
-<td style="text-align: left;">6 Operating Conditions</td>
-<td style="text-align: left;">Regime Clustering + Hybrid Ensemble</td>
-<td style="text-align: center;"><strong>26.54</strong></td>
+<td style="text-align: center;">6 (Multi-Altitude)</td>
+<td style="text-align: center;">1 (HPC)</td>
+<td style="text-align: center;">260</td>
+<td style="text-align: left;">⭐⭐⭐ Hard</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;"><strong>FD003</strong></td>
-<td style="text-align: left;">Multi-Fault</td>
-<td style="text-align: left;">2 Failure Mechanisms</td>
-<td style="text-align: left;">Fault Classifier + XGBoost</td>
-<td style="text-align: center;"><strong>20.05</strong></td>
+<td style="text-align: center;">1 (Sea Level)</td>
+<td style="text-align: center;">2 (HPC + Fan)</td>
+<td style="text-align: center;">100</td>
+<td style="text-align: left;">⭐⭐ Medium</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;"><strong>FD004</strong></td>
-<td style="text-align: left;"><strong>Ultimate</strong></td>
-<td style="text-align: left;">Regimes + Faults Combined</td>
-<td style="text-align: left;"><strong>Grand Unified Pipeline</strong></td>
-<td style="text-align: center;"><strong>32.97</strong></td>
+<td style="text-align: center;">6</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">248</td>
+<td style="text-align: left;">⭐⭐⭐⭐ Ultimate</td>
 </tr>
 </tbody>
 </table>
 <div class="fragment fade-up">
-<p><strong>Result:</strong> State-of-the-art performance across all operational scenarios. RMSE &lt; 20 is excellent; &lt; 35 for FD004 is competitive.</p>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Note</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>HPC</strong> = High-Pressure Compressor degradation<br>
+<strong>Fan</strong> = Fan blade erosion<br>
+<strong>We tackled ALL 4 datasets</strong> with increasing complexity!</p>
+</div>
+</div>
+</div>
 </div>
 </section>
-<section id="project-resources-live-demo" class="slide level2" data-auto-animate="true">
-<h2 data-id="quarto-animate-title">📂 Project Resources &amp; Live Demo</h2>
+<section id="aeroguard-our-3-pillar-solution" class="slide level2" data-auto-animate="true">
+<h2 data-id="quarto-animate-title">🚀 AeroGuard: Our 3-Pillar Solution</h2>
 <div class="columns">
-<div class="column" style="width:50%;">
-<p><strong>📓 Interactive Notebooks:</strong></p>
-<table class="caption-top">
+<div class="column" style="width:33%;">
+<div class="stat-box">
+<p><span class="number">1</span> <span class="label">Statistical Analysis</span></p>
+</div>
+<p><strong>Cox Proportional Hazards</strong></p>
+<ul>
+<li>Find which sensors predict failure</li>
+<li>Quantify hazard ratios</li>
+<li>Survival curves by fault type</li>
+</ul>
+</div><div class="column" style="width:33%;">
+<div class="stat-box">
+<p><span class="number">2</span> <span class="label">Unsupervised Learning</span></p>
+</div>
+<p><strong>K-Means + Hierarchical</strong></p>
+<ul>
+<li>Detect operating regimes</li>
+<li>Isolate fault signatures</li>
+<li>Cluster engines by behavior</li>
+</ul>
+</div><div class="column" style="width:33%;">
+<div class="stat-box">
+<p><span class="number">3</span> <span class="label">Ensemble ML</span></p>
+</div>
+<p><strong>Random Forest + XGBoost</strong></p>
+<ul>
+<li>Gradient boosting for accuracy</li>
+<li>Feature importance analysis</li>
+<li>Physics-based smoothing</li>
+</ul>
+</div></div>
+</section>
+<section id="the-scoreboard" class="slide level2" data-auto-animate="true">
+<h2 data-id="quarto-animate-title">🏆 The Scoreboard</h2>
+<table class="caption-top" style="width:100%;">
 <colgroup>
-<col style="width: 38%">
-<col style="width: 30%">
-<col style="width: 30%">
+<col style="width: 18%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 18%">
+<col style="width: 18%">
 </colgroup>
 <thead>
 <tr class="header">
 <th style="text-align: center;">Phase</th>
+<th style="text-align: left;">Dataset</th>
+<th style="text-align: left;">Challenge</th>
+<th style="text-align: left;">Our Method</th>
+<th style="text-align: center;">RMSE</th>
+<th style="text-align: center;">Status</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">1</td>
+<td style="text-align: left;"><strong>FD001</strong></td>
+<td style="text-align: left;">Baseline</td>
+<td style="text-align: left;">Cox + Random Forest</td>
+<td style="text-align: center;"><strong>17.53</strong></td>
+<td style="text-align: center;">✅ Excellent</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">2</td>
+<td style="text-align: left;"><strong>FD002</strong></td>
+<td style="text-align: left;">6 Regimes</td>
+<td style="text-align: left;">K-Means + Hybrid</td>
+<td style="text-align: center;"><strong>26.54</strong></td>
+<td style="text-align: center;">✅ Good</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">3</td>
+<td style="text-align: left;"><strong>FD003</strong></td>
+<td style="text-align: left;">2 Faults</td>
+<td style="text-align: left;">Hierarchical + XGB</td>
+<td style="text-align: center;"><strong>20.05</strong></td>
+<td style="text-align: center;">✅ Excellent</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">4</td>
+<td style="text-align: left;"><strong>FD004</strong></td>
+<td style="text-align: left;">Combined</td>
+<td style="text-align: left;">Grand Unified</td>
+<td style="text-align: center;"><strong>32.97</strong></td>
+<td style="text-align: center;">✅ Competitive</td>
+</tr>
+</tbody>
+</table>
+<div class="fragment fade-up">
+<p><strong>RMSE Interpretation:</strong><br>
+&lt; 20 = Excellent | 20-30 = Good | 30-40 = Competitive</p>
+</div>
+</section>
+<section id="resources-links" class="slide level2">
+<h2>📓 Resources &amp; Links</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><strong>Interactive Notebooks:</strong></p>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: center;">#</th>
 <th style="text-align: left;">Notebook</th>
-<th style="text-align: left;">Description</th>
+<th style="text-align: left;">Focus</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td style="text-align: center;">1</td>
 <td style="text-align: left;"><code>Engine_Predictive_Maintenance.ipynb</code></td>
-<td style="text-align: left;">Cox PH + Random Forest</td>
+<td style="text-align: left;">FD001 Baseline</td>
 </tr>
 <tr class="even">
 <td style="text-align: center;">2</td>
 <td style="text-align: left;"><code>AeroGuard_FD002_MultiRegime.ipynb</code></td>
-<td style="text-align: left;">K-Means + Hybrid Ensemble</td>
+<td style="text-align: left;">Multi-Regime</td>
 </tr>
 <tr class="odd">
 <td style="text-align: center;">3</td>
 <td style="text-align: left;"><code>AeroGuard_FD003_Diagnostics.ipynb</code></td>
-<td style="text-align: left;">Hierarchical + Fault-Aware XGB</td>
+<td style="text-align: left;">Multi-Fault</td>
 </tr>
 <tr class="even">
 <td style="text-align: center;">4</td>
 <td style="text-align: left;"><code>AeroGuard_FD004_Ultimate.ipynb</code></td>
-<td style="text-align: left;">Grand Unified Pipeline</td>
+<td style="text-align: left;">Grand Unified</td>
 </tr>
 </tbody>
 </table>
 </div><div class="column" style="width:50%;">
-<p><strong>🔗 Quick Links:</strong></p>
+<p><strong>Quick Links:</strong></p>
 <ul>
-<li><strong>GitHub:</strong> <a href="https://github.com/AymenMB/AeroGuard">AymenMB/AeroGuard</a></li>
-<li><strong>Live Presentation:</strong> <a href="https://aymenmb.github.io/AeroGuard">aymenmb.github.io/AeroGuard</a></li>
-<li><strong>NASA Dataset:</strong> <a href="https://data.nasa.gov/dataset/C-MAPSS-Aircraft-Engine-Simulator-Data/x339-9te4">C-MAPSS Data</a></li>
+<li>🔗 <strong>GitHub:</strong> <a href="https://github.com/AymenMB/AeroGuard">AymenMB/AeroGuard</a></li>
+<li>🌐 <strong>Live:</strong> <a href="https://aymenmb.github.io/AeroGuard">aymenmb.github.io/AeroGuard</a></li>
+<li>📊 <strong>Dataset:</strong> <a href="https://data.nasa.gov">NASA C-MAPSS</a></li>
 </ul>
-<p><strong>🛠️ Technologies Used:</strong></p>
+<p><strong>Technologies:</strong></p>
 <p><img data-src="https://img.shields.io/badge/R-276DC3?logo=r&amp;logoColor=white.png" alt="R"> <img data-src="https://img.shields.io/badge/Quarto-75AADB?logo=quarto&amp;logoColor=white.png" alt="Quarto"> <img data-src="https://img.shields.io/badge/XGBoost-FF6600?logo=xgboost&amp;logoColor=white.png" alt="XGBoost"></p>
 </div></div>
 </section>
@@ -363,14 +520,14 @@ Aymen Mabrouk
 <section id="data-ingestion-preprocessing" class="slide level2">
 <h2>🔧 Data Ingestion &amp; Preprocessing</h2>
 <p><strong>The “Ghost Column” Problem:</strong> NASA data files have trailing spaces creating phantom columns.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href=""></a><span class="co"># Fix: Keep only the first 26 legitimate columns</span></span>
-<span id="cb1-2"><a href=""></a>raw_data <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">"train_FD001.txt"</span>, <span class="at">header =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb1-3"><a href=""></a>raw_data <span class="ot">&lt;-</span> raw_data[, <span class="dv">1</span><span class="sc">:</span><span class="dv">26</span>]  <span class="co"># Ghost column fix</span></span>
-<span id="cb1-4"><a href=""></a></span>
-<span id="cb1-5"><a href=""></a><span class="co"># Assign meaningful column names</span></span>
-<span id="cb1-6"><a href=""></a>col_names <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"unit_id"</span>, <span class="st">"cycle"</span>, <span class="st">"setting_1"</span>, <span class="st">"setting_2"</span>, <span class="st">"setting_3"</span>,</span>
-<span id="cb1-7"><a href=""></a>               <span class="fu">paste0</span>(<span class="st">"s"</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">21</span>))</span>
-<span id="cb1-8"><a href=""></a><span class="fu">colnames</span>(raw_data) <span class="ot">&lt;-</span> col_names</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href=""></a><span class="co"># Fix: Keep only the first 26 legitimate columns</span></span>
+<span id="cb2-2"><a href=""></a>raw_data <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">"train_FD001.txt"</span>, <span class="at">header =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb2-3"><a href=""></a>raw_data <span class="ot">&lt;-</span> raw_data[, <span class="dv">1</span><span class="sc">:</span><span class="dv">26</span>]  <span class="co"># Ghost column fix</span></span>
+<span id="cb2-4"><a href=""></a></span>
+<span id="cb2-5"><a href=""></a><span class="co"># Assign meaningful column names</span></span>
+<span id="cb2-6"><a href=""></a>col_names <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"unit_id"</span>, <span class="st">"cycle"</span>, <span class="st">"setting_1"</span>, <span class="st">"setting_2"</span>, <span class="st">"setting_3"</span>,</span>
+<span id="cb2-7"><a href=""></a>               <span class="fu">paste0</span>(<span class="st">"s"</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">21</span>))</span>
+<span id="cb2-8"><a href=""></a><span class="fu">colnames</span>(raw_data) <span class="ot">&lt;-</span> col_names</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p><strong>Sensor Selection:</strong> Removed constant/non-informative sensors: <code>s1, s5, s10, s16, s18, s19</code> and settings columns.</p>
 </section>
 <section id="visual-forensics-the-death-signature" class="slide level2">
@@ -382,10 +539,10 @@ Aymen Mabrouk
 <p><strong>Physics Interpretation:</strong> As compressor blades erode, the engine works harder to maintain thrust, increasing internal pressure.</p>
 </div><div class="column" style="width:50%;">
 <p><strong>The Degradation Curve:</strong></p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href=""></a><span class="co"># Reverse X-axis: Failure on the right</span></span>
-<span id="cb2-2"><a href=""></a><span class="fu">ggplot</span>(data, <span class="fu">aes</span>(<span class="at">x =</span> RUL, <span class="at">y =</span> s11)) <span class="sc">+</span></span>
-<span id="cb2-3"><a href=""></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
-<span id="cb2-4"><a href=""></a>  <span class="fu">scale_x_reverse</span>()  <span class="co"># RUL=0 is failure</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href=""></a><span class="co"># Reverse X-axis: Failure on the right</span></span>
+<span id="cb3-2"><a href=""></a><span class="fu">ggplot</span>(data, <span class="fu">aes</span>(<span class="at">x =</span> RUL, <span class="at">y =</span> s11)) <span class="sc">+</span></span>
+<span id="cb3-3"><a href=""></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb3-4"><a href=""></a>  <span class="fu">scale_x_reverse</span>()  <span class="co"># RUL=0 is failure</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Multiple engines show the same “death curve” pattern.</p>
 </div></div>
 </section>
@@ -394,7 +551,7 @@ Aymen Mabrouk
 <p>We use <strong>Cox PH</strong> to statistically quantify which sensors are the “Killers.”</p>
 <p><strong>The Model:</strong> <span class="math display">\[h(t) = h_0(t) \cdot \exp(\beta_1 \cdot s_{11} + \beta_2 \cdot s_{12} + \beta_3 \cdot s_4)\]</span></p>
 <p><strong>Interpretation:</strong> - <strong>Hazard Ratio (HR) &gt; 1:</strong> Sensor increases failure risk - <strong>Hazard Ratio (HR) &lt; 1:</strong> Sensor is protective/healthy indicator</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href=""></a>cox_model <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(cycle, failed) <span class="sc">~</span> s11 <span class="sc">+</span> s12 <span class="sc">+</span> s4, <span class="at">data =</span> data_clean)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href=""></a>cox_model <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(cycle, failed) <span class="sc">~</span> s11 <span class="sc">+</span> s12 <span class="sc">+</span> s4, <span class="at">data =</span> data_clean)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="callout callout-important callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
@@ -416,12 +573,12 @@ Aymen Mabrouk
 <div class="column" style="width:50%;">
 <p><strong>Rolling Mean (Trend):</strong> Smooths noise, reveals underlying degradation trajectory.</p>
 <p><strong>Rolling Standard Deviation (Volatility):</strong> Detects instability — engines “shake” more before failure.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href=""></a>data_ml <span class="ot">&lt;-</span> data_ml <span class="sc">%&gt;%</span></span>
-<span id="cb4-2"><a href=""></a>  <span class="fu">group_by</span>(unit_id) <span class="sc">%&gt;%</span></span>
-<span id="cb4-3"><a href=""></a>  <span class="fu">mutate</span>(</span>
-<span id="cb4-4"><a href=""></a>    <span class="at">s11_mean =</span> <span class="fu">rollmean</span>(s11, <span class="at">k=</span><span class="dv">5</span>, <span class="at">fill=</span><span class="cn">NA</span>),</span>
-<span id="cb4-5"><a href=""></a>    <span class="at">s11_sd =</span> <span class="fu">rollapply</span>(s11, <span class="at">width=</span><span class="dv">5</span>, <span class="at">FUN=</span>sd)</span>
-<span id="cb4-6"><a href=""></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href=""></a>data_ml <span class="ot">&lt;-</span> data_ml <span class="sc">%&gt;%</span></span>
+<span id="cb5-2"><a href=""></a>  <span class="fu">group_by</span>(unit_id) <span class="sc">%&gt;%</span></span>
+<span id="cb5-3"><a href=""></a>  <span class="fu">mutate</span>(</span>
+<span id="cb5-4"><a href=""></a>    <span class="at">s11_mean =</span> <span class="fu">rollmean</span>(s11, <span class="at">k=</span><span class="dv">5</span>, <span class="at">fill=</span><span class="cn">NA</span>),</span>
+<span id="cb5-5"><a href=""></a>    <span class="at">s11_sd =</span> <span class="fu">rollapply</span>(s11, <span class="at">width=</span><span class="dv">5</span>, <span class="at">FUN=</span>sd)</span>
+<span id="cb5-6"><a href=""></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div><div class="column" style="width:50%;">
 <p><strong>The RUL Clipping Trick:</strong> Industry standard: Cap RUL at 125 cycles.</p>
 <p><strong>Why?</strong> When RUL &gt; 125, sensors are essentially flat (healthy engine). Training on these “boring” samples adds noise.</p>
@@ -431,19 +588,19 @@ Aymen Mabrouk
 <section id="principal-component-analysis-pca" class="slide level2">
 <h2>🧠 Principal Component Analysis (PCA)</h2>
 <p><strong>Goal:</strong> Compress 14+ sensors into a single “Health Index” for pilot dashboards.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href=""></a>pca_result <span class="ot">&lt;-</span> <span class="fu">prcomp</span>(sensors_only, <span class="at">scale. =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb5-2"><a href=""></a>data<span class="sc">$</span>Health_Index <span class="ot">&lt;-</span> pca_result<span class="sc">$</span>x[, <span class="dv">1</span>]  <span class="co"># First principal component</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href=""></a>pca_result <span class="ot">&lt;-</span> <span class="fu">prcomp</span>(sensors_only, <span class="at">scale. =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb6-2"><a href=""></a>data<span class="sc">$</span>Health_Index <span class="ot">&lt;-</span> pca_result<span class="sc">$</span>x[, <span class="dv">1</span>]  <span class="co"># First principal component</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p><strong>Interpretation:</strong> - <strong>PC1 captures ~60% of variance</strong> - As Health_Index increases → Engine is degrading - Simple metric for non-technical stakeholders</p>
 </section>
 <section id="machine-learning-random-forest-regressor" class="slide level2">
 <h2>🤖 Machine Learning: Random Forest Regressor</h2>
 <p><strong>Why Random Forest?</strong> - Handles non-linear relationships - Robust to outliers - Provides feature importance</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href=""></a>rf_model <span class="ot">&lt;-</span> <span class="fu">randomForest</span>(</span>
-<span id="cb6-2"><a href=""></a>  RUL_clipped <span class="sc">~</span> .,</span>
-<span id="cb6-3"><a href=""></a>  <span class="at">data =</span> data_ml <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="sc">-</span>unit_id, <span class="sc">-</span>cycle, <span class="sc">-</span>RUL, <span class="sc">-</span>max_cycle),</span>
-<span id="cb6-4"><a href=""></a>  <span class="at">ntree =</span> <span class="dv">50</span>,</span>
-<span id="cb6-5"><a href=""></a>  <span class="at">importance =</span> <span class="cn">TRUE</span></span>
-<span id="cb6-6"><a href=""></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href=""></a>rf_model <span class="ot">&lt;-</span> <span class="fu">randomForest</span>(</span>
+<span id="cb7-2"><a href=""></a>  RUL_clipped <span class="sc">~</span> .,</span>
+<span id="cb7-3"><a href=""></a>  <span class="at">data =</span> data_ml <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="sc">-</span>unit_id, <span class="sc">-</span>cycle, <span class="sc">-</span>RUL, <span class="sc">-</span>max_cycle),</span>
+<span id="cb7-4"><a href=""></a>  <span class="at">ntree =</span> <span class="dv">50</span>,</span>
+<span id="cb7-5"><a href=""></a>  <span class="at">importance =</span> <span class="cn">TRUE</span></span>
+<span id="cb7-6"><a href=""></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p><strong>Top 15 Predictive Features:</strong> Rolling means of s11, s12, s4 dominate — consistent with Cox analysis.</p>
 </section>
 <section id="fd001-validation-results" class="slide level2">
@@ -520,10 +677,10 @@ Aymen Mabrouk
 <section id="step-1-regime-clustering-k-means" class="slide level2">
 <h2>🎯 Step 1: Regime Clustering (K-Means)</h2>
 <p><strong>Input Features:</strong> <code>setting_1</code>, <code>setting_2</code>, <code>setting_3</code> These represent altitude, Mach number, and throttle resolver angle.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href=""></a>settings <span class="ot">&lt;-</span> data_clean <span class="sc">%&gt;%</span> <span class="fu">select</span>(setting_1, setting_2, setting_3)</span>
-<span id="cb7-2"><a href=""></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
-<span id="cb7-3"><a href=""></a>kmeans_result <span class="ot">&lt;-</span> <span class="fu">kmeans</span>(settings, <span class="at">centers =</span> <span class="dv">6</span>)  <span class="co"># We know there are 6 regimes</span></span>
-<span id="cb7-4"><a href=""></a>data_clean<span class="sc">$</span>Regime <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(kmeans_result<span class="sc">$</span>cluster)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href=""></a>settings <span class="ot">&lt;-</span> data_clean <span class="sc">%&gt;%</span> <span class="fu">select</span>(setting_1, setting_2, setting_3)</span>
+<span id="cb8-2"><a href=""></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb8-3"><a href=""></a>kmeans_result <span class="ot">&lt;-</span> <span class="fu">kmeans</span>(settings, <span class="at">centers =</span> <span class="dv">6</span>)  <span class="co"># We know there are 6 regimes</span></span>
+<span id="cb8-4"><a href=""></a>data_clean<span class="sc">$</span>Regime <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(kmeans_result<span class="sc">$</span>cluster)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p><strong>Result:</strong> Each observation is now tagged with its operating regime (1-6).</p>
 <pre><code>Regime Distribution:
   1      2      3      4      5      6 
@@ -533,12 +690,12 @@ Aymen Mabrouk
 <h2>🔬 Step 2: Regime Normalization (Z-Score)</h2>
 <p><strong>Formula:</strong> <span class="math display">\[z_{sensor,regime} = \frac{x_{sensor} - \mu_{regime}}{\sigma_{regime}}\]</span></p>
 <p><strong>Implementation:</strong></p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href=""></a>scale_this <span class="ot">&lt;-</span> <span class="cf">function</span>(x) { (x <span class="sc">-</span> <span class="fu">mean</span>(x, <span class="at">na.rm=</span><span class="cn">TRUE</span>)) <span class="sc">/</span> <span class="fu">sd</span>(x, <span class="at">na.rm=</span><span class="cn">TRUE</span>) }</span>
-<span id="cb9-2"><a href=""></a></span>
-<span id="cb9-3"><a href=""></a>data_normalized <span class="ot">&lt;-</span> data_clean <span class="sc">%&gt;%</span></span>
-<span id="cb9-4"><a href=""></a>  <span class="fu">group_by</span>(Regime) <span class="sc">%&gt;%</span></span>
-<span id="cb9-5"><a href=""></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">all_of</span>(sensors), scale_this)) <span class="sc">%&gt;%</span></span>
-<span id="cb9-6"><a href=""></a>  <span class="fu">ungroup</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href=""></a>scale_this <span class="ot">&lt;-</span> <span class="cf">function</span>(x) { (x <span class="sc">-</span> <span class="fu">mean</span>(x, <span class="at">na.rm=</span><span class="cn">TRUE</span>)) <span class="sc">/</span> <span class="fu">sd</span>(x, <span class="at">na.rm=</span><span class="cn">TRUE</span>) }</span>
+<span id="cb10-2"><a href=""></a></span>
+<span id="cb10-3"><a href=""></a>data_normalized <span class="ot">&lt;-</span> data_clean <span class="sc">%&gt;%</span></span>
+<span id="cb10-4"><a href=""></a>  <span class="fu">group_by</span>(Regime) <span class="sc">%&gt;%</span></span>
+<span id="cb10-5"><a href=""></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">all_of</span>(sensors), scale_this)) <span class="sc">%&gt;%</span></span>
+<span id="cb10-6"><a href=""></a>  <span class="fu">ungroup</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p><strong>Effect:</strong> - Raw sensor: Jumps between regimes (chaos) - Normalized sensor: Smooth degradation curve (signal)</p>
 </section>
 <section id="the-signal-in-the-noise" class="slide level2">
@@ -575,7 +732,7 @@ Aymen Mabrouk
 <p><strong>Problem:</strong> Raw AI predictions are noisy (jagged line).<br>
 <strong>Physics Constraint:</strong> Real engines degrade <em>smoothly</em>.</p>
 <p><strong>Solution:</strong> Apply Exponential Moving Average (EMA) to predictions.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href=""></a>smooth_preds <span class="ot">&lt;-</span> stats<span class="sc">::</span><span class="fu">filter</span>(raw_preds, <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">5</span>, <span class="dv">5</span>), <span class="at">sides =</span> <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href=""></a>smooth_preds <span class="ot">&lt;-</span> stats<span class="sc">::</span><span class="fu">filter</span>(raw_preds, <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">5</span>, <span class="dv">5</span>), <span class="at">sides =</span> <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 
 <img data-src="images/FD002Signal%20Smoothing.png" style="width:85.0%" class="r-stretch quarto-figure-center"><p class="caption">FD002 Signal Smoothing</p><p><strong>Black dashed:</strong> Ground Truth | <strong>Red:</strong> Raw AI (noisy) | <strong>Cyan:</strong> Smoothed AI (deployable)</p>
 </section>
@@ -622,14 +779,14 @@ Aymen Mabrouk
 <section id="step-1-unsupervised-fault-isolation" class="slide level2">
 <h2>🔍 Step 1: Unsupervised Fault Isolation</h2>
 <p><strong>Strategy:</strong> Extract the “autopsy” data — sensor readings at the moment of failure.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href=""></a>failure_data <span class="ot">&lt;-</span> data_clean <span class="sc">%&gt;%</span></span>
-<span id="cb11-2"><a href=""></a>  <span class="fu">filter</span>(failed <span class="sc">==</span> <span class="dv">1</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb11-3"><a href=""></a>  <span class="fu">select</span>(unit_id, <span class="fu">starts_with</span>(<span class="st">"s"</span>))</span>
-<span id="cb11-4"><a href=""></a></span>
-<span id="cb11-5"><a href=""></a><span class="co"># Hierarchical Clustering on failure signatures</span></span>
-<span id="cb11-6"><a href=""></a>dist_mat <span class="ot">&lt;-</span> <span class="fu">dist</span>(<span class="fu">scale</span>(failure_matrix), <span class="at">method =</span> <span class="st">"euclidean"</span>)</span>
-<span id="cb11-7"><a href=""></a>hclust_avg <span class="ot">&lt;-</span> <span class="fu">hclust</span>(dist_mat, <span class="at">method =</span> <span class="st">"ward.D2"</span>)</span>
-<span id="cb11-8"><a href=""></a>cut_avg <span class="ot">&lt;-</span> <span class="fu">cutree</span>(hclust_avg, <span class="at">k =</span> <span class="dv">2</span>)  <span class="co"># Cut into 2 fault modes</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href=""></a>failure_data <span class="ot">&lt;-</span> data_clean <span class="sc">%&gt;%</span></span>
+<span id="cb12-2"><a href=""></a>  <span class="fu">filter</span>(failed <span class="sc">==</span> <span class="dv">1</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb12-3"><a href=""></a>  <span class="fu">select</span>(unit_id, <span class="fu">starts_with</span>(<span class="st">"s"</span>))</span>
+<span id="cb12-4"><a href=""></a></span>
+<span id="cb12-5"><a href=""></a><span class="co"># Hierarchical Clustering on failure signatures</span></span>
+<span id="cb12-6"><a href=""></a>dist_mat <span class="ot">&lt;-</span> <span class="fu">dist</span>(<span class="fu">scale</span>(failure_matrix), <span class="at">method =</span> <span class="st">"euclidean"</span>)</span>
+<span id="cb12-7"><a href=""></a>hclust_avg <span class="ot">&lt;-</span> <span class="fu">hclust</span>(dist_mat, <span class="at">method =</span> <span class="st">"ward.D2"</span>)</span>
+<span id="cb12-8"><a href=""></a>cut_avg <span class="ot">&lt;-</span> <span class="fu">cutree</span>(hclust_avg, <span class="at">k =</span> <span class="dv">2</span>)  <span class="co"># Cut into 2 fault modes</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p><strong>Result:</strong> Two distinct clusters emerge — engines “died” in statistically different ways.</p>
 </section>
 <section id="forensic-evidence-two-distinct-signatures" class="slide level2">
@@ -689,11 +846,11 @@ Aymen Mabrouk
 <li>Output: Predicted Fault Mode (1 or 2)</li>
 <li>Accuracy: ~92%</li>
 </ul>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href=""></a>rf_classifier <span class="ot">&lt;-</span> <span class="fu">randomForest</span>(</span>
-<span id="cb12-2"><a href=""></a>  Fault_Mode <span class="sc">~</span> .,</span>
-<span id="cb12-3"><a href=""></a>  <span class="at">data =</span> failure_data,</span>
-<span id="cb12-4"><a href=""></a>  <span class="at">ntree =</span> <span class="dv">50</span></span>
-<span id="cb12-5"><a href=""></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href=""></a>rf_classifier <span class="ot">&lt;-</span> <span class="fu">randomForest</span>(</span>
+<span id="cb13-2"><a href=""></a>  Fault_Mode <span class="sc">~</span> .,</span>
+<span id="cb13-3"><a href=""></a>  <span class="at">data =</span> failure_data,</span>
+<span id="cb13-4"><a href=""></a>  <span class="at">ntree =</span> <span class="dv">50</span></span>
+<span id="cb13-5"><a href=""></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div><div class="column" style="width:50%;">
 <p><strong>Stage 2: The Prognosticator</strong> <em>XGBoost Regressor</em></p>
 <ul>
@@ -701,11 +858,11 @@ Aymen Mabrouk
 <li>Output: Predicted RUL</li>
 <li>Uses fault context to adjust predictions</li>
 </ul>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href=""></a>xgb_model <span class="ot">&lt;-</span> <span class="fu">xgboost</span>(</span>
-<span id="cb13-2"><a href=""></a>  <span class="at">data =</span> <span class="fu">cbind</span>(sensors, Fault_Mode),</span>
-<span id="cb13-3"><a href=""></a>  <span class="at">label =</span> RUL_clipped,</span>
-<span id="cb13-4"><a href=""></a>  <span class="at">nrounds =</span> <span class="dv">100</span></span>
-<span id="cb13-5"><a href=""></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href=""></a>xgb_model <span class="ot">&lt;-</span> <span class="fu">xgboost</span>(</span>
+<span id="cb14-2"><a href=""></a>  <span class="at">data =</span> <span class="fu">cbind</span>(sensors, Fault_Mode),</span>
+<span id="cb14-3"><a href=""></a>  <span class="at">label =</span> RUL_clipped,</span>
+<span id="cb14-4"><a href=""></a>  <span class="at">nrounds =</span> <span class="dv">100</span></span>
+<span id="cb14-5"><a href=""></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div></div>
 </section>
 <section id="explainable-ai-feature-importance" class="slide level2">
@@ -1132,21 +1289,21 @@ Aymen Mabrouk
 <div class="columns">
 <div class="column" style="width:60%;">
 <p><strong>Quick Start:</strong></p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb16-1"><a href=""></a><span class="co"># Clone repository</span></span>
-<span id="cb16-2"><a href=""></a><span class="fu">git</span> clone https://github.com/AymenMB/...</span>
-<span id="cb16-3"><a href=""></a></span>
-<span id="cb16-4"><a href=""></a><span class="co"># Run with Docker</span></span>
-<span id="cb16-5"><a href=""></a><span class="ex">docker-compose</span> up <span class="at">-d</span></span>
-<span id="cb16-6"><a href=""></a></span>
-<span id="cb16-7"><a href=""></a><span class="co"># Test API</span></span>
-<span id="cb16-8"><a href=""></a><span class="ex">curl</span> http://localhost:8000/predict <span class="dt">\</span></span>
-<span id="cb16-9"><a href=""></a>  <span class="at">-d</span> <span class="st">'{"s_2": 641.82, "s_3": 1589.70, ...}'</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb17-1"><a href=""></a><span class="co"># Clone repository</span></span>
+<span id="cb17-2"><a href=""></a><span class="fu">git</span> clone https://github.com/AymenMB/...</span>
+<span id="cb17-3"><a href=""></a></span>
+<span id="cb17-4"><a href=""></a><span class="co"># Run with Docker</span></span>
+<span id="cb17-5"><a href=""></a><span class="ex">docker-compose</span> up <span class="at">-d</span></span>
+<span id="cb17-6"><a href=""></a></span>
+<span id="cb17-7"><a href=""></a><span class="co"># Test API</span></span>
+<span id="cb17-8"><a href=""></a><span class="ex">curl</span> http://localhost:8000/predict <span class="dt">\</span></span>
+<span id="cb17-9"><a href=""></a>  <span class="at">-d</span> <span class="st">'{"s_2": 641.82, "s_3": 1589.70, ...}'</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p><strong>Response:</strong></p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode numberSource json number-lines code-with-copy"><code class="sourceCode json"><span id="cb17-1"><a href=""></a><span class="fu">{</span></span>
-<span id="cb17-2"><a href=""></a>  <span class="dt">"RUL"</span><span class="fu">:</span> <span class="fl">112.45</span><span class="fu">,</span></span>
-<span id="cb17-3"><a href=""></a>  <span class="dt">"status"</span><span class="fu">:</span> <span class="st">"Healthy"</span><span class="fu">,</span></span>
-<span id="cb17-4"><a href=""></a>  <span class="dt">"confidence"</span><span class="fu">:</span> <span class="st">"High"</span></span>
-<span id="cb17-5"><a href=""></a><span class="fu">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode numberSource json number-lines code-with-copy"><code class="sourceCode json"><span id="cb18-1"><a href=""></a><span class="fu">{</span></span>
+<span id="cb18-2"><a href=""></a>  <span class="dt">"RUL"</span><span class="fu">:</span> <span class="fl">112.45</span><span class="fu">,</span></span>
+<span id="cb18-3"><a href=""></a>  <span class="dt">"status"</span><span class="fu">:</span> <span class="st">"Healthy"</span><span class="fu">,</span></span>
+<span id="cb18-4"><a href=""></a>  <span class="dt">"confidence"</span><span class="fu">:</span> <span class="st">"High"</span></span>
+<span id="cb18-5"><a href=""></a><span class="fu">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div><div class="column" style="width:40%;">
 <p><strong>API Endpoints:</strong></p>
 <ul>
@@ -1229,9 +1386,9 @@ Aymen Mabrouk
 <ol type="1">
 <li><p><strong>Install Quarto:</strong> https://quarto.org/docs/get-started/</p></li>
 <li><p><strong>Navigate to presentation folder:</strong></p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb18-1"><a href=""></a><span class="bu">cd</span> presentation/</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb19-1"><a href=""></a><span class="bu">cd</span> presentation/</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
 <li><p><strong>Render to HTML:</strong></p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb19-1"><a href=""></a><span class="ex">quarto</span> render final_presentation.qmd <span class="at">--to</span> revealjs</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb20-1"><a href=""></a><span class="ex">quarto</span> render final_presentation.qmd <span class="at">--to</span> revealjs</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
 <li><p><strong>Open in browser:</strong> <code>final_presentation.html</code></p></li>
 </ol>
 <p><strong>Keyboard Shortcuts:</strong> - <code>F</code>: Fullscreen - <code>S</code>: Speaker notes - <code>O</code>: Overview mode - <code>←/→</code>: Navigate slides</p>

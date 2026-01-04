@@ -27,78 +27,217 @@ execute:
   cache: true
 ---
 
-# 🚀 Executive Summary {background-color="#1a1a2e"}
+# 💰 The $50 Billion Question {background-color="#1a1a2e" .hero}
 
 ::: {.columns}
-::: {.column width="60%"}
-**The Challenge:**
-Aircraft engines are expensive. Replacing them too early wastes money; replacing them too late risks catastrophic failure.
-
-**The Goal:**
-Predict the **Remaining Useful Life (RUL)** of turbofan engines using high-frequency sensor data.
-
-**The Dataset:**
-NASA C-MAPSS — 4 subsets with increasing complexity.
+::: {.column width="55%"}
+::: {.fragment .fade-in}
+A single **turbofan engine** costs **$10-35 million**
 :::
 
-::: {.column width="40%"}
+::: {.fragment .fade-in}
+**Unplanned maintenance** costs **10x more** than scheduled
+:::
+
+::: {.fragment .fade-in}
+**One wrong prediction** = Grounded fleet or catastrophic failure
+:::
+
+::: {.fragment .fade-up style="margin-top: 1.5em;"}
+### The Question:
+**"How many flights before this engine fails?"**
+:::
+:::
+
+::: {.column width="45%"}
 ![](https://upload.wikimedia.org/wikipedia/commons/5/53/Pratt_%26_Whitney_F100_turbofan_engine_cutaway.jpg)
 :::
 :::
 
 ---
 
-## 🚀 The Solution: AeroGuard {auto-animate=true}
+## 🎯 What We Predict: Remaining Useful Life (RUL) {auto-animate=true}
 
-**AeroGuard** — a hierarchical AI pipeline integrating:
+::: {.columns}
+::: {.column width="50%"}
+**The Concept:**
 
-::: {.incremental}
-1.  **Statistical Survival Analysis** (Cox Proportional Hazards)
-2.  **Unsupervised Forensics** (K-Means & Hierarchical Clustering)
-3.  **Ensemble Machine Learning** (Random Forest + XGBoost)
+- Engine starts **HEALTHY** (RUL = 200 cycles)
+- Engine **DEGRADES** over time
+- Our AI predicts: **"How many cycles left?"**
+
+**The Formula:**
+$$\huge RUL = MaxCycle - CurrentCycle$$
+
+**Example:**  
+Engine ran 150 cycles, failed at 200  
+→ At cycle 150: **RUL = 50 cycles**
+:::
+
+::: {.column width="50%"}
+```
+        HEALTHY                    FAILURE
+           │                          │
+   ┌───────┴───────┬──────────────────┴───┐
+   │               │                      │
+   ▼               ▼                      ▼
+Cycle 1      Cycle 150              Cycle 200
+RUL=199      RUL=50 ← PREDICT THIS  RUL=0
+```
+
+::: {.fragment .fade-up}
+**Business Impact:**  
+✅ Predict early → Schedule maintenance  
+❌ Predict late → Engine fails in flight
+:::
+:::
+:::
+
+---
+
+## 📂 The Dataset: NASA C-MAPSS {auto-animate=true}
+
+::: {.columns}
+::: {.column width="45%"}
+**What is C-MAPSS?**
+
+- Created by **NASA** for research
+- **Simulated** but highly realistic
+- Engines "fly" until they break
+
+**Format:** `.txt` files (space-separated)
+
+**Structure:** 26 columns
+- Column 1: `unit_id` (engine number)
+- Column 2: `cycle` (flight number)
+- Columns 3-5: `settings` (flight conditions)
+- Columns 6-26: `sensors` (21 measurements)
+:::
+
+::: {.column width="55%"}
+**The 3 File Types:**
+
+::: {.dataset-card}
+📗 **train_FD001.txt** — Full History  
+Engines run **until failure** (RUL=0 at end)
+:::
+
+::: {.dataset-card .test}
+📕 **test_FD001.txt** — Partial History  
+Stops **before failure** → We predict remaining RUL
+:::
+
+::: {.dataset-card .rul}
+📙 **RUL_FD001.txt** — Ground Truth  
+Real RUL values to evaluate our predictions
+:::
+:::
+:::
+
+---
+
+## 🔢 FD001 → FD004: From Simple to Ultimate {auto-animate=true}
+
+| Dataset | Flight Conditions | Fault Types | Engines | Difficulty |
+|:--------|:-----------------:|:-----------:|:-------:|:-----------|
+| **FD001** | 1 (Sea Level) | 1 (HPC) | 100 | ⭐ Baseline |
+| **FD002** | 6 (Multi-Altitude) | 1 (HPC) | 260 | ⭐⭐⭐ Hard |
+| **FD003** | 1 (Sea Level) | 2 (HPC + Fan) | 100 | ⭐⭐ Medium |
+| **FD004** | 6 | 2 | 248 | ⭐⭐⭐⭐ Ultimate |
+
+::: {.fragment .fade-up}
+::: {.callout-note}
+**HPC** = High-Pressure Compressor degradation  
+**Fan** = Fan blade erosion  
+**We tackled ALL 4 datasets** with increasing complexity!
+:::
+:::
+
+---
+
+## 🚀 AeroGuard: Our 3-Pillar Solution {auto-animate=true}
+
+::: {.columns}
+::: {.column width="33%"}
+::: {.stat-box}
+[1]{.number}
+[Statistical Analysis]{.label}
+:::
+
+**Cox Proportional Hazards**
+
+- Find which sensors predict failure
+- Quantify hazard ratios
+- Survival curves by fault type
+:::
+
+::: {.column width="33%"}
+::: {.stat-box}
+[2]{.number}
+[Unsupervised Learning]{.label}
+:::
+
+**K-Means + Hierarchical**
+
+- Detect operating regimes
+- Isolate fault signatures
+- Cluster engines by behavior
+:::
+
+::: {.column width="33%"}
+::: {.stat-box}
+[3]{.number}
+[Ensemble ML]{.label}
+:::
+
+**Random Forest + XGBoost**
+
+- Gradient boosting for accuracy
+- Feature importance analysis
+- Physics-based smoothing
+:::
 :::
 
 ---
 
 ## 🏆 The Scoreboard {auto-animate=true}
 
-We systematically conquered each NASA C-MAPSS dataset with increasing complexity.
-
-| Dataset | Complexity | Key Challenge | Method | AeroGuard RMSE |
-|:---|:---|:---|:---|:---:|
-| **FD001** | Baseline | Single Regime, Single Fault | Survival + Random Forest | **17.53** |
-| **FD002** | Multi-Regime | 6 Operating Conditions | Regime Clustering + Hybrid Ensemble | **26.54** |
-| **FD003** | Multi-Fault | 2 Failure Mechanisms | Fault Classifier + XGBoost | **20.05** |
-| **FD004** | **Ultimate** | Regimes + Faults Combined | **Grand Unified Pipeline** | **32.97** |
+| Phase | Dataset | Challenge | Our Method | RMSE | Status |
+|:---:|:---|:---|:---|:---:|:---:|
+| 1 | **FD001** | Baseline | Cox + Random Forest | **17.53** | ✅ Excellent |
+| 2 | **FD002** | 6 Regimes | K-Means + Hybrid | **26.54** | ✅ Good |
+| 3 | **FD003** | 2 Faults | Hierarchical + XGB | **20.05** | ✅ Excellent |
+| 4 | **FD004** | Combined | Grand Unified | **32.97** | ✅ Competitive |
 
 ::: {.fragment .fade-up}
-**Result:** State-of-the-art performance across all operational scenarios. RMSE < 20 is excellent; < 35 for FD004 is competitive.
+**RMSE Interpretation:**  
+< 20 = Excellent | 20-30 = Good | 30-40 = Competitive
 :::
 
 ---
 
-## 📂 Project Resources & Live Demo {auto-animate=true}
+## 📓 Resources & Links
 
 ::: {.columns}
 ::: {.column width="50%"}
-**📓 Interactive Notebooks:**
+**Interactive Notebooks:**
 
-| Phase | Notebook | Description |
-|:---:|:---|:---|
-| 1 | `Engine_Predictive_Maintenance.ipynb` | Cox PH + Random Forest |
-| 2 | `AeroGuard_FD002_MultiRegime.ipynb` | K-Means + Hybrid Ensemble |
-| 3 | `AeroGuard_FD003_Diagnostics.ipynb` | Hierarchical + Fault-Aware XGB |
-| 4 | `AeroGuard_FD004_Ultimate.ipynb` | Grand Unified Pipeline |
+| # | Notebook | Focus |
+|:-:|:---------|:------|
+| 1 | `Engine_Predictive_Maintenance.ipynb` | FD001 Baseline |
+| 2 | `AeroGuard_FD002_MultiRegime.ipynb` | Multi-Regime |
+| 3 | `AeroGuard_FD003_Diagnostics.ipynb` | Multi-Fault |
+| 4 | `AeroGuard_FD004_Ultimate.ipynb` | Grand Unified |
 :::
 
 ::: {.column width="50%"}
-**🔗 Quick Links:**
+**Quick Links:**
 
-- **GitHub:** [AymenMB/AeroGuard](https://github.com/AymenMB/AeroGuard)
-- **Live Presentation:** [aymenmb.github.io/AeroGuard](https://aymenmb.github.io/AeroGuard)
-- **NASA Dataset:** [C-MAPSS Data](https://data.nasa.gov/dataset/C-MAPSS-Aircraft-Engine-Simulator-Data/x339-9te4)
+- 🔗 **GitHub:** [AymenMB/AeroGuard](https://github.com/AymenMB/AeroGuard)
+- 🌐 **Live:** [aymenmb.github.io/AeroGuard](https://aymenmb.github.io/AeroGuard)
+- 📊 **Dataset:** [NASA C-MAPSS](https://data.nasa.gov)
 
-**🛠️ Technologies Used:**
+**Technologies:**
 
 ![R](https://img.shields.io/badge/R-276DC3?logo=r&logoColor=white)
 ![Quarto](https://img.shields.io/badge/Quarto-75AADB?logo=quarto&logoColor=white)

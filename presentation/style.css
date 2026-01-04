@@ -229,3 +229,158 @@
   color: #e74c3c;
   font-weight: bold;
 }
+
+/* ===== FIX: Column layout text overlap ===== */
+.reveal .columns {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 2em;
+  align-items: flex-start;
+}
+
+.reveal .column {
+  flex: 1;
+  min-width: 0;
+  overflow: visible;
+}
+
+/* Prevent text from overflowing columns */
+.reveal .column p,
+.reveal .column li,
+.reveal .column a {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+/* Smaller font for dense slides */
+.reveal .slides section.smaller {
+  font-size: 0.8em;
+}
+
+/* Fix table in columns */
+.reveal .column table {
+  width: 100%;
+  font-size: 0.75em;
+}
+
+/* Badge images inline */
+.reveal .column img[src*="shields.io"] {
+  display: inline-block;
+  vertical-align: middle;
+  margin: 4px;
+  box-shadow: none;
+}
+
+/* Stat box styling */
+.stat-box {
+  background: linear-gradient(135deg, rgba(52, 152, 219, 0.2), rgba(155, 89, 182, 0.2));
+  border-radius: 12px;
+  padding: 1.5em;
+  text-align: center;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.stat-box .number {
+  font-size: 3em;
+  font-weight: 700;
+  color: #3498db;
+  display: block;
+}
+
+.stat-box .label {
+  font-size: 0.9em;
+  color: #bdc3c7;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+/* Hero slide styling */
+.reveal section.hero h1 {
+  font-size: 3.5em;
+  background: linear-gradient(135deg, #e74c3c, #f39c12);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 0.5em;
+}
+
+/* Comparison table styling */
+.reveal table.comparison {
+  font-size: 0.85em;
+}
+
+.reveal table.comparison td:first-child {
+  font-weight: bold;
+  color: #3498db;
+}
+
+/* Dataset card styling */
+.dataset-card {
+  background: rgba(44, 62, 80, 0.6);
+  border-radius: 10px;
+  padding: 1em;
+  border-left: 4px solid #2ecc71;
+  margin: 0.5em 0;
+}
+
+.dataset-card.test {
+  border-left-color: #e74c3c;
+}
+
+.dataset-card.rul {
+  border-left-color: #f39c12;
+}
+
+/* Animated gradient text */
+.gradient-text {
+  background: linear-gradient(90deg, #3498db, #2ecc71, #f39c12);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradient-flow 3s ease infinite;
+}
+
+@keyframes gradient-flow {
+  0% {
+    background-position: 0% center;
+  }
+
+  50% {
+    background-position: 100% center;
+  }
+
+  100% {
+    background-position: 0% center;
+  }
+}
+
+/* Pipeline step boxes */
+.pipeline-step {
+  background: linear-gradient(135deg, #2c3e50, #34495e);
+  border-radius: 8px;
+  padding: 0.8em 1.2em;
+  margin: 0.5em 0;
+  border-left: 3px solid #3498db;
+  display: flex;
+  align-items: center;
+  gap: 1em;
+}
+
+.pipeline-step .step-number {
+  background: #3498db;
+  color: white;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
+
+/* Difficulty stars */
+.stars {
+  color: #f39c12;
+  letter-spacing: 2px;
+}
