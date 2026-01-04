@@ -22,6 +22,7 @@ resources:
   - images/
 execute:
   echo: false
+  eval: false
   warning: false
   cache: true
 ---

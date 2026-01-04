@@ -25,19 +25,22 @@ jobs:
         uses: quarto-dev/quarto-actions/setup@v2
 
       - name: Render Quarto Presentation
+        working-directory: presentation
         run: |
-          quarto render presentation/final_presentation.qmd --to revealjs
+          quarto render final_presentation.qmd --to revealjs
 
       - name: Prepare deployment files
         run: |
           mkdir -p _site
-          cp -r presentation/final_presentation.html _site/index.html
+          # Copy the rendered HTML as index.html
+          cp presentation/final_presentation.html _site/index.html
+          # Copy the generated assets
           cp -r presentation/final_presentation_files _site/ 2>/dev/null || true
-          cp -r presentation/style.css _site/ 2>/dev/null || true
-          cp -r presentation/images _site/ 2>/dev/null || true
-          cp -r images _site/images_root 2>/dev/null || true
-          # Create a simple redirect for the root images
-          mkdir -p _site/images
+          # Copy CSS
+          cp presentation/style.css _site/ 2>/dev/null || true
+          # Copy images from presentation folder (with proper quoting for spaces)
+          cp -r "presentation/images" _site/ 2>/dev/null || true
+          # Also copy images from root folder
           cp -r images/* _site/images/ 2>/dev/null || true
 
       - name: Setup Pages
