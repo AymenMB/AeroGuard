@@ -84,7 +84,7 @@ library(plotly)
 # Load Training Data (Adjust path if necessary)
 # Assuming data is in current directory or 'data/' folder
 data_path <- if (file.exists("data/train_FD001.txt")) "data/train_FD001.txt" else "train_FD001.txt"
-raw_data <- read.table(data_path, header = FALSE)
+  raw_data <- read.table(data_path, header = FALSE)
 raw_data <- raw_data[, 1:26] # Ghost column fix
 
 col_names <- c(
@@ -105,7 +105,7 @@ data_clean <- raw_data %>%
 
 # Selecting active sensors
 data_final <- data_clean %>%
-    select(-s1, -s5, -s10, -s16, -s18, -s19, -setting_1, -setting_2, -setting_3)
+    select(-s1, - s5, - s10, - s16, - s18, - s19, - setting_1, - setting_2, - setting_3)
 
 head(data_final %>% select(unit_id, cycle, RUL, s11, s12), 3)
 ```
@@ -179,8 +179,8 @@ data_ml <- data_clean %>%
     arrange(unit_id, cycle) %>%
     mutate(across(all_of(sensors),
         list(
-            mean = ~ rollmean(., k = 5, fill = NA, align = "right"),
-            sd = ~ rollapply(., width = 5, FUN = sd, fill = NA, align = "right")
+            mean = ~rollmean(., k = 5, fill = NA, align = "right"),
+            sd = ~rollapply(., width = 5, FUN = sd, fill = NA, align = "right")
         ),
         .names = "{.col}_{.fn}"
     )) %>%
@@ -196,7 +196,7 @@ Training the model to predict the exact number of cycles remaining.
 #| echo: true
 # Training a lightweight version for presentation rendering
 rf_model <- randomForest(RUL_clipped ~ .,
-    data = data_ml %>% select(-unit_id, -cycle, -RUL, -failed, -max_cycle),
+    data = data_ml %>% select(-unit_id, - cycle, - RUL, - failed, - max_cycle),
     ntree = 30,
     importance = TRUE
 )
@@ -223,9 +223,9 @@ We validate on the unseen `test_FD001` fleet against the Ground Truth (`RUL_FD00
 #| echo: false
 # Load Test Data
 test_path <- if (file.exists("data/test_FD001.txt")) "data/test_FD001.txt" else "test_FD001.txt"
-rul_path <- if (file.exists("data/RUL_FD001.txt")) "data/RUL_FD001.txt" else "RUL_FD001.txt"
+  rul_path <- if (file.exists("data/RUL_FD001.txt")) "data/RUL_FD001.txt" else "RUL_FD001.txt"
 
-raw_test <- read.table(test_path, header = FALSE)[, 1:26]
+  raw_test <- read.table(test_path, header = FALSE)[, 1:26]
 colnames(raw_test) <- col_names
 true_rul <- read.table(rul_path, header = FALSE)
 colnames(true_rul) <- c("True_RUL")
@@ -236,8 +236,8 @@ test_engineered <- raw_test %>%
     arrange(unit_id, cycle) %>%
     mutate(across(all_of(sensors),
         list(
-            mean = ~ rollmean(., k = 5, fill = NA, align = "right"),
-            sd = ~ rollapply(., width = 5, FUN = sd, fill = NA, align = "right")
+            mean = ~rollmean(., k = 5, fill = NA, align = "right"),
+            sd = ~rollapply(., width = 5, FUN = sd, fill = NA, align = "right")
         ),
         .names = "{.col}_{.fn}"
     )) %>%
@@ -249,7 +249,7 @@ test_engineered$True_RUL_Clipped <- ifelse(test_engineered$True_RUL > 125, 125, 
 
 # Predict
 test_engineered$Predicted_RUL <- predict(rf_model, newdata = test_engineered)
-rmse <- sqrt(mean((test_engineered$True_RUL_Clipped - test_engineered$Predicted_RUL)^2))
+rmse <- sqrt(mean((test_engineered$True_RUL_Clipped - test_engineered$Predicted_RUL) ^ 2))
 ```
 
 ::: {.r-stack}

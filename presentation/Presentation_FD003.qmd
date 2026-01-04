@@ -53,13 +53,13 @@ library(zoo)
 
 # --- LIVE ANALYSIS PIPELINE ---
 # Load Data
-raw_003 <- read.table("train_FD003.txt", header=F)[,1:26]
-colnames(raw_003) <- c("id","cy","set1","set2","set3",paste0("s",1:21))
+raw_003 <- read.table("train_FD003.txt", header = F)[, 1:26]
+colnames(raw_003) <- c("id", "cy", "set1", "set2", "set3", paste0("s", 1:21))
 
 # Feature Engineering
 data_003 <- raw_003 %>%
   group_by(id) %>%
-  mutate(max_cy = max(cy), RUL = max_cy - cy, failed = ifelse(RUL==0,1,0)) %>%
+  mutate(max_cy = max(cy), RUL = max_cy - cy, failed = ifelse(RUL == 0, 1, 0)) %>%
   ungroup()
 
 # Forensic Clustering
@@ -101,10 +101,10 @@ ggsurvplot(fit, data = failure_data,
            title = "Survival Probability by Fault Mode",
            xlab = "Flight Cycles", ylab = "Survival Probability",
            palette = c("#f1c40f", "#3498db"),
-           ggtheme = theme_dark(base_size = 18) + 
-             theme(plot.background = element_rect(fill = "#8E44AD"), 
+           ggtheme = theme_dark(base_size = 18) +
+             theme(plot.background = element_rect(fill = "#8E44AD"),
                    panel.background = element_rect(fill = "#8E44AD"),
-                   text = element_text(color = "white"), 
+                   text = element_text(color = "white"),
                    axis.text = element_text(color = "white"),
                    legend.background = element_rect(fill = "#8E44AD"),
                    legend.text = element_text(color = "white")))
@@ -144,12 +144,12 @@ Tested on the unseen `test_FD003` fleet.
 res_df <- data.frame(
   Truth = c(10, 20, 50, 80, 100, 125, 15, 25, 60, 90, 110, 120),
   Pred = c(12, 18, 48, 82, 105, 123, 14, 28, 58, 88, 112, 118),
-  Fault = factor(c(1,1,1,1,1,1,2,2,2,2,2,2))
+  Fault = factor(c(1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2))
 )
 
-ggplot(res_df, aes(x=Truth, y=Pred, color=Fault)) +
-  geom_point(size=5) +
-  geom_abline(slope=1, intercept=0, color="white", linetype="dashed") +
+ggplot(res_df, aes(x = Truth, y = Pred, color = Fault)) +
+  geom_point(size = 5) +
+  geom_abline(slope = 1, intercept = 0, color = "white", linetype = "dashed") +
   scale_color_manual(values = c("#f1c40f", "#3498db")) +
   labs(title = "Multi-Fault Prediction Accuracy",
        subtitle = "RMSE Achieved: 20.05 (Clinical Precision)",

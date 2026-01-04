@@ -1,0 +1,1626 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<script src="final_presentation_files/libs/clipboard/clipboard.min.js"></script>
+<script src="final_presentation_files/libs/quarto-html/tabby.min.js"></script>
+<script src="final_presentation_files/libs/quarto-html/popper.min.js"></script>
+<script src="final_presentation_files/libs/quarto-html/tippy.umd.min.js"></script>
+<link href="final_presentation_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="final_presentation_files/libs/quarto-html/light-border.css" rel="stylesheet">
+<link href="final_presentation_files/libs/quarto-html/quarto-syntax-highlighting-dark-b758ccaa5987ceb1b75504551e579abf.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.8.26">
+
+  <meta name="author" content="Aymen Mabrouk">
+  <meta name="dcterms.date" content="2026-01-04">
+  <title>Project AeroGuard</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="final_presentation_files/libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="final_presentation_files/libs/revealjs/dist/reveal.css">
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+      }
+    pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+    div.sourceCode
+      { color: #f8f8f2;  }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #f8f8f2; } /* Normal */
+    code span.al { color: #f07178; } /* Alert */
+    code span.an { color: #d4d0ab; } /* Annotation */
+    code span.at { color: #00e0e0; } /* Attribute */
+    code span.bn { color: #d4d0ab; } /* BaseN */
+    code span.bu { color: #abe338; } /* BuiltIn */
+    code span.cf { color: #ffa07a; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #abe338; } /* Char */
+    code span.cn { color: #ffd700; } /* Constant */
+    code span.co { color: #f8f8f2; font-style: italic; } /* Comment */
+    code span.cv { color: #ffd700; } /* CommentVar */
+    code span.do { color: #f8f8f2; } /* Documentation */
+    code span.dt { color: #ffa07a; } /* DataType */
+    code span.dv { color: #d4d0ab; } /* DecVal */
+    code span.er { color: #f07178; text-decoration: underline; } /* Error */
+    code span.ex { color: #00e0e0; font-weight: bold; } /* Extension */
+    code span.fl { color: #d4d0ab; } /* Float */
+    code span.fu { color: #ffa07a; } /* Function */
+    code span.im { color: #abe338; } /* Import */
+    code span.in { color: #d4d0ab; } /* Information */
+    code span.kw { color: #ffa07a; font-weight: bold; } /* Keyword */
+    code span.op { color: #ffa07a; } /* Operator */
+    code span.ot { color: #00e0e0; } /* Other */
+    code span.pp { color: #dcc6e0; } /* Preprocessor */
+    code span.re { color: #00e0e0; background-color: #f8f8f2; } /* RegionMarker */
+    code span.sc { color: #abe338; } /* SpecialChar */
+    code span.ss { color: #abe338; } /* SpecialString */
+    code span.st { color: #abe338; } /* String */
+    code span.va { color: #00e0e0; } /* Variable */
+    code span.vs { color: #abe338; } /* VerbatimString */
+    code span.wa { color: #dcc6e0; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="final_presentation_files/libs/revealjs/dist/theme/quarto-73806f0e93c0950b605bb3afe7220856.css">
+  <link rel="stylesheet" href="style.css">
+  <link href="final_presentation_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="final_presentation_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="final_presentation_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="final_presentation_files/libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <style type="text/css">
+    .reveal div.sourceCode {
+      margin: 0;
+      overflow: auto;
+    }
+    .reveal div.hanging-indent {
+      margin-left: 1em;
+      text-indent: -1em;
+    }
+    .reveal .slide:not(.center) {
+      height: 100%;
+    }
+    .reveal .slide.scrollable {
+      overflow-y: auto;
+    }
+    .reveal .footnotes {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .reveal .slide .absolute {
+      position: absolute;
+      display: block;
+    }
+    .reveal .footnotes ol {
+      counter-reset: ol;
+      list-style-type: none; 
+      margin-left: 0;
+    }
+    .reveal .footnotes ol li:before {
+      counter-increment: ol;
+      content: counter(ol) ". "; 
+    }
+    .reveal .footnotes ol li > p:first-child {
+      display: inline-block;
+    }
+    .reveal .slide ul,
+    .reveal .slide ol {
+      margin-bottom: 0.5em;
+    }
+    .reveal .slide ul li,
+    .reveal .slide ol li {
+      margin-top: 0.4em;
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide ul[role="tablist"] li {
+      margin-bottom: 0;
+    }
+    .reveal .slide ul li > *:first-child,
+    .reveal .slide ol li > *:first-child {
+      margin-block-start: 0;
+    }
+    .reveal .slide ul li > *:last-child,
+    .reveal .slide ol li > *:last-child {
+      margin-block-end: 0;
+    }
+    .reveal .slide .columns:nth-child(3) {
+      margin-block-start: 0.8em;
+    }
+    .reveal blockquote {
+      box-shadow: none;
+    }
+    .reveal .tippy-content>* {
+      margin-top: 0.2em;
+      margin-bottom: 0.7em;
+    }
+    .reveal .tippy-content>*:last-child {
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide > img.stretch.quarto-figure-center,
+    .reveal .slide > img.r-stretch.quarto-figure-center {
+      display: block;
+      margin-left: auto;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-left,
+    .reveal .slide > img.r-stretch.quarto-figure-left  {
+      display: block;
+      margin-left: 0;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-right,
+    .reveal .slide > img.r-stretch.quarto-figure-right  {
+      display: block;
+      margin-left: auto;
+      margin-right: 0; 
+    }
+  </style>
+</head>
+<body class="quarto-dark">
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide" class="quarto-title-block center">
+  <h1 class="title">Project AeroGuard</h1>
+  <p class="subtitle">Intelligent Prognostics for Aerospace Propulsion Systems</p>
+
+<div class="quarto-title-authors">
+<div class="quarto-title-author">
+<div class="quarto-title-author-name">
+Aymen Mabrouk 
+</div>
+        <p class="quarto-title-affiliation">
+            Ecole Polytechnique Sousse
+          </p>
+    </div>
+</div>
+
+  <p class="date">2026-01-04</p>
+</section>
+<section>
+<section id="executive-summary" class="title-slide slide level1 center" data-background-color="#1a1a2e">
+<h1>🚀 Executive Summary</h1>
+<div class="columns">
+<div class="column" style="width:60%;">
+<p><strong>The Challenge:</strong> Aircraft engines are expensive. Replacing them too early wastes money; replacing them too late risks catastrophic failure.</p>
+<p><strong>The Goal:</strong> Predict the <strong>Remaining Useful Life (RUL)</strong> of turbofan engines using high-frequency sensor data.</p>
+<p><strong>The Dataset:</strong> NASA C-MAPSS — 4 subsets with increasing complexity.</p>
+</div><div class="column" style="width:40%;">
+<p><img data-src="https://upload.wikimedia.org/wikipedia/commons/5/53/Pratt_%26_Whitney_F100_turbofan_engine_cutaway.jpg"></p>
+</div></div>
+</section>
+<section id="the-solution-aeroguard" class="slide level2" data-auto-animate="true">
+<h2 data-id="quarto-animate-title">🚀 The Solution: AeroGuard</h2>
+<p><strong>AeroGuard</strong> — a hierarchical AI pipeline integrating:</p>
+<ol type="1">
+<li class="fragment"><strong>Statistical Survival Analysis</strong> (Cox Proportional Hazards)</li>
+<li class="fragment"><strong>Unsupervised Forensics</strong> (K-Means &amp; Hierarchical Clustering)</li>
+<li class="fragment"><strong>Ensemble Machine Learning</strong> (Random Forest + XGBoost)</li>
+</ol>
+</section>
+<section id="the-scoreboard" class="slide level2" data-auto-animate="true">
+<h2 data-id="quarto-animate-title">🏆 The Scoreboard</h2>
+<p>We systematically conquered each NASA C-MAPSS dataset with increasing complexity.</p>
+<table class="caption-top">
+<colgroup>
+<col style="width: 19%">
+<col style="width: 19%">
+<col style="width: 19%">
+<col style="width: 19%">
+<col style="width: 23%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Dataset</th>
+<th style="text-align: left;">Complexity</th>
+<th style="text-align: left;">Key Challenge</th>
+<th style="text-align: left;">Method</th>
+<th style="text-align: center;">AeroGuard RMSE</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><strong>FD001</strong></td>
+<td style="text-align: left;">Baseline</td>
+<td style="text-align: left;">Single Regime, Single Fault</td>
+<td style="text-align: left;">Survival + Random Forest</td>
+<td style="text-align: center;"><strong>17.53</strong></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>FD002</strong></td>
+<td style="text-align: left;">Multi-Regime</td>
+<td style="text-align: left;">6 Operating Conditions</td>
+<td style="text-align: left;">Regime Clustering + Hybrid Ensemble</td>
+<td style="text-align: center;"><strong>26.54</strong></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>FD003</strong></td>
+<td style="text-align: left;">Multi-Fault</td>
+<td style="text-align: left;">2 Failure Mechanisms</td>
+<td style="text-align: left;">Fault Classifier + XGBoost</td>
+<td style="text-align: center;"><strong>20.05</strong></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>FD004</strong></td>
+<td style="text-align: left;"><strong>Ultimate</strong></td>
+<td style="text-align: left;">Regimes + Faults Combined</td>
+<td style="text-align: left;"><strong>Grand Unified Pipeline</strong></td>
+<td style="text-align: center;"><strong>32.97</strong></td>
+</tr>
+</tbody>
+</table>
+<div class="fragment fade-up">
+<p><strong>Result:</strong> State-of-the-art performance across all operational scenarios. RMSE &lt; 20 is excellent; &lt; 35 for FD004 is competitive.</p>
+</div>
+</section>
+<section id="project-resources-live-demo" class="slide level2" data-auto-animate="true">
+<h2 data-id="quarto-animate-title">📂 Project Resources &amp; Live Demo</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><strong>📓 Interactive Notebooks:</strong></p>
+<table class="caption-top">
+<colgroup>
+<col style="width: 38%">
+<col style="width: 30%">
+<col style="width: 30%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: center;">Phase</th>
+<th style="text-align: left;">Notebook</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">1</td>
+<td style="text-align: left;"><code>Engine_Predictive_Maintenance.ipynb</code></td>
+<td style="text-align: left;">Cox PH + Random Forest</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">2</td>
+<td style="text-align: left;"><code>AeroGuard_FD002_MultiRegime.ipynb</code></td>
+<td style="text-align: left;">K-Means + Hybrid Ensemble</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">3</td>
+<td style="text-align: left;"><code>AeroGuard_FD003_Diagnostics.ipynb</code></td>
+<td style="text-align: left;">Hierarchical + Fault-Aware XGB</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">4</td>
+<td style="text-align: left;"><code>AeroGuard_FD004_Ultimate.ipynb</code></td>
+<td style="text-align: left;">Grand Unified Pipeline</td>
+</tr>
+</tbody>
+</table>
+</div><div class="column" style="width:50%;">
+<p><strong>🔗 Quick Links:</strong></p>
+<ul>
+<li><strong>GitHub:</strong> <a href="https://github.com/AymenMB/AeroGuard">AymenMB/AeroGuard</a></li>
+<li><strong>Live Presentation:</strong> <a href="https://aymenmb.github.io/AeroGuard">aymenmb.github.io/AeroGuard</a></li>
+<li><strong>NASA Dataset:</strong> <a href="https://data.nasa.gov/dataset/C-MAPSS-Aircraft-Engine-Simulator-Data/x339-9te4">C-MAPSS Data</a></li>
+</ul>
+<p><strong>🛠️ Technologies Used:</strong></p>
+<p><img data-src="https://img.shields.io/badge/R-276DC3?logo=r&amp;logoColor=white.png" alt="R"> <img data-src="https://img.shields.io/badge/Quarto-75AADB?logo=quarto&amp;logoColor=white.png" alt="Quarto"> <img data-src="https://img.shields.io/badge/XGBoost-FF6600?logo=xgboost&amp;logoColor=white.png" alt="XGBoost"></p>
+</div></div>
+</section>
+<section class="slide level2">
+
+</section></section>
+<section>
+<section id="phase-1-statistical-baseline-fd001" class="title-slide slide level1 center" data-background-color="#2C3E50">
+<h1>Phase 1: Statistical Baseline (FD001)</h1>
+<p><strong>PHASE 1: THE BASELINE (FD001)</strong><br>
+<em>Engine_Predictive_Maintenance.ipynb</em></p>
+</section>
+<h3 id="establishing-the-death-signature">Establishing the “Death Signature”</h3>
+<section id="dataset-overview-fd001" class="slide level2">
+<h2>📁 Dataset Overview: FD001</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><strong>Training Set:</strong> - <strong>100 engines</strong> run to failure - <strong>20,631 total observations</strong> - <strong>26 columns:</strong> ID, Cycle, 3 Settings, 21 Sensors</p>
+<p><strong>Test Set:</strong> - <strong>100 engines</strong> (unseen fleet) - Predict RUL at final recorded cycle</p>
+</div><div class="column" style="width:50%;">
+<p><strong>Key Characteristics:</strong> - <strong>Single operating condition</strong> (Sea Level) - <strong>Single fault mode</strong> (HPC Degradation) - Ideal for establishing baseline methodology</p>
+<p><strong>Target Variable:</strong> <span class="math display">\[RUL = MaxCycle - CurrentCycle\]</span></p>
+</div></div>
+</section>
+<section id="data-ingestion-preprocessing" class="slide level2">
+<h2>🔧 Data Ingestion &amp; Preprocessing</h2>
+<p><strong>The “Ghost Column” Problem:</strong> NASA data files have trailing spaces creating phantom columns.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href=""></a><span class="co"># Fix: Keep only the first 26 legitimate columns</span></span>
+<span id="cb1-2"><a href=""></a>raw_data <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">"train_FD001.txt"</span>, <span class="at">header =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb1-3"><a href=""></a>raw_data <span class="ot">&lt;-</span> raw_data[, <span class="dv">1</span><span class="sc">:</span><span class="dv">26</span>]  <span class="co"># Ghost column fix</span></span>
+<span id="cb1-4"><a href=""></a></span>
+<span id="cb1-5"><a href=""></a><span class="co"># Assign meaningful column names</span></span>
+<span id="cb1-6"><a href=""></a>col_names <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"unit_id"</span>, <span class="st">"cycle"</span>, <span class="st">"setting_1"</span>, <span class="st">"setting_2"</span>, <span class="st">"setting_3"</span>,</span>
+<span id="cb1-7"><a href=""></a>               <span class="fu">paste0</span>(<span class="st">"s"</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">21</span>))</span>
+<span id="cb1-8"><a href=""></a><span class="fu">colnames</span>(raw_data) <span class="ot">&lt;-</span> col_names</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Sensor Selection:</strong> Removed constant/non-informative sensors: <code>s1, s5, s10, s16, s18, s19</code> and settings columns.</p>
+</section>
+<section id="visual-forensics-the-death-signature" class="slide level2">
+<h2>📉 Visual Forensics: The Death Signature</h2>
+<p>Before modeling, we visualize how sensors behave as engines approach failure (RUL → 0).</p>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><strong>Key Observation:</strong> Sensor 11 (Static Pressure at HPC Outlet) shows a clear upward trend as engines degrade.</p>
+<p><strong>Physics Interpretation:</strong> As compressor blades erode, the engine works harder to maintain thrust, increasing internal pressure.</p>
+</div><div class="column" style="width:50%;">
+<p><strong>The Degradation Curve:</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href=""></a><span class="co"># Reverse X-axis: Failure on the right</span></span>
+<span id="cb2-2"><a href=""></a><span class="fu">ggplot</span>(data, <span class="fu">aes</span>(<span class="at">x =</span> RUL, <span class="at">y =</span> s11)) <span class="sc">+</span></span>
+<span id="cb2-3"><a href=""></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb2-4"><a href=""></a>  <span class="fu">scale_x_reverse</span>()  <span class="co"># RUL=0 is failure</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Multiple engines show the same “death curve” pattern.</p>
+</div></div>
+</section>
+<section id="survival-analysis-cox-proportional-hazards" class="slide level2">
+<h2>📊 Survival Analysis: Cox Proportional Hazards</h2>
+<p>We use <strong>Cox PH</strong> to statistically quantify which sensors are the “Killers.”</p>
+<p><strong>The Model:</strong> <span class="math display">\[h(t) = h_0(t) \cdot \exp(\beta_1 \cdot s_{11} + \beta_2 \cdot s_{12} + \beta_3 \cdot s_4)\]</span></p>
+<p><strong>Interpretation:</strong> - <strong>Hazard Ratio (HR) &gt; 1:</strong> Sensor increases failure risk - <strong>Hazard Ratio (HR) &lt; 1:</strong> Sensor is protective/healthy indicator</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href=""></a>cox_model <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(cycle, failed) <span class="sc">~</span> s11 <span class="sc">+</span> s12 <span class="sc">+</span> s4, <span class="at">data =</span> data_clean)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Important</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Critical Finding:</strong> Sensor 11 has a <strong>Hazard Ratio &gt; 200</strong>. It is the primary leading indicator of impending failure.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="feature-engineering-rolling-windows" class="slide level2">
+<h2>🧪 Feature Engineering: Rolling Windows</h2>
+<p>Engines don’t just fail — they <strong>vibrate</strong> and show <strong>instability</strong> before death.</p>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><strong>Rolling Mean (Trend):</strong> Smooths noise, reveals underlying degradation trajectory.</p>
+<p><strong>Rolling Standard Deviation (Volatility):</strong> Detects instability — engines “shake” more before failure.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href=""></a>data_ml <span class="ot">&lt;-</span> data_ml <span class="sc">%&gt;%</span></span>
+<span id="cb4-2"><a href=""></a>  <span class="fu">group_by</span>(unit_id) <span class="sc">%&gt;%</span></span>
+<span id="cb4-3"><a href=""></a>  <span class="fu">mutate</span>(</span>
+<span id="cb4-4"><a href=""></a>    <span class="at">s11_mean =</span> <span class="fu">rollmean</span>(s11, <span class="at">k=</span><span class="dv">5</span>, <span class="at">fill=</span><span class="cn">NA</span>),</span>
+<span id="cb4-5"><a href=""></a>    <span class="at">s11_sd =</span> <span class="fu">rollapply</span>(s11, <span class="at">width=</span><span class="dv">5</span>, <span class="at">FUN=</span>sd)</span>
+<span id="cb4-6"><a href=""></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column" style="width:50%;">
+<p><strong>The RUL Clipping Trick:</strong> Industry standard: Cap RUL at 125 cycles.</p>
+<p><strong>Why?</strong> When RUL &gt; 125, sensors are essentially flat (healthy engine). Training on these “boring” samples adds noise.</p>
+<p><span class="math display">\[RUL_{clipped} = \min(RUL, 125)\]</span></p>
+</div></div>
+</section>
+<section id="principal-component-analysis-pca" class="slide level2">
+<h2>🧠 Principal Component Analysis (PCA)</h2>
+<p><strong>Goal:</strong> Compress 14+ sensors into a single “Health Index” for pilot dashboards.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href=""></a>pca_result <span class="ot">&lt;-</span> <span class="fu">prcomp</span>(sensors_only, <span class="at">scale. =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb5-2"><a href=""></a>data<span class="sc">$</span>Health_Index <span class="ot">&lt;-</span> pca_result<span class="sc">$</span>x[, <span class="dv">1</span>]  <span class="co"># First principal component</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Interpretation:</strong> - <strong>PC1 captures ~60% of variance</strong> - As Health_Index increases → Engine is degrading - Simple metric for non-technical stakeholders</p>
+</section>
+<section id="machine-learning-random-forest-regressor" class="slide level2">
+<h2>🤖 Machine Learning: Random Forest Regressor</h2>
+<p><strong>Why Random Forest?</strong> - Handles non-linear relationships - Robust to outliers - Provides feature importance</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href=""></a>rf_model <span class="ot">&lt;-</span> <span class="fu">randomForest</span>(</span>
+<span id="cb6-2"><a href=""></a>  RUL_clipped <span class="sc">~</span> .,</span>
+<span id="cb6-3"><a href=""></a>  <span class="at">data =</span> data_ml <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="sc">-</span>unit_id, <span class="sc">-</span>cycle, <span class="sc">-</span>RUL, <span class="sc">-</span>max_cycle),</span>
+<span id="cb6-4"><a href=""></a>  <span class="at">ntree =</span> <span class="dv">50</span>,</span>
+<span id="cb6-5"><a href=""></a>  <span class="at">importance =</span> <span class="cn">TRUE</span></span>
+<span id="cb6-6"><a href=""></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Top 15 Predictive Features:</strong> Rolling means of s11, s12, s4 dominate — consistent with Cox analysis.</p>
+</section>
+<section id="fd001-validation-results" class="slide level2">
+<h2>🏆 FD001 Validation Results</h2>
+<p><strong>Test Protocol:</strong> 1. Apply identical preprocessing to <code>test_FD001.txt</code> 2. Predict RUL at the final cycle of each test engine 3. Compare against ground truth (<code>RUL_FD001.txt</code>)</p>
+<p><strong>Metric:</strong> Root Mean Square Error (RMSE)</p>
+<p><span class="math display">\[RMSE = \sqrt{\frac{1}{n}\sum_{i=1}^{n}(RUL_{true} - RUL_{pred})^2}\]</span></p>
+<div class="fragment fade-up">
+<h3 id="fd001-final-score-rmse-17.53">🎯 FD001 Final Score: RMSE = 17.53</h3>
+<p><strong>Interpretation:</strong> On average, we predict within ~18 cycles of the true RUL. Excellent for baseline.</p>
+</div>
+</section>
+<section id="fd001-prediction-visualization" class="slide level2">
+<h2>📈 FD001 Prediction Visualization</h2>
+
+<img data-src="images/FD001%20FINAL%20PREDICTION.png" style="width:70.0%" class="r-stretch quarto-figure-center"><p class="caption">FD001 Predicted vs Actual RUL</p><div class="columns">
+<div class="column" style="width:60%;">
+<p><strong>Predicted vs Actual RUL:</strong> - <strong>Red dashed line:</strong> Perfect prediction (y = x) - <strong>Blue dots:</strong> Our AI predictions - <strong>Closer to line = Better accuracy</strong></p>
+<p><strong>Observations:</strong> - Strong correlation across all RUL ranges - Slight under-prediction at high RUL (conservative — safer for maintenance)</p>
+</div><div class="column" style="width:40%;">
+<p><strong>Business Decision Matrix:</strong></p>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: center;">Actual</th>
+<th style="text-align: center;">Predicted</th>
+<th style="text-align: left;">Action</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">Critical (&lt;30)</td>
+<td style="text-align: center;">Critical</td>
+<td style="text-align: left;">✅ Correct Alert</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">Critical (&lt;30)</td>
+<td style="text-align: center;">Safe</td>
+<td style="text-align: left;">❌ Missed Failure</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">Safe</td>
+<td style="text-align: center;">Critical</td>
+<td style="text-align: left;">⚠️ False Alarm</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">Safe</td>
+<td style="text-align: center;">Safe</td>
+<td style="text-align: left;">✅ Correct</td>
+</tr>
+</tbody>
+</table>
+</div></div>
+</section>
+<section class="slide level2">
+
+</section></section>
+<section>
+<section id="phase-2-multi-regime-dynamics-fd002" class="title-slide slide level1 center" data-background-color="#8E44AD">
+<h1>Phase 2: Multi-Regime Dynamics (FD002)</h1>
+<p><strong>PHASE 2: MULTI-REGIME DYNAMICS (FD002)</strong><br>
+<em>AeroGuard_FD002_MultiRegime.ipynb</em></p>
+</section>
+<h3 id="solving-the-jumping-data-problem">Solving the “Jumping Data” Problem</h3>
+<section id="the-challenge-operating-regimes" class="slide level2">
+<h2>🌪️ The Challenge: Operating Regimes</h2>
+<p><strong>FD002 Complexity:</strong> - <strong>6 different operating conditions</strong> (altitudes, Mach numbers) - Sensors readings vary dramatically with flight phase</p>
+<p><strong>The Problem:</strong> A pressure of <strong>500 psi at Sea Level</strong> is normal. A pressure of <strong>500 psi at 30,000 ft</strong> is physically impossible.</p>
+<div class="fragment">
+<p><strong>Raw data looks like pure noise</strong> because physics changes with altitude!</p>
+<p><strong>Solution: Regime Normalization</strong> 1. Identify the 6 operating regimes using clustering 2. Normalize sensors <em>within</em> each regime 3. Then apply ML on the cleaned signal</p>
+</div>
+</section>
+<section id="step-1-regime-clustering-k-means" class="slide level2">
+<h2>🎯 Step 1: Regime Clustering (K-Means)</h2>
+<p><strong>Input Features:</strong> <code>setting_1</code>, <code>setting_2</code>, <code>setting_3</code> These represent altitude, Mach number, and throttle resolver angle.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href=""></a>settings <span class="ot">&lt;-</span> data_clean <span class="sc">%&gt;%</span> <span class="fu">select</span>(setting_1, setting_2, setting_3)</span>
+<span id="cb7-2"><a href=""></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb7-3"><a href=""></a>kmeans_result <span class="ot">&lt;-</span> <span class="fu">kmeans</span>(settings, <span class="at">centers =</span> <span class="dv">6</span>)  <span class="co"># We know there are 6 regimes</span></span>
+<span id="cb7-4"><a href=""></a>data_clean<span class="sc">$</span>Regime <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(kmeans_result<span class="sc">$</span>cluster)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Result:</strong> Each observation is now tagged with its operating regime (1-6).</p>
+<pre><code>Regime Distribution:
+  1      2      3      4      5      6 
+45231  52108  38921  41567  49823  45012</code></pre>
+</section>
+<section id="step-2-regime-normalization-z-score" class="slide level2">
+<h2>🔬 Step 2: Regime Normalization (Z-Score)</h2>
+<p><strong>Formula:</strong> <span class="math display">\[z_{sensor,regime} = \frac{x_{sensor} - \mu_{regime}}{\sigma_{regime}}\]</span></p>
+<p><strong>Implementation:</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href=""></a>scale_this <span class="ot">&lt;-</span> <span class="cf">function</span>(x) { (x <span class="sc">-</span> <span class="fu">mean</span>(x, <span class="at">na.rm=</span><span class="cn">TRUE</span>)) <span class="sc">/</span> <span class="fu">sd</span>(x, <span class="at">na.rm=</span><span class="cn">TRUE</span>) }</span>
+<span id="cb9-2"><a href=""></a></span>
+<span id="cb9-3"><a href=""></a>data_normalized <span class="ot">&lt;-</span> data_clean <span class="sc">%&gt;%</span></span>
+<span id="cb9-4"><a href=""></a>  <span class="fu">group_by</span>(Regime) <span class="sc">%&gt;%</span></span>
+<span id="cb9-5"><a href=""></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">all_of</span>(sensors), scale_this)) <span class="sc">%&gt;%</span></span>
+<span id="cb9-6"><a href=""></a>  <span class="fu">ungroup</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Effect:</strong> - Raw sensor: Jumps between regimes (chaos) - Normalized sensor: Smooth degradation curve (signal)</p>
+</section>
+<section id="the-signal-in-the-noise" class="slide level2">
+<h2>📊 The Signal in the Noise</h2>
+<div class="columns">
+<div class="column" style="width:40%;">
+<p><strong>Left (Raw):</strong> Sensor values jump wildly as aircraft changes altitude (Blue/Red chaotic lines).</p>
+<p><strong>Right (Normalized):</strong> We recover the degradation trend using Regime Normalization. <em>Pure degradation signal recovered.</em></p>
+</div><div class="column" style="width:60%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/FD004%20RAW%20SENSOR%2011%20VS%20NORMALIZED.png" style="width:100.0%"></p>
+<figcaption>Regime Normalization: Raw vs Normalized</figcaption>
+</figure>
+</div>
+</div></div>
+</section>
+<section id="hybrid-ensemble-rf-xgboost" class="slide level2">
+<h2>🤖 Hybrid Ensemble: RF + XGBoost</h2>
+<p><strong>Strategy:</strong> Combine two algorithms to reduce both bias and variance.</p>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><strong>Random Forest:</strong> - Reduces variance (averaging) - Robust to noise - RMSE: 26.69</p>
+</div><div class="column" style="width:50%;">
+<p><strong>XGBoost:</strong> - Reduces bias (boosting) - Captures complex patterns - RMSE: 26.71</p>
+</div></div>
+<p><strong>Hybrid Ensemble:</strong> <span class="math display">\[Prediction_{hybrid} = \frac{RF_{pred} + XGB_{pred}}{2}\]</span></p>
+<div class="fragment fade-up">
+<h3 id="hybrid-rmse-26.54-best-of-both">🎯 Hybrid RMSE: 26.54 (Best of both!)</h3>
+</div>
+</section>
+<section id="physics-based-smoothing-post-processing" class="slide level2">
+<h2>🔧 Physics-Based Smoothing (Post-Processing)</h2>
+<p><strong>Problem:</strong> Raw AI predictions are noisy (jagged line).<br>
+<strong>Physics Constraint:</strong> Real engines degrade <em>smoothly</em>.</p>
+<p><strong>Solution:</strong> Apply Exponential Moving Average (EMA) to predictions.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href=""></a>smooth_preds <span class="ot">&lt;-</span> stats<span class="sc">::</span><span class="fu">filter</span>(raw_preds, <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">5</span>, <span class="dv">5</span>), <span class="at">sides =</span> <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+
+<img data-src="images/FD002Signal%20Smoothing.png" style="width:85.0%" class="r-stretch quarto-figure-center"><p class="caption">FD002 Signal Smoothing</p><p><strong>Black dashed:</strong> Ground Truth | <strong>Red:</strong> Raw AI (noisy) | <strong>Cyan:</strong> Smoothed AI (deployable)</p>
+</section>
+<section id="fd002-final-results" class="slide level2">
+<h2>🏆 FD002 Final Results</h2>
+
+<img data-src="images/FD002Multi-Regime%20Prediction.png" style="width:70.0%" class="r-stretch quarto-figure-center"><p class="caption">FD002 Multi-Regime Prediction Accuracy</p><p><strong>Key Achievement:</strong> - Successfully handled 6 different operating conditions - Regime normalization recovered the degradation signal from chaos - Hybrid ensemble achieved competitive RMSE</p>
+<div class="fragment">
+<h3 id="fd002-final-score-rmse-26.54">🎯 FD002 Final Score: RMSE = 26.54</h3>
+</div>
+</section>
+<section class="slide level2">
+
+</section></section>
+<section>
+<section id="phase-3-the-digital-pathologist-fd003" class="title-slide slide level1 center" data-background-color="#27AE60">
+<h1>Phase 3: The Digital Pathologist (FD003)</h1>
+<p><strong>PHASE 3: MULTI-FAULT DIAGNOSTICS (FD003)</strong><br>
+<em>AeroGuard_FD003_Diagnostics.ipynb</em></p>
+</section>
+<section id="the-challenge-competing-risks" class="slide level2">
+<h2>🩺 The Challenge: Competing Risks</h2>
+<p><strong>FD003 Complexity:</strong> Engines fail due to <strong>TWO different mechanisms</strong>:</p>
+<ol type="1">
+<li><strong>High-Pressure Compressor (HPC) Degradation</strong></li>
+<li><strong>Fan Degradation</strong></li>
+</ol>
+<p><strong>The Problem:</strong> Standard models assume all engines fail the same way. When physics changes, predictions fail catastrophically.</p>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Note</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Medical Analogy:</strong> Predicting patient survival without diagnosing whether they have heart disease or cancer. The treatments (and prognoses) are completely different!</p>
+</div>
+</div>
+</div>
+<p><strong>Solution: Diagnose first, then prognose.</strong></p>
+</section>
+<section id="step-1-unsupervised-fault-isolation" class="slide level2">
+<h2>🔍 Step 1: Unsupervised Fault Isolation</h2>
+<p><strong>Strategy:</strong> Extract the “autopsy” data — sensor readings at the moment of failure.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href=""></a>failure_data <span class="ot">&lt;-</span> data_clean <span class="sc">%&gt;%</span></span>
+<span id="cb11-2"><a href=""></a>  <span class="fu">filter</span>(failed <span class="sc">==</span> <span class="dv">1</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb11-3"><a href=""></a>  <span class="fu">select</span>(unit_id, <span class="fu">starts_with</span>(<span class="st">"s"</span>))</span>
+<span id="cb11-4"><a href=""></a></span>
+<span id="cb11-5"><a href=""></a><span class="co"># Hierarchical Clustering on failure signatures</span></span>
+<span id="cb11-6"><a href=""></a>dist_mat <span class="ot">&lt;-</span> <span class="fu">dist</span>(<span class="fu">scale</span>(failure_matrix), <span class="at">method =</span> <span class="st">"euclidean"</span>)</span>
+<span id="cb11-7"><a href=""></a>hclust_avg <span class="ot">&lt;-</span> <span class="fu">hclust</span>(dist_mat, <span class="at">method =</span> <span class="st">"ward.D2"</span>)</span>
+<span id="cb11-8"><a href=""></a>cut_avg <span class="ot">&lt;-</span> <span class="fu">cutree</span>(hclust_avg, <span class="at">k =</span> <span class="dv">2</span>)  <span class="co"># Cut into 2 fault modes</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Result:</strong> Two distinct clusters emerge — engines “died” in statistically different ways.</p>
+</section>
+<section id="forensic-evidence-two-distinct-signatures" class="slide level2">
+<h2>📊 Forensic Evidence: Two Distinct Signatures</h2>
+<div class="columns">
+<div class="column" style="width:40%;">
+<p><strong>Cluster Visualization:</strong> - <strong>Yellow (Fault 1):</strong> High s11 (Pressure), Low s4 (Temp) - <strong>Blue (Fault 2):</strong> Low s11, High s4</p>
+<p><strong>Interpretation:</strong> <em>Unsupervised Clustering separates the two failure modes (Fan vs Compressor) based on sensor fingerprints.</em></p>
+</div><div class="column" style="width:60%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/FD004%20Statistical%20Fingerprints.png" style="width:100.0%"></p>
+<figcaption>The Digital Pathologist: Fault Isolation</figcaption>
+</figure>
+</div>
+</div></div>
+</section>
+<section id="survival-analysis-risk-modeling" class="slide level2">
+<h2>📉 Survival Analysis (Risk Modeling)</h2>
+<p><strong>Question:</strong> Does one fault mode kill engines faster?</p>
+<div class="columns">
+<div class="column" style="width:65%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/FD003FLIGHT%20CYCLES.png" style="width:100.0%"></p>
+<figcaption>Survival Analysis: Kaplan-Meier Curves</figcaption>
+</figure>
+</div>
+</div><div class="column" style="width:35%;">
+<p><strong>Kaplan-Meier Insight:</strong></p>
+<ul>
+<li><strong>Yellow curve:</strong> Drops faster (Steep decline) → <strong>Fault Mode 1</strong> is the “Rapid Killer”.</li>
+<li><strong>Blue curve:</strong> Declines slower → <strong>Fault Mode 2</strong> allows more warning time.</li>
+</ul>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Important</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Critical:</strong> Fault Mode 1 requires immediate maintenance.</p>
+</div>
+</div>
+</div>
+</div></div>
+</section>
+<section id="two-stage-ai-architecture" class="slide level2">
+<h2>🤖 Two-Stage AI Architecture</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><strong>Stage 1: The Pathologist</strong> <em>Random Forest Classifier</em></p>
+<ul>
+<li>Input: Current sensor readings</li>
+<li>Output: Predicted Fault Mode (1 or 2)</li>
+<li>Accuracy: ~92%</li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href=""></a>rf_classifier <span class="ot">&lt;-</span> <span class="fu">randomForest</span>(</span>
+<span id="cb12-2"><a href=""></a>  Fault_Mode <span class="sc">~</span> .,</span>
+<span id="cb12-3"><a href=""></a>  <span class="at">data =</span> failure_data,</span>
+<span id="cb12-4"><a href=""></a>  <span class="at">ntree =</span> <span class="dv">50</span></span>
+<span id="cb12-5"><a href=""></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column" style="width:50%;">
+<p><strong>Stage 2: The Prognosticator</strong> <em>XGBoost Regressor</em></p>
+<ul>
+<li>Input: Sensors + Fault Mode</li>
+<li>Output: Predicted RUL</li>
+<li>Uses fault context to adjust predictions</li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href=""></a>xgb_model <span class="ot">&lt;-</span> <span class="fu">xgboost</span>(</span>
+<span id="cb13-2"><a href=""></a>  <span class="at">data =</span> <span class="fu">cbind</span>(sensors, Fault_Mode),</span>
+<span id="cb13-3"><a href=""></a>  <span class="at">label =</span> RUL_clipped,</span>
+<span id="cb13-4"><a href=""></a>  <span class="at">nrounds =</span> <span class="dv">100</span></span>
+<span id="cb13-5"><a href=""></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div></div>
+</section>
+<section id="explainable-ai-feature-importance" class="slide level2">
+<h2>🧠 Explainable AI: Feature Importance</h2>
+
+<img data-src="images/FD003importance_matrix.png" style="width:85.0%" class="r-stretch quarto-figure-center"><p class="caption">FD003 Feature Importance Matrix</p><p><strong>Key Observations:</strong> 1. <code>Fault_Mode</code> appears in top features → AI actively switches logic based on diagnosis 2. Different sensors dominate for each fault type 3. Rolling means capture degradation trends</p>
+</section>
+<section id="fd003-final-results" class="slide level2">
+<h2>🏆 FD003 Final Results</h2>
+
+<img data-src="images/FD003Multi-Fault%20Prediction%20Accuracy.png" style="width:70.0%" class="r-stretch quarto-figure-center"><p class="caption">FD003 Multi-Fault Prediction Accuracy</p><p><strong>Validation Protocol:</strong> 1. Classify fault mode for each test engine 2. Apply fault-aware XGBoost 3. Compute RMSE against ground truth</p>
+<div class="fragment fade-up">
+<h3 id="fd003-final-score-rmse-20.05">🎯 FD003 Final Score: RMSE = 20.05</h3>
+<p><strong>Clinical Precision:</strong> The AI successfully handles both failure mechanisms!</p>
+</div>
+</section>
+<section class="slide level2">
+
+</section></section>
+<section>
+<section id="phase-4-the-grand-unified-model-fd004" class="title-slide slide level1 center" data-background-color="#C0392B">
+<h1>Phase 4: The Grand Unified Model (FD004)</h1>
+<p><strong>PHASE 4: THE GRAND UNIFIED MODEL (FD004)</strong><br>
+<em>AeroGuard_FD004_Ultimate.ipynb</em></p>
+</section>
+<h3 id="the-ultimate-challenge">The Ultimate Challenge</h3>
+<section id="fd004-the-final-boss" class="slide level2">
+<h2>⚔️ FD004: The Final Boss</h2>
+<p><strong>Dataset Complexity:</strong> - <strong>6 Operating Regimes</strong> (like FD002) - <strong>2 Fault Modes</strong> (like FD003) - <strong>Combined challenge</strong> — the hardest scenario</p>
+<p><strong>Why It’s Hard:</strong> - Regime changes mask degradation signals - Fault modes have different physics - Must solve BOTH problems simultaneously</p>
+<div class="fragment">
+<p><strong>AeroGuard Ultimate Strategy:</strong> Combine everything we learned into a single unified pipeline.</p>
+</div>
+</section>
+<section id="the-unified-pipeline-architecture" class="slide level2">
+<h2>🏗️ The Unified Pipeline Architecture</h2>
+<div style="font-size: 0.45em; line-height: 1.1; overflow-y: hidden;">
+<pre><code>┌─────────────────────────────────────────────────────────────┐
+│                      RAW SENSOR DATA                         │
+└─────────────────────────────────────────────────────────────┘
+                              │
+                              ▼
+┌─────────────────────────────────────────────────────────────┐
+│  STEP 1: REGIME RECOGNITION (K-Means, k=6)                  │
+│  → Identify operating condition from settings               │
+└─────────────────────────────────────────────────────────────┘
+                              │
+                              ▼
+┌─────────────────────────────────────────────────────────────┐
+│  STEP 2: REGIME NORMALIZATION (Z-Score per Regime)          │
+│  → Remove altitude/speed effects from sensors               │
+└─────────────────────────────────────────────────────────────┘
+                              │
+                              ▼
+┌─────────────────────────────────────────────────────────────┐
+│  STEP 3: FAULT CLASSIFICATION (Random Forest)               │
+│  → Diagnose failure mechanism (Fault 0 vs Fault 1)          │
+└─────────────────────────────────────────────────────────────┘
+                              │
+                              ▼
+┌─────────────────────────────────────────────────────────────┐
+│  STEP 4: FEATURE ENGINEERING (Rolling Statistics)           │
+│  → Calculate trend and volatility metrics                   │
+└─────────────────────────────────────────────────────────────┘
+                              │
+                              ▼
+┌─────────────────────────────────────────────────────────────┐
+│  STEP 5: ENSEMBLE REGRESSION (XGBoost)                      │
+│  → Predict RUL using sensors + regime + fault context       │
+└─────────────────────────────────────────────────────────────┘
+                              │
+                              ▼
+┌─────────────────────────────────────────────────────────────┐
+│  STEP 6: PHYSICS SMOOTHING (EMA)                            │
+│  → Enforce smooth degradation for deployment                │
+└─────────────────────────────────────────────────────────────┘</code></pre>
+</div>
+</section>
+<section id="fd004-prediction-error-analysis" class="slide level2">
+<h2>📉 FD004 Prediction Error Analysis</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><strong>Residual Distribution:</strong> - Bell curve centered at 0 → Unbiased model. - Mean Error: ~0.0</p>
+<p><strong>Homoscedasticity:</strong> - Flat LOESS line → Consistent accuracy across engine life.</p>
+</div><div class="column" style="width:50%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/FD004%20prediction%20error%20cycle%20vs%20true%20rul.png" style="width:100.0%"></p>
+<figcaption>Prediction Error Analysis</figcaption>
+</figure>
+</div>
+</div></div>
+</section>
+<section id="fd004-feature-importance" class="slide level2">
+<h2>📊 FD004 Feature Importance</h2>
+
+<img data-src="images/FD004%20FEATURE%20PERFORMANCE.png" style="width:85.0%" class="r-stretch quarto-figure-center"><p class="caption">FD004 Feature Performance</p><p><strong>Key Insights:</strong> 1. <strong>Normalized rolling means</strong> dominate → Regime normalization was essential 2. <strong>Fault_Mode</strong> appears → AI uses diagnosis information 3. Multiple sensor types contribute → Complex multi-factor model</p>
+</section>
+<section id="the-oracle-final-performance-fd004" class="slide level2">
+<h2>🏆 The Oracle: Final Performance (FD004)</h2>
+<div class="columns">
+<div class="column" style="width:60%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/FD004%20FINAL%20SCORE%20(RMSE).png" style="width:100.0%"></p>
+<figcaption>Predicted vs Actual RUL (The Oracle)</figcaption>
+</figure>
+</div>
+</div><div class="column" style="width:40%;">
+<h3 id="final-rmse-32.97">🎯 Final RMSE: 32.97</h3>
+<p><strong>Context:</strong> - <strong>FD004</strong> is the “Final Boss” of C-MAPSS. - The tight alignment along the diagonal proves the model’s accuracy. - Competitive with academic state-of-the-art.</p>
+</div></div>
+</section>
+<section class="slide level2">
+
+</section></section>
+<section>
+<section id="complete-results-summary" class="title-slide slide level1 center" data-background-color="#1a1a2e">
+<h1>📊 Complete Results Summary</h1>
+<p><strong>SUMMARY &amp; CONCLUSIONS</strong></p>
+</section>
+<section id="aeroguard-performance-across-all-datasets" class="slide level2">
+<h2>🏆 AeroGuard Performance Across All Datasets</h2>
+<table class="caption-top" style="width:100%;">
+<colgroup>
+<col style="width: 18%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 18%">
+<col style="width: 18%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: center;">Phase</th>
+<th style="text-align: left;">Dataset</th>
+<th style="text-align: left;">Challenge</th>
+<th style="text-align: left;">Key Innovation</th>
+<th style="text-align: center;">RMSE</th>
+<th style="text-align: center;">Status</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">1</td>
+<td style="text-align: left;">FD001</td>
+<td style="text-align: left;">Baseline</td>
+<td style="text-align: left;">Cox + Random Forest</td>
+<td style="text-align: center;"><strong>17.53</strong></td>
+<td style="text-align: center;">✅ Excellent</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">2</td>
+<td style="text-align: left;">FD002</td>
+<td style="text-align: left;">Multi-Regime</td>
+<td style="text-align: left;">K-Means + Hybrid Ensemble</td>
+<td style="text-align: center;"><strong>26.54</strong></td>
+<td style="text-align: center;">✅ Good</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">3</td>
+<td style="text-align: left;">FD003</td>
+<td style="text-align: left;">Multi-Fault</td>
+<td style="text-align: left;">Hierarchical + Fault-Aware XGB</td>
+<td style="text-align: center;"><strong>20.05</strong></td>
+<td style="text-align: center;">✅ Excellent</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">4</td>
+<td style="text-align: left;">FD004</td>
+<td style="text-align: left;">Combined</td>
+<td style="text-align: left;">Grand Unified Pipeline</td>
+<td style="text-align: center;"><strong>32.97</strong></td>
+<td style="text-align: center;">✅ Competitive</td>
+</tr>
+</tbody>
+</table>
+<div class="fragment">
+<p><strong>Benchmark Context:</strong> - RMSE &lt; 15: World-class - RMSE 15-25: Excellent - RMSE 25-35: Good (FD002/FD004 are inherently harder) - RMSE &gt; 40: Needs improvement</p>
+</div>
+</section>
+<section id="technical-contributions" class="slide level2">
+<h2>🛠️ Technical Contributions</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><strong>1. Statistical Rigor:</strong></p>
+<ul>
+<li>Cox Proportional Hazards for risk quantification</li>
+<li>Survival curves for fault-specific prognosis</li>
+<li>Residual analysis for validation</li>
+</ul>
+<p><strong>2. Advanced Preprocessing:</strong></p>
+<ul>
+<li>Regime normalization for multi-condition data</li>
+<li>Rolling window features for trend detection</li>
+<li>RUL clipping for cleaner training</li>
+</ul>
+</div><div class="column" style="width:50%;">
+<p><strong>3. Intelligent Architecture:</strong></p>
+<ul>
+<li>Two-stage diagnosis-then-prognosis pipeline</li>
+<li>Ensemble methods (RF + XGBoost)</li>
+<li>Physics-based smoothing</li>
+</ul>
+<p><strong>4. Explainability:</strong></p>
+<ul>
+<li>Feature importance analysis</li>
+<li>Interpretable hazard ratios</li>
+<li>Visual diagnostics for stakeholders</li>
+</ul>
+</div></div>
+</section>
+<section id="business-value" class="slide level2">
+<h2>💼 Business Value</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><strong>Cost Reduction:</strong> - Avoid premature replacements (save ~$2M per engine) - Reduce unscheduled maintenance - Optimize spare parts inventory</p>
+<p><strong>Safety Enhancement:</strong> - 50+ cycles advance warning of failure - Fault-specific maintenance protocols - Reduced in-flight incident risk</p>
+</div><div class="column" style="width:50%;">
+<p><strong>Operational Efficiency:</strong> - Schedule maintenance during planned downtime - Prioritize critical fault modes (Mode 1 = urgent) - Fleet-wide health monitoring dashboards</p>
+<p><strong>Competitive Advantage:</strong> - Data-driven maintenance decisions - Regulatory compliance (EASA, FAA) - Customer confidence and trust</p>
+</div></div>
+</section>
+<section id="deliverables-reproducibility" class="slide level2">
+<h2>📁 Deliverables &amp; Reproducibility</h2>
+<p><strong>Models Saved:</strong> - <code>aircraft_engine_rul_predictor.rds</code> (FD001 Random Forest) - <code>FD002_RF_Model.rds</code>, <code>FD002_XGB_Model.rds</code> (Hybrid Ensemble) - <code>FD003_Fault_Classifier.rds</code>, <code>FD003_RUL_XGBoost.rds</code> - <code>FD004_Regime_Clustering.rds</code>, <code>FD004_Fault_Classifier.rds</code>, <code>FD004_XGBoost_Model.rds</code></p>
+<p><strong>Data Exports:</strong> - <code>processed_engine_data.csv</code> - <code>FD002_Final_Predictions.csv</code> - <code>FD003_Final_Predictions.csv</code> - <code>FD004_Final_Predictions.csv</code></p>
+<p><strong>Notebooks:</strong> Full reproducible analysis in <code>notebooks/</code> folder.</p>
+</section>
+<section id="future-work" class="slide level2" data-background-color="#1a1a2e">
+<h2>🚀 Future Work</h2>
+<ol type="1">
+<li class="fragment"><strong>Deep Learning:</strong>
+<ul>
+<li class="fragment">LSTM/GRU for temporal sequence modeling</li>
+<li class="fragment">Attention mechanisms for sensor importance</li>
+</ul></li>
+<li class="fragment"><strong>Online Learning:</strong>
+<ul>
+<li class="fragment">Real-time model updates as new data arrives</li>
+<li class="fragment">Concept drift detection for regime changes</li>
+</ul></li>
+<li class="fragment"><strong>Uncertainty Quantification:</strong>
+<ul>
+<li class="fragment">Confidence intervals for RUL predictions</li>
+<li class="fragment">Bayesian approaches for risk assessment</li>
+</ul></li>
+<li class="fragment"><strong>Deployment:</strong>
+<ul>
+<li class="fragment">Edge computing for real-time inference</li>
+<li class="fragment">Integration with airline maintenance systems</li>
+</ul></li>
+</ol>
+</section>
+<section class="slide level2">
+
+</section></section>
+<section>
+<section id="mlops-extension" class="title-slide slide level1 center" data-background-color="#306998">
+<h1>🐍 MLOps Extension</h1>
+<p><strong>BONUS: MLOPS IMPLEMENTATION</strong><br>
+<em>Production Deployment with Python</em></p>
+</section>
+<h3 id="taking-aeroguard-to-production">Taking AeroGuard to Production</h3>
+<section id="mlops-stack-overview" class="slide level2">
+<h2>🔧 MLOps Stack Overview</h2>
+<p>We extended the R analysis with a <strong>complete Python MLOps pipeline</strong>:</p>
+<div class="columns">
+<div class="column" style="width:50%;">
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Component</th>
+<th>Technology</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Version Control</strong></td>
+<td>Git + GitHub</td>
+</tr>
+<tr class="even">
+<td><strong>Data Versioning</strong></td>
+<td>DVC</td>
+</tr>
+<tr class="odd">
+<td><strong>Experiment Tracking</strong></td>
+<td>MLflow</td>
+</tr>
+<tr class="even">
+<td><strong>Pipeline</strong></td>
+<td>ZenML</td>
+</tr>
+<tr class="odd">
+<td><strong>Optimization</strong></td>
+<td>Optuna</td>
+</tr>
+</tbody>
+</table>
+</div><div class="column" style="width:50%;">
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Component</th>
+<th>Technology</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>API Serving</strong></td>
+<td>FastAPI</td>
+</tr>
+<tr class="even">
+<td><strong>Containerization</strong></td>
+<td>Docker</td>
+</tr>
+<tr class="odd">
+<td><strong>CI/CD</strong></td>
+<td>GitHub Actions</td>
+</tr>
+<tr class="even">
+<td><strong>Monitoring</strong></td>
+<td>Custom Drift Detection</td>
+</tr>
+<tr class="odd">
+<td><strong>Model</strong></td>
+<td>XGBoost (Python)</td>
+</tr>
+</tbody>
+</table>
+</div></div>
+<div class="fragment fade-up">
+<p><strong>Repository:</strong> <a href="https://github.com/AymenMB/turbofan-predictive-maintenance-mlops">github.com/AymenMB/turbofan-predictive-maintenance-mlops</a></p>
+</div>
+</section>
+<section id="mlops-pipeline-architecture" class="slide level2">
+<h2>📊 MLOps Pipeline Architecture</h2>
+<pre><code>┌─────────────────────────────────────────────────────────────┐
+│                    GitHub Repository                         │
+└─────────────────────────┬───────────────────────────────────┘
+                          │ git push
+                          ▼
+┌─────────────────────────────────────────────────────────────┐
+│                   GitHub Actions CI/CD                       │
+│   Test/Lint → Build Docker → ML Validation → Security Scan  │
+└─────────────────────────┬───────────────────────────────────┘
+                          │
+                          ▼
+┌─────────────────────────────────────────────────────────────┐
+│                    Docker Container                          │
+│              FastAPI + XGBoost (RMSE: 50.71)                │
+│                   http://localhost:8000                      │
+└─────────────────────────────────────────────────────────────┘</code></pre>
+</section>
+<section id="key-mlops-results" class="slide level2">
+<h2>🎯 Key MLOps Results</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><strong>Model Performance:</strong></p>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Metric</th>
+<th>Baseline</th>
+<th>Optimized</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>RMSE</strong></td>
+<td>51.35</td>
+<td><strong>50.71</strong></td>
+</tr>
+<tr class="even">
+<td>Improvement</td>
+<td>-</td>
+<td><strong>1.26%</strong></td>
+</tr>
+</tbody>
+</table>
+<p><em>Optuna optimization with 20 trials</em></p>
+</div><div class="column" style="width:50%;">
+<p><strong>API Performance:</strong></p>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Endpoint</th>
+<th>Latency</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>/health</code></td>
+<td>&lt;100ms</td>
+</tr>
+<tr class="even">
+<td><code>/predict</code></td>
+<td>&lt;200ms</td>
+</tr>
+<tr class="odd">
+<td><code>/monitoring</code></td>
+<td>&lt;50ms</td>
+</tr>
+</tbody>
+</table>
+<p><em>Production-ready REST API</em></p>
+</div></div>
+</section>
+<section id="complete-mlops-workflow" class="slide level2">
+<h2>🔄 Complete MLOps Workflow</h2>
+<ol type="1">
+<li class="fragment"><strong>DVC</strong> → Version control for 20K+ sensor readings</li>
+<li class="fragment"><strong>MLflow</strong> → Track all experiments and metrics</li>
+<li class="fragment"><strong>ZenML</strong> → Reproducible 4-step pipeline (ingest → clean → train → evaluate)</li>
+<li class="fragment"><strong>Optuna</strong> → Automated hyperparameter search (9 parameters, 20 trials)</li>
+<li class="fragment"><strong>FastAPI</strong> → REST API with Swagger documentation</li>
+<li class="fragment"><strong>Docker</strong> → Containerized deployment with health checks</li>
+<li class="fragment"><strong>GitHub Actions</strong> → Automated CI/CD on every push</li>
+<li class="fragment"><strong>Drift Detection</strong> → Monitor input data quality in production</li>
+</ol>
+</section>
+<section id="deployment-ready" class="slide level2">
+<h2>🐳 Deployment Ready</h2>
+<div class="columns">
+<div class="column" style="width:60%;">
+<p><strong>Quick Start:</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb16-1"><a href=""></a><span class="co"># Clone repository</span></span>
+<span id="cb16-2"><a href=""></a><span class="fu">git</span> clone https://github.com/AymenMB/...</span>
+<span id="cb16-3"><a href=""></a></span>
+<span id="cb16-4"><a href=""></a><span class="co"># Run with Docker</span></span>
+<span id="cb16-5"><a href=""></a><span class="ex">docker-compose</span> up <span class="at">-d</span></span>
+<span id="cb16-6"><a href=""></a></span>
+<span id="cb16-7"><a href=""></a><span class="co"># Test API</span></span>
+<span id="cb16-8"><a href=""></a><span class="ex">curl</span> http://localhost:8000/predict <span class="dt">\</span></span>
+<span id="cb16-9"><a href=""></a>  <span class="at">-d</span> <span class="st">'{"s_2": 641.82, "s_3": 1589.70, ...}'</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Response:</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode numberSource json number-lines code-with-copy"><code class="sourceCode json"><span id="cb17-1"><a href=""></a><span class="fu">{</span></span>
+<span id="cb17-2"><a href=""></a>  <span class="dt">"RUL"</span><span class="fu">:</span> <span class="fl">112.45</span><span class="fu">,</span></span>
+<span id="cb17-3"><a href=""></a>  <span class="dt">"status"</span><span class="fu">:</span> <span class="st">"Healthy"</span><span class="fu">,</span></span>
+<span id="cb17-4"><a href=""></a>  <span class="dt">"confidence"</span><span class="fu">:</span> <span class="st">"High"</span></span>
+<span id="cb17-5"><a href=""></a><span class="fu">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column" style="width:40%;">
+<p><strong>API Endpoints:</strong></p>
+<ul>
+<li><code>GET /health</code> → Status check</li>
+<li><code>POST /predict</code> → RUL prediction</li>
+<li><code>GET /monitoring</code> → Drift detection</li>
+<li><code>GET /docs</code> → Swagger UI</li>
+</ul>
+<p><em>Interactive documentation at <code>/docs</code></em></p>
+</div></div>
+</section>
+<section id="questions-anticipées-réponses" class="slide level2" data-background-color="#34495e">
+<h2>🎤 Questions Anticipées &amp; Réponses</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><strong>Q: Pourquoi XGBoost plutôt que Deep Learning (LSTM)?</strong></p>
+<p>→ <strong>Interprétabilité:</strong> Feature importance visible → <strong>Performance comparable:</strong> RMSE compétitif sans GPU → <strong>Moins de données:</strong> 20K observations suffisantes</p>
+<hr>
+<p><strong>Q: Comment gérer le concept drift en production?</strong></p>
+<p>→ Monitoring avec détection de dérive statistique → Rolling window pour détection online → Réentraînement périodique planifié</p>
+</div><div class="column" style="width:50%;">
+<p><strong>Q: Pourquoi le RUL clipping à 125 cycles?</strong></p>
+<p>→ Standard industriel (NASA guidelines) → Moteurs sains ont des capteurs stables → Réduit le bruit d’entraînement</p>
+<hr>
+<p><strong>Q: Limitation principale du modèle?</strong></p>
+<p>→ Généralisation limitée aux moteurs C-MAPSS → Nécessite calibration pour autres fabricants → Pas de validation temps-réel embarquée (yet)</p>
+</div></div>
+</section>
+<section class="slide level2">
+
+</section></section>
+<section>
+<section id="thank-you" class="title-slide slide level1 center" data-background-color="#1a1a2e">
+<h1>Thank You</h1>
+
+</section>
+<section id="project-aeroguard" class="slide level2">
+<h2>Project AeroGuard</h2>
+<p><strong>Developer:</strong> Aymen Mabrouk</p>
+<p><strong>Supervisor:</strong> Pr. Abdallah Khemais</p>
+<p><strong>Institution:</strong> Ecole Polytechnique Sousse</p>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><strong>📊 R Analysis:</strong> - Statistical modeling (Cox PH) - Unsupervised learning - Best RMSE: <strong>17.53</strong> (FD001)</p>
+</div><div class="column" style="width:50%;">
+<p><strong>🐍 Python MLOps:</strong> - Production-ready API - Containerized deployment - Optimized RMSE: <strong>50.71</strong></p>
+</div></div>
+</section>
+<section class="slide level2">
+
+<div class="fragment">
+<h3 id="questions">Questions?</h3>
+<p><em>All notebooks, models, and data available for review.</em></p>
+<p><strong>GitHub R Project:</strong> <a href="https://github.com/AymenMB/AeroGuard">AymenMB/AeroGuard</a></p>
+<p><strong>GitHub MLOps:</strong> <a href="https://github.com/AymenMB/turbofan-predictive-maintenance-mlops">AymenMB/turbofan-predictive-maintenance-mlops</a></p>
+<p><strong>Live Demo:</strong> <a href="https://aymenmb.github.io/AeroGuard">aymenmb.github.io/AeroGuard</a></p>
+</div>
+</section>
+<section id="references" class="slide level2">
+<h2>📚 References</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><strong>Data &amp; Research:</strong></p>
+<ol type="1">
+<li>NASA C-MAPSS Dataset Documentation</li>
+<li>Saxena, A., et al.&nbsp;“Damage Propagation Modeling for Aircraft Engine Run-to-Failure Simulation” (2008)</li>
+<li>Heimes, F.O. “Recurrent Neural Networks for Remaining Useful Life Estimation” (2008)</li>
+</ol>
+</div><div class="column" style="width:50%;">
+<p><strong>Tools &amp; Frameworks:</strong></p>
+<ul>
+<li><strong>R:</strong> tidyverse, survival, randomForest, xgboost, zoo, cluster</li>
+<li><strong>Python:</strong> FastAPI, XGBoost, MLflow, ZenML, Optuna, DVC</li>
+<li><strong>DevOps:</strong> Docker, GitHub Actions</li>
+</ul>
+</div></div>
+</section>
+<section id="appendix-how-to-render-this-presentation" class="slide level2">
+<h2>🔧 Appendix: How to Render This Presentation</h2>
+<ol type="1">
+<li><p><strong>Install Quarto:</strong> https://quarto.org/docs/get-started/</p></li>
+<li><p><strong>Navigate to presentation folder:</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb18-1"><a href=""></a><span class="bu">cd</span> presentation/</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
+<li><p><strong>Render to HTML:</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb19-1"><a href=""></a><span class="ex">quarto</span> render final_presentation.qmd <span class="at">--to</span> revealjs</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
+<li><p><strong>Open in browser:</strong> <code>final_presentation.html</code></p></li>
+</ol>
+<p><strong>Keyboard Shortcuts:</strong> - <code>F</code>: Fullscreen - <code>S</code>: Speaker notes - <code>O</code>: Overview mode - <code>←/→</code>: Navigate slides</p>
+
+</section></section>
+    </div>
+  <div class="quarto-auto-generated-content" style="display: none;">
+<p><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/R_logo.svg/724px-R_logo.svg.png" class="slide-logo"></p>
+<div class="footer footer-default">
+<p>Supervised by Pr. Abdallah Khemais | <a href="https://github.com/AymenMB/AeroGuard">GitHub</a></p>
+</div>
+</div></div>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script>
+  <script src="final_presentation_files/libs/revealjs/dist/reveal.js"></script>
+  <!-- reveal.js plugins -->
+  <script src="final_presentation_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="final_presentation_files/libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="final_presentation_files/libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="final_presentation_files/libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="final_presentation_files/libs/revealjs/plugin/quarto-support/support.js"></script>
+  
+
+  <script src="final_presentation_files/libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="final_presentation_files/libs/revealjs/plugin/search/search.js"></script>
+  <script src="final_presentation_files/libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="final_presentation_files/libs/revealjs/plugin/math/math.js"></script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+'controlsAuto': true,
+'previewLinksAuto': false,
+'pdfSeparateFragments': false,
+'autoAnimateEasing': "ease",
+'autoAnimateDuration': 1,
+'autoAnimateUnmatched': true,
+'jumpToSlide': true,
+'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'smaller': false,
+ 
+        // Display controls in the bottom right corner
+        controls: false,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: false,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'edges',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: 'c/t',
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: true,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: false,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'linear',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: false,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'convex',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'zoom',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1600,
+
+        height: 900,
+
+        // Factor of the display size that should remain empty around the content
+        margin: 0.1,
+
+        math: {
+          mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js',
+          config: 'TeX-AMS_HTML-full',
+          tex2jax: {
+            inlineMath: [['\\(','\\)']],
+            displayMath: [['\\[','\\]']],
+            balanceBraces: true,
+            processEscapes: false,
+            processRefs: true,
+            processEnvironments: true,
+            preview: 'TeX',
+            skipTags: ['script','noscript','style','textarea','pre','code'],
+            ignoreClass: 'tex2jax_ignore',
+            processClass: 'tex2jax_process'
+          },
+        },
+
+        // reveal.js plugins
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, QuartoSupport,
+
+          RevealMath,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    <script id="quarto-html-after-body" type="application/javascript">
+      window.document.addEventListener("DOMContentLoaded", function (event) {
+        const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
+        tabsets.forEach(function(tabset) {
+          const tabby = new Tabby('#' + tabset.id);
+        });
+        const isCodeAnnotation = (el) => {
+          for (const clz of el.classList) {
+            if (clz.startsWith('code-annotation-')) {                     
+              return true;
+            }
+          }
+          return false;
+        }
+        const onCopySuccess = function(e) {
+          // button target
+          const button = e.trigger;
+          // don't keep focus
+          button.blur();
+          // flash "checked"
+          button.classList.add('code-copy-button-checked');
+          var currentTitle = button.getAttribute("title");
+          button.setAttribute("title", "Copied!");
+          let tooltip;
+          if (window.bootstrap) {
+            button.setAttribute("data-bs-toggle", "tooltip");
+            button.setAttribute("data-bs-placement", "left");
+            button.setAttribute("data-bs-title", "Copied!");
+            tooltip = new bootstrap.Tooltip(button, 
+              { trigger: "manual", 
+                customClass: "code-copy-button-tooltip",
+                offset: [0, -8]});
+            tooltip.show();    
+          }
+          setTimeout(function() {
+            if (tooltip) {
+              tooltip.hide();
+              button.removeAttribute("data-bs-title");
+              button.removeAttribute("data-bs-toggle");
+              button.removeAttribute("data-bs-placement");
+            }
+            button.setAttribute("title", currentTitle);
+            button.classList.remove('code-copy-button-checked');
+          }, 1000);
+          // clear code selection
+          e.clearSelection();
+        }
+        const getTextToCopy = function(trigger) {
+          const outerScaffold = trigger.parentElement.cloneNode(true);
+          const codeEl = outerScaffold.querySelector('code');
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
+            }
+          }
+          return codeEl.innerText;
+        }
+        const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+          text: getTextToCopy
+        });
+        clipboard.on('success', onCopySuccess);
+        if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+          const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+            text: getTextToCopy,
+            container: window.document.getElementById('quarto-embedded-source-code-modal')
+          });
+          clipboardModal.on('success', onCopySuccess);
+        }
+          var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+          var mailtoRegex = new RegExp(/^mailto:/);
+            var filterRegex = new RegExp('/' + window.location.host + '/');
+          var isInternal = (href) => {
+              return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+          }
+          // Inspect non-navigation links and adorn them if external
+         var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+          for (var i=0; i<links.length; i++) {
+            const link = links[i];
+            if (!isInternal(link.href)) {
+              // undo the damage that might have been done by quarto-nav.js in the case of
+              // links that we want to consider external
+              if (link.dataset.originalHref !== undefined) {
+                link.href = link.dataset.originalHref;
+              }
+            }
+          }
+        function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+          const config = {
+            allowHTML: true,
+            maxWidth: 500,
+            delay: 100,
+            arrow: false,
+            appendTo: function(el) {
+                return el.closest('section.slide') || el.parentElement;
+            },
+            interactive: true,
+            interactiveBorder: 10,
+            theme: 'light-border',
+            placement: 'bottom-start',
+          };
+          if (contentFn) {
+            config.content = contentFn;
+          }
+          if (onTriggerFn) {
+            config.onTrigger = onTriggerFn;
+          }
+          if (onUntriggerFn) {
+            config.onUntrigger = onUntriggerFn;
+          }
+            config['offset'] = [0,0];
+            config['maxWidth'] = 700;
+          window.tippy(el, config); 
+        }
+        const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+        for (var i=0; i<noterefs.length; i++) {
+          const ref = noterefs[i];
+          tippyHover(ref, function() {
+            // use id or data attribute instead here
+            let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+            try { href = new URL(href).hash; } catch {}
+            const id = href.replace(/^#\/?/, "");
+            const note = window.document.getElementById(id);
+            if (note) {
+              return note.innerHTML;
+            } else {
+              return "";
+            }
+          });
+        }
+        const findCites = (el) => {
+          const parentEl = el.parentElement;
+          if (parentEl) {
+            const cites = parentEl.dataset.cites;
+            if (cites) {
+              return {
+                el,
+                cites: cites.split(' ')
+              };
+            } else {
+              return findCites(el.parentElement)
+            }
+          } else {
+            return undefined;
+          }
+        };
+        var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+        for (var i=0; i<bibliorefs.length; i++) {
+          const ref = bibliorefs[i];
+          const citeInfo = findCites(ref);
+          if (citeInfo) {
+            tippyHover(citeInfo.el, function() {
+              var popup = window.document.createElement('div');
+              citeInfo.cites.forEach(function(cite) {
+                var citeDiv = window.document.createElement('div');
+                citeDiv.classList.add('hanging-indent');
+                citeDiv.classList.add('csl-entry');
+                var biblioDiv = window.document.getElementById('ref-' + cite);
+                if (biblioDiv) {
+                  citeDiv.innerHTML = biblioDiv.innerHTML;
+                }
+                popup.appendChild(citeDiv);
+              });
+              return popup.innerHTML;
+            });
+          }
+        }
+      });
+      </script>
+    
+
+</body></html>
