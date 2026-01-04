@@ -6,16 +6,10 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
-  pages: write
-  id-token: write
-
-concurrency:
-  group: "pages"
-  cancel-in-progress: false
+  contents: write
 
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -31,33 +25,25 @@ jobs:
 
       - name: Prepare deployment files
         run: |
-          mkdir -p _site
+          mkdir -p deploy
           # Copy the rendered HTML as index.html
-          cp presentation/final_presentation.html _site/index.html
+          cp presentation/final_presentation.html deploy/index.html
           # Copy the generated assets
-          cp -r presentation/final_presentation_files _site/ 2>/dev/null || true
+          cp -r presentation/final_presentation_files deploy/ 2>/dev/null || true
           # Copy CSS
-          cp presentation/style.css _site/ 2>/dev/null || true
-          # Copy images from presentation folder (with proper quoting for spaces)
-          cp -r "presentation/images" _site/ 2>/dev/null || true
+          cp presentation/style.css deploy/ 2>/dev/null || true
+          # Copy images from presentation folder
+          cp -r "presentation/images" deploy/ 2>/dev/null || true
           # Also copy images from root folder
-          cp -r images/* _site/images/ 2>/dev/null || true
+          mkdir -p deploy/images
+          cp -r images/* deploy/images/ 2>/dev/null || true
+          # Create a .nojekyll file to bypass Jekyll processing
+          touch deploy/.nojekyll
 
-      - name: Setup Pages
-        uses: actions/configure-pages@v4
-
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+      - name: Deploy to gh-pages branch
+        uses: peaceiris/actions-gh-pages@v4
         with:
-          path: _site
-
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./deploy
+          publish_branch: gh-pages
+          force_orphan: true
