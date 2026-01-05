@@ -12,7 +12,6 @@ format:
     slide-number: c/t
     show-slide-number: all
     logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/R_logo.svg/724px-R_logo.svg.png"
-    footer: "Supervised by Pr. Abdallah Khemais | [GitHub](https://github.com/AymenMB/AeroGuard)"
     width: 1600
     height: 900
     css: style.css
@@ -47,7 +46,7 @@ execute:
 :::
 
 ::: {.column width="45%"}
-![Turbofan Engine](https://upload.wikimedia.org/wikipedia/commons/5/53/Pratt_%26_Whitney_F100_turbofan_engine_cutaway.jpg)
+![Turbofan Engine](images/engine.png)
 :::
 :::
 
@@ -1204,83 +1203,24 @@ curl http://localhost:8000/predict \
 
 # Thank You {background-color="#1a1a2e"}
 
-## Project AeroGuard
-
-**Developer:** Aymen Mabrouk
-
-**Supervisor:** Pr. Abdallah Khemais
-
-**Institution:** Ecole Polytechnique Sousse
-
-::: {.columns}
-::: {.column width="50%"}
-**📊 R Analysis:**
-- Statistical modeling (Cox PH)
-- Unsupervised learning
-- Best RMSE: **17.53** (FD001)
-:::
-
-::: {.column width="50%"}
-**🐍 Python MLOps:**
-- Production-ready API
-- Containerized deployment
-- Optimized RMSE: **50.71**
-:::
-:::
-
----
-
-::: {.fragment}
 ### Questions?
 
-*All notebooks, models, and data available for review.*
-
-**GitHub R Project:** [AymenMB/AeroGuard](https://github.com/AymenMB/AeroGuard)
-
-**GitHub MLOps:** [AymenMB/turbofan-predictive-maintenance-mlops](https://github.com/AymenMB/turbofan-predictive-maintenance-mlops)
-
-**Live Demo:** [aymenmb.github.io/AeroGuard](https://aymenmb.github.io/AeroGuard)
-:::
-
----
-
-## 📚 References
-
 ::: {.columns}
 ::: {.column width="50%"}
-**Data & Research:**
+**Project Links:**
 
-1. NASA C-MAPSS Dataset Documentation
-2. Saxena, A., et al. "Damage Propagation Modeling for Aircraft Engine Run-to-Failure Simulation" (2008)
-3. Heimes, F.O. "Recurrent Neural Networks for Remaining Useful Life Estimation" (2008)
+- **GitHub R:** [AymenMB/AeroGuard](https://github.com/AymenMB/AeroGuard)
+- **GitHub MLOps:** [AymenMB/turbofan-predictive-maintenance-mlops](https://github.com/AymenMB/turbofan-predictive-maintenance-mlops)
+- **Live Demo:** [aymenmb.github.io/AeroGuard](https://aymenmb.github.io/AeroGuard)
 :::
 
 ::: {.column width="50%"}
-**Tools & Frameworks:**
+**References:**
 
-- **R:** tidyverse, survival, randomForest, xgboost, zoo, cluster
-- **Python:** FastAPI, XGBoost, MLflow, ZenML, Optuna, DVC
-- **DevOps:** Docker, GitHub Actions
+1. NASA C-MAPSS Dataset Documentation
+2. Saxena, A., et al. "Damage Propagation Modeling" (2008)
+3. Heimes, F.O. "RNN for RUL Estimation" (2008)
 :::
 :::
 
----
-
-## 🔧 Appendix: How to Render This Presentation
-
-1. **Install Quarto:** https://quarto.org/docs/get-started/
-2. **Navigate to presentation folder:**
-   ```bash
-   cd presentation/
-   ```
-3. **Render to HTML:**
-   ```bash
-   quarto render final_presentation.qmd --to revealjs
-   ```
-4. **Open in browser:** `final_presentation.html`
-
-**Keyboard Shortcuts:**
-- `F`: Fullscreen
-- `S`: Speaker notes
-- `O`: Overview mode
-- `←/→`: Navigate slides
+**Supervised by Pr. Abdallah Khemais | Ecole Polytechnique Sousse**
