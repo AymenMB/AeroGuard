@@ -2,3 +2,6 @@ presentation_cache/
 *.zip
 *.pdf
 .DS_Store
+speech.md
+presentation/speech.md
+PRESENTATION_SPEECH.md
