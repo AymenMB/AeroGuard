@@ -988,6 +988,62 @@ curl http://localhost:8000/predict \
 
 ---
 
+## Complete MLOps Workflow
+
+::: {.incremental}
+1. **DVC** → Version control for 20K+ sensor readings
+2. **MLflow** → Track all experiments and metrics
+3. **ZenML** → Reproducible 4-step pipeline (ingest → clean → train → evaluate)
+4. **Optuna** → Automated hyperparameter search (9 parameters, 20 trials)
+5. **FastAPI** → REST API with Swagger documentation
+6. **Docker** → Containerized deployment with health checks
+7. **GitHub Actions** → Automated CI/CD on every push
+8. **Drift Detection** → Monitor input data quality in production
+:::
+
+---
+
+## Deployment Ready
+
+::: {.columns}
+::: {.column width="60%"}
+**Quick Start:**
+```bash
+# Clone repository
+git clone https://github.com/AymenMB/turbofan-predictive-maintenance-mlops
+
+# Run with Docker
+docker-compose up -d
+
+# Test API
+curl http://localhost:8000/predict \
+  -d '{"s_2": 641.82, "s_3": 1589.70, ...}'
+```
+
+**Response:**
+```json
+{
+  "RUL": 112.45,
+  "status": "Healthy",
+  "confidence": "High"
+}
+```
+:::
+
+::: {.column width="40%"}
+**API Endpoints:**
+
+- `GET /health` → Status check
+- `POST /predict` → RUL prediction
+- `GET /monitoring` → Drift detection
+- `GET /docs` → Swagger UI
+
+*Interactive documentation at `/docs`*
+:::
+:::
+
+---
+
 # Summary & Conclusions {background-color="#1a1a2e"}
 
 ---
