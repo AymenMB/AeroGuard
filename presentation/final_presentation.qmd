@@ -788,51 +788,50 @@ Combine everything we learned into a single unified pipeline.
 
 ---
 
-## 🏗️ The Unified Pipeline Architecture
+## The Unified Pipeline Architecture {.scrollable}
 
-::: {style="font-size: 0.45em; line-height: 1.1; overflow-y: hidden;"}
 ```
-┌─────────────────────────────────────────────────────────────┐
-│                      RAW SENSOR DATA                         │
-└─────────────────────────────────────────────────────────────┘
-                              │
-                              ▼
-┌─────────────────────────────────────────────────────────────┐
-│  STEP 1: REGIME RECOGNITION (K-Means, k=6)                  │
-│  → Identify operating condition from settings               │
-└─────────────────────────────────────────────────────────────┘
-                              │
-                              ▼
-┌─────────────────────────────────────────────────────────────┐
-│  STEP 2: REGIME NORMALIZATION (Z-Score per Regime)          │
-│  → Remove altitude/speed effects from sensors               │
-└─────────────────────────────────────────────────────────────┘
-                              │
-                              ▼
-┌─────────────────────────────────────────────────────────────┐
-│  STEP 3: FAULT CLASSIFICATION (Random Forest)               │
-│  → Diagnose failure mechanism (Fault 0 vs Fault 1)          │
-└─────────────────────────────────────────────────────────────┘
-                              │
-                              ▼
-┌─────────────────────────────────────────────────────────────┐
-│  STEP 4: FEATURE ENGINEERING (Rolling Statistics)           │
-│  → Calculate trend and volatility metrics                   │
-└─────────────────────────────────────────────────────────────┘
-                              │
-                              ▼
-┌─────────────────────────────────────────────────────────────┐
-│  STEP 5: ENSEMBLE REGRESSION (XGBoost)                      │
-│  → Predict RUL using sensors + regime + fault context       │
-└─────────────────────────────────────────────────────────────┘
-                              │
-                              ▼
-┌─────────────────────────────────────────────────────────────┐
-│  STEP 6: PHYSICS SMOOTHING (EMA)                            │
-│  → Enforce smooth degradation for deployment                │
-└─────────────────────────────────────────────────────────────┘
+┌─────────────────────────────────────────────────────────────────────┐
+│                         RAW SENSOR DATA                              │
+│               (21 sensors × 248 engines × 200+ cycles)               │
+└─────────────────────────────────────────────────────────────────────┘
+                                    │
+                                    ▼
+┌─────────────────────────────────────────────────────────────────────┐
+│  STEP 1: REGIME RECOGNITION                                         │
+│  K-Means (k=6) → Identify operating condition from settings          │
+└─────────────────────────────────────────────────────────────────────┘
+                                    │
+                                    ▼
+┌─────────────────────────────────────────────────────────────────────┐
+│  STEP 2: REGIME NORMALIZATION                                        │
+│  Z-Score per Regime → Remove altitude/speed effects                  │
+└─────────────────────────────────────────────────────────────────────┘
+                                    │
+                                    ▼
+┌─────────────────────────────────────────────────────────────────────┐
+│  STEP 3: FAULT CLASSIFICATION                                        │
+│  Random Forest → Diagnose failure mechanism (Fault 0 vs Fault 1)     │
+└─────────────────────────────────────────────────────────────────────┘
+                                    │
+                                    ▼
+┌─────────────────────────────────────────────────────────────────────┐
+│  STEP 4: FEATURE ENGINEERING                                         │
+│  Rolling Statistics → Trend and volatility metrics                   │
+└─────────────────────────────────────────────────────────────────────┘
+                                    │
+                                    ▼
+┌─────────────────────────────────────────────────────────────────────┐
+│  STEP 5: ENSEMBLE REGRESSION                                         │
+│  XGBoost → Predict RUL using sensors + regime + fault context        │
+└─────────────────────────────────────────────────────────────────────┘
+                                    │
+                                    ▼
+┌─────────────────────────────────────────────────────────────────────┐
+│  STEP 6: PHYSICS SMOOTHING                                           │
+│  EMA Filter → Enforce smooth degradation for deployment              │
+└─────────────────────────────────────────────────────────────────────┘
 ```
-:::
 
 ---
 
@@ -1131,94 +1130,44 @@ curl http://localhost:8000/predict \
 
 ---
 
-## 📁 Deliverables & Reproducibility
-
-**Models Saved:**
-- `aircraft_engine_rul_predictor.rds` (FD001 Random Forest)
-- `FD002_RF_Model.rds`, `FD002_XGB_Model.rds` (Hybrid Ensemble)
-- `FD003_Fault_Classifier.rds`, `FD003_RUL_XGBoost.rds`
-- `FD004_Regime_Clustering.rds`, `FD004_Fault_Classifier.rds`, `FD004_XGBoost_Model.rds`
-
-**Data Exports:**
-- `processed_engine_data.csv`
-- `FD002_Final_Predictions.csv`
-- `FD003_Final_Predictions.csv`
-- `FD004_Final_Predictions.csv`
-
-**Notebooks:** Full reproducible analysis in `notebooks/` folder.
-
----
-
-## 🚀 Future Work {background-color="#1a1a2e"}
-
-::: {.incremental}
-1. **Deep Learning:**
-   - LSTM/GRU for temporal sequence modeling
-   - Attention mechanisms for sensor importance
-   
-2. **Online Learning:**
-   - Real-time model updates as new data arrives
-   - Concept drift detection for regime changes
-
-3. **Uncertainty Quantification:**
-   - Confidence intervals for RUL predictions
-   - Bayesian approaches for risk assessment
-
-4. **Deployment:**
-   - Edge computing for real-time inference
-   - Integration with airline maintenance systems
-:::
-
----
-
-## Questions Anticipées & Réponses {background-color="#34495e"}
+# Future Work {background-color="#1a1a2e"}
 
 ::: {.columns}
 ::: {.column width="50%"}
-**Q: Pourquoi XGBoost plutôt que Deep Learning (LSTM)?**
+**1. Deep Learning:**
 
-→ **Interprétabilité:** Feature importance visible
-→ **Performance comparable:** RMSE compétitif sans GPU
-→ **Moins de données:** 20K observations suffisantes
+- LSTM/GRU for temporal sequence modeling
+- Attention mechanisms for sensor importance
 
----
+**2. Online Learning:**
 
-**Q: Comment gérer le concept drift en production?**
-
-→ Monitoring avec détection de dérive statistique
-→ Rolling window pour détection online
-→ Réentraînement périodique planifié
+- Real-time model updates as new data arrives
+- Concept drift detection for regime changes
 :::
 
 ::: {.column width="50%"}
-**Q: Pourquoi le RUL clipping à 125 cycles?**
+**3. Uncertainty Quantification:**
 
-→ Standard industriel (NASA guidelines)
-→ Moteurs sains ont des capteurs stables
-→ Réduit le bruit d'entraînement
+- Confidence intervals for RUL predictions
+- Bayesian approaches for risk assessment
 
----
+**4. Deployment:**
 
-**Q: Limitation principale du modèle?**
-
-→ Généralisation limitée aux moteurs C-MAPSS
-→ Nécessite calibration pour autres fabricants
-→ Pas de validation temps-réel embarquée (yet)
+- Edge computing for real-time inference
+- Integration with airline maintenance systems
 :::
 :::
 
 ---
 
-# Thank You {background-color="#1a1a2e"}
-
-### Questions?
+# Thank You! {background-color="#1a1a2e"}
 
 ::: {.columns}
 ::: {.column width="50%"}
 **Project Links:**
 
 - **GitHub R:** [AymenMB/AeroGuard](https://github.com/AymenMB/AeroGuard)
-- **GitHub MLOps:** [AymenMB/turbofan-predictive-maintenance-mlops](https://github.com/AymenMB/turbofan-predictive-maintenance-mlops)
+- **GitHub MLOps:** [turbofan-predictive-maintenance-mlops](https://github.com/AymenMB/turbofan-predictive-maintenance-mlops)
 - **Live Demo:** [aymenmb.github.io/AeroGuard](https://aymenmb.github.io/AeroGuard)
 :::
 
@@ -1230,5 +1179,7 @@ curl http://localhost:8000/predict \
 3. Heimes, F.O. "RNN for RUL Estimation" (2008)
 :::
 :::
+
+**Questions?**
 
 **Supervised by Pr. Abdallah Khemais | Ecole Polytechnique Sousse**
