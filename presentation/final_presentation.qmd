@@ -27,221 +27,203 @@ execute:
   cache: true
 ---
 
-# 💰 The $50 Billion Question {background-color="#1a1a2e" .hero}
+# The Challenge {background-color="#1a1a2e"}
 
 ::: {.columns}
 ::: {.column width="55%"}
-::: {.fragment .fade-in}
-A single **turbofan engine** costs **$10-35 million**
-:::
+**The Problem:**
 
-::: {.fragment .fade-in}
-**Unplanned maintenance** costs **10x more** than scheduled
-:::
+- A turbofan engine costs **$10-35 million**
+- Unplanned maintenance costs **10x more** than scheduled
+- One wrong prediction = Grounded fleet
 
-::: {.fragment .fade-in}
-**One wrong prediction** = Grounded fleet or catastrophic failure
-:::
+**The Question:**
 
-::: {.fragment .fade-up style="margin-top: 1.5em;"}
-### The Question:
-**"How many flights before this engine fails?"**
-:::
+> *"How many flights before this engine fails?"*
+
+**Our Solution:**
+
+**Predictive Maintenance** using Machine Learning on NASA sensor data
 :::
 
 ::: {.column width="45%"}
-![](https://upload.wikimedia.org/wikipedia/commons/5/53/Pratt_%26_Whitney_F100_turbofan_engine_cutaway.jpg)
+![Turbofan Engine](https://upload.wikimedia.org/wikipedia/commons/5/53/Pratt_%26_Whitney_F100_turbofan_engine_cutaway.jpg)
 :::
 :::
 
 ---
 
-## 🎯 What We Predict: Remaining Useful Life (RUL) {auto-animate=true}
+## What We Predict: RUL (Remaining Useful Life) {auto-animate=true}
 
 ::: {.columns}
 ::: {.column width="50%"}
-**The Concept:**
+**Definition:**
 
-- Engine starts **HEALTHY** (RUL = 200 cycles)
-- Engine **DEGRADES** over time
-- Our AI predicts: **"How many cycles left?"**
+$$RUL = MaxCycle - CurrentCycle$$
 
-**The Formula:**
-$$\huge RUL = MaxCycle - CurrentCycle$$
+**Example:**
 
-**Example:**  
-Engine ran 150 cycles, failed at 200  
-→ At cycle 150: **RUL = 50 cycles**
+| Cycle | Max Cycle | RUL |
+|:-----:|:---------:|:---:|
+| 1 | 200 | 199 |
+| 100 | 200 | 100 |
+| 150 | 200 | **50** |
+| 200 | 200 | 0 (Failure) |
+
+**Business Impact:**
+
+- Predict high RUL → Engine is safe
+- Predict low RUL → Schedule maintenance NOW
 :::
 
 ::: {.column width="50%"}
+**The Degradation Curve:**
+
 ```
-        HEALTHY                    FAILURE
-           │                          │
-   ┌───────┴───────┬──────────────────┴───┐
-   │               │                      │
-   ▼               ▼                      ▼
-Cycle 1      Cycle 150              Cycle 200
-RUL=199      RUL=50 ← PREDICT THIS  RUL=0
+     Sensor Reading
+          ▲
+          │     ╭──────────╮
+          │    ╱            ╲
+          │   ╱              ╲
+          │  ╱                ╲
+          │ ╱                  ╲ ← FAILURE
+          │╱                    
+          └────────────────────▶ Time (Cycles)
+              HEALTHY    DEGRADED
 ```
 
-::: {.fragment .fade-up}
-**Business Impact:**  
-✅ Predict early → Schedule maintenance  
-❌ Predict late → Engine fails in flight
-:::
+**Goal:** Predict RUL accurately using **21 sensors**
 :::
 :::
 
 ---
 
-## 📂 The Dataset: NASA C-MAPSS {auto-animate=true}
+## NASA C-MAPSS Dataset {auto-animate=true}
 
 ::: {.columns}
-::: {.column width="45%"}
-**What is C-MAPSS?**
+::: {.column width="50%"}
+**About the Dataset:**
 
 - Created by **NASA** for research
-- **Simulated** but highly realistic
-- Engines "fly" until they break
+- **Simulated** turbofan degradation
+- Run-to-failure data (engines break)
 
-**Format:** `.txt` files (space-separated)
+**File Format:** `.txt` (space-separated)
 
 **Structure:** 26 columns
-- Column 1: `unit_id` (engine number)
-- Column 2: `cycle` (flight number)
-- Columns 3-5: `settings` (flight conditions)
-- Columns 6-26: `sensors` (21 measurements)
+
+| Columns | Content |
+|:--------|:--------|
+| 1 | `unit_id` (engine #) |
+| 2 | `cycle` (time step) |
+| 3-5 | `settings` (flight conditions) |
+| 6-26 | `sensors` (21 measurements) |
 :::
 
-::: {.column width="55%"}
+::: {.column width="50%"}
 **The 3 File Types:**
 
-::: {.dataset-card}
-📗 **train_FD001.txt** — Full History  
-Engines run **until failure** (RUL=0 at end)
-:::
+**1. train_FD001.txt**
+- Full history until failure
+- Used to train the model
 
-::: {.dataset-card .test}
-📕 **test_FD001.txt** — Partial History  
-Stops **before failure** → We predict remaining RUL
-:::
+**2. test_FD001.txt**
+- Partial history (stops before failure)
+- We predict the remaining RUL
 
-::: {.dataset-card .rul}
-📙 **RUL_FD001.txt** — Ground Truth  
-Real RUL values to evaluate our predictions
-:::
+**3. RUL_FD001.txt**
+- Ground truth answers
+- Used to evaluate predictions
 :::
 :::
 
 ---
 
-## 🔢 FD001 → FD004: From Simple to Ultimate {auto-animate=true}
+## Dataset Variants: FD001 to FD004 {auto-animate=true}
 
-| Dataset | Flight Conditions | Fault Types | Engines | Difficulty |
+| Dataset | Flight Conditions | Fault Types | Engines | Complexity |
 |:--------|:-----------------:|:-----------:|:-------:|:-----------|
-| **FD001** | 1 (Sea Level) | 1 (HPC) | 100 | ⭐ Baseline |
-| **FD002** | 6 (Multi-Altitude) | 1 (HPC) | 260 | ⭐⭐⭐ Hard |
-| **FD003** | 1 (Sea Level) | 2 (HPC + Fan) | 100 | ⭐⭐ Medium |
-| **FD004** | 6 | 2 | 248 | ⭐⭐⭐⭐ Ultimate |
+| **FD001** | 1 (Sea Level) | 1 (HPC) | 100 | Baseline |
+| **FD002** | 6 (Multi-Altitude) | 1 (HPC) | 260 | Hard |
+| **FD003** | 1 (Sea Level) | 2 (HPC + Fan) | 100 | Medium |
+| **FD004** | 6 | 2 | 248 | **Ultimate** |
 
-::: {.fragment .fade-up}
 ::: {.callout-note}
 **HPC** = High-Pressure Compressor degradation  
 **Fan** = Fan blade erosion  
-**We tackled ALL 4 datasets** with increasing complexity!
-:::
+**We analyzed ALL 4 datasets** with increasing complexity!
 :::
 
 ---
 
-## 🚀 AeroGuard: Our 3-Pillar Solution {auto-animate=true}
+## AeroGuard: Our Approach {auto-animate=true}
 
 ::: {.columns}
 ::: {.column width="33%"}
-::: {.stat-box}
-[1]{.number}
-[Statistical Analysis]{.label}
-:::
+**1. Statistical Analysis**
 
-**Cox Proportional Hazards**
-
-- Find which sensors predict failure
-- Quantify hazard ratios
-- Survival curves by fault type
+- Cox Proportional Hazards
+- Identify killer sensors
+- Hazard ratios
+- Survival curves
 :::
 
 ::: {.column width="33%"}
-::: {.stat-box}
-[2]{.number}
-[Unsupervised Learning]{.label}
-:::
+**2. Unsupervised Learning**
 
-**K-Means + Hierarchical**
-
-- Detect operating regimes
-- Isolate fault signatures
-- Cluster engines by behavior
+- K-Means Clustering
+- Hierarchical Clustering
+- Regime detection
+- Fault isolation
 :::
 
 ::: {.column width="33%"}
-::: {.stat-box}
-[3]{.number}
-[Ensemble ML]{.label}
-:::
+**3. Ensemble ML**
 
-**Random Forest + XGBoost**
-
-- Gradient boosting for accuracy
-- Feature importance analysis
-- Physics-based smoothing
+- Random Forest
+- XGBoost
+- Feature engineering
+- Physics smoothing
 :::
 :::
 
 ---
 
-## 🏆 The Scoreboard {auto-animate=true}
+## Results Summary {auto-animate=true}
 
-| Phase | Dataset | Challenge | Our Method | RMSE | Status |
-|:---:|:---|:---|:---|:---:|:---:|
-| 1 | **FD001** | Baseline | Cox + Random Forest | **17.53** | ✅ Excellent |
-| 2 | **FD002** | 6 Regimes | K-Means + Hybrid | **26.54** | ✅ Good |
-| 3 | **FD003** | 2 Faults | Hierarchical + XGB | **20.05** | ✅ Excellent |
-| 4 | **FD004** | Combined | Grand Unified | **32.97** | ✅ Competitive |
+| Dataset | Challenge | Method | RMSE | Status |
+|:--------|:----------|:-------|:----:|:------:|
+| FD001 | Baseline | Cox + Random Forest | **17.53** | Excellent |
+| FD002 | 6 Regimes | K-Means + Hybrid | **26.54** | Good |
+| FD003 | 2 Faults | Hierarchical + XGB | **20.05** | Excellent |
+| FD004 | Combined | Grand Unified | **32.97** | Competitive |
 
-::: {.fragment .fade-up}
-**RMSE Interpretation:**  
-< 20 = Excellent | 20-30 = Good | 30-40 = Competitive
-:::
+**RMSE < 20** = Excellent | **20-30** = Good | **30-40** = Competitive
 
 ---
 
-## 📓 Resources & Links
+## Project Resources {auto-animate=true}
 
 ::: {.columns}
 ::: {.column width="50%"}
-**Interactive Notebooks:**
+**Notebooks:**
 
-| # | Notebook | Focus |
-|:-:|:---------|:------|
-| 1 | `Engine_Predictive_Maintenance.ipynb` | FD001 Baseline |
-| 2 | `AeroGuard_FD002_MultiRegime.ipynb` | Multi-Regime |
-| 3 | `AeroGuard_FD003_Diagnostics.ipynb` | Multi-Fault |
-| 4 | `AeroGuard_FD004_Ultimate.ipynb` | Grand Unified |
+| # | Notebook | Dataset |
+|:-:|:---------|:--------|
+| 1 | Engine_Predictive_Maintenance | FD001 |
+| 2 | AeroGuard_FD002_MultiRegime | FD002 |
+| 3 | AeroGuard_FD003_Diagnostics | FD003 |
+| 4 | AeroGuard_FD004_Ultimate | FD004 |
 :::
 
 ::: {.column width="50%"}
-**Quick Links:**
+**Links:**
 
-- 🔗 **GitHub:** [AymenMB/AeroGuard](https://github.com/AymenMB/AeroGuard)
-- 🌐 **Live:** [aymenmb.github.io/AeroGuard](https://aymenmb.github.io/AeroGuard)
-- 📊 **Dataset:** [NASA C-MAPSS](https://data.nasa.gov)
+- **GitHub:** [AymenMB/AeroGuard](https://github.com/AymenMB/AeroGuard)
+- **Live:** [aymenmb.github.io/AeroGuard](https://aymenmb.github.io/AeroGuard)
+- **Dataset:** [NASA C-MAPSS](https://data.nasa.gov)
 
-**Technologies:**
-
-![R](https://img.shields.io/badge/R-276DC3?logo=r&logoColor=white)
-![Quarto](https://img.shields.io/badge/Quarto-75AADB?logo=quarto&logoColor=white)
-![XGBoost](https://img.shields.io/badge/XGBoost-FF6600?logo=xgboost&logoColor=white)
+**Technologies:** R, Quarto, XGBoost, RevealJS
 :::
 :::
 

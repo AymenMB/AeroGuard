@@ -212,88 +212,136 @@ Aymen Mabrouk
   <p class="date">2026-01-05</p>
 </section>
 <section>
-<section id="the-50-billion-question" class="title-slide slide level1 hero center" data-background-color="#1a1a2e">
-<h1>💰 The $50 Billion Question</h1>
-
-</section>
+<section id="the-challenge" class="title-slide slide level1 center" data-background-color="#1a1a2e">
+<h1>The Challenge</h1>
 <div class="columns">
 <div class="column" style="width:55%;">
-<div class="fragment fade-in">
-<p>A single <strong>turbofan engine</strong> costs <strong>$10-35 million</strong></p>
-</div>
-<div class="fragment fade-in">
-<p><strong>Unplanned maintenance</strong> costs <strong>10x more</strong> than scheduled</p>
-</div>
-<div class="fragment fade-in">
-<p><strong>One wrong prediction</strong> = Grounded fleet or catastrophic failure</p>
-</div>
-<div class="fragment fade-up" style="margin-top: 1.5em;">
-<h3 id="the-question">The Question:</h3>
-<p><strong>“How many flights before this engine fails?”</strong></p>
-</div>
+<p><strong>The Problem:</strong></p>
+<ul>
+<li>A turbofan engine costs <strong>$10-35 million</strong></li>
+<li>Unplanned maintenance costs <strong>10x more</strong> than scheduled</li>
+<li>One wrong prediction = Grounded fleet</li>
+</ul>
+<p><strong>The Question:</strong></p>
+<blockquote>
+<p><em>“How many flights before this engine fails?”</em></p>
+</blockquote>
+<p><strong>Our Solution:</strong></p>
+<p><strong>Predictive Maintenance</strong> using Machine Learning on NASA sensor data</p>
 </div><div class="column" style="width:45%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
 <p><img data-src="https://upload.wikimedia.org/wikipedia/commons/5/53/Pratt_%26_Whitney_F100_turbofan_engine_cutaway.jpg"></p>
+<figcaption>Turbofan Engine</figcaption>
+</figure>
 </div>
-</div>
-<section id="what-we-predict-remaining-useful-life-rul" class="slide level2" data-auto-animate="true">
-<h2 data-id="quarto-animate-title">🎯 What We Predict: Remaining Useful Life (RUL)</h2>
+</div></div>
+</section>
+<section id="what-we-predict-rul-remaining-useful-life" class="slide level2" data-auto-animate="true">
+<h2 data-id="quarto-animate-title">What We Predict: RUL (Remaining Useful Life)</h2>
 <div class="columns">
 <div class="column" style="width:50%;">
-<p><strong>The Concept:</strong></p>
+<p><strong>Definition:</strong></p>
+<p><span class="math display">\[RUL = MaxCycle - CurrentCycle\]</span></p>
+<p><strong>Example:</strong></p>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: center;">Cycle</th>
+<th style="text-align: center;">Max Cycle</th>
+<th style="text-align: center;">RUL</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">200</td>
+<td style="text-align: center;">199</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">100</td>
+<td style="text-align: center;">200</td>
+<td style="text-align: center;">100</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">150</td>
+<td style="text-align: center;">200</td>
+<td style="text-align: center;"><strong>50</strong></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">200</td>
+<td style="text-align: center;">200</td>
+<td style="text-align: center;">0 (Failure)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Business Impact:</strong></p>
 <ul>
-<li>Engine starts <strong>HEALTHY</strong> (RUL = 200 cycles)</li>
-<li>Engine <strong>DEGRADES</strong> over time</li>
-<li>Our AI predicts: <strong>“How many cycles left?”</strong></li>
+<li>Predict high RUL → Engine is safe</li>
+<li>Predict low RUL → Schedule maintenance NOW</li>
 </ul>
-<p><strong>The Formula:</strong> <span class="math display">\[\huge RUL = MaxCycle - CurrentCycle\]</span></p>
-<p><strong>Example:</strong><br>
-Engine ran 150 cycles, failed at 200<br>
-→ At cycle 150: <strong>RUL = 50 cycles</strong></p>
 </div><div class="column" style="width:50%;">
-<pre><code>        HEALTHY                    FAILURE
-           │                          │
-   ┌───────┴───────┬──────────────────┴───┐
-   │               │                      │
-   ▼               ▼                      ▼
-Cycle 1      Cycle 150              Cycle 200
-RUL=199      RUL=50 ← PREDICT THIS  RUL=0</code></pre>
-<div class="fragment fade-up">
-<p><strong>Business Impact:</strong><br>
-✅ Predict early → Schedule maintenance<br>
-❌ Predict late → Engine fails in flight</p>
-</div>
+<p><strong>The Degradation Curve:</strong></p>
+<pre><code>     Sensor Reading
+          ▲
+          │     ╭──────────╮
+          │    ╱            ╲
+          │   ╱              ╲
+          │  ╱                ╲
+          │ ╱                  ╲ ← FAILURE
+          │╱                    
+          └────────────────────▶ Time (Cycles)
+              HEALTHY    DEGRADED</code></pre>
+<p><strong>Goal:</strong> Predict RUL accurately using <strong>21 sensors</strong></p>
 </div></div>
 </section>
-<section id="the-dataset-nasa-c-mapss" class="slide level2" data-auto-animate="true">
-<h2 data-id="quarto-animate-title">📂 The Dataset: NASA C-MAPSS</h2>
+<section id="nasa-c-mapss-dataset" class="slide level2" data-auto-animate="true">
+<h2 data-id="quarto-animate-title">NASA C-MAPSS Dataset</h2>
 <div class="columns">
-<div class="column" style="width:45%;">
-<p><strong>What is C-MAPSS?</strong></p>
+<div class="column" style="width:50%;">
+<p><strong>About the Dataset:</strong></p>
 <ul>
 <li>Created by <strong>NASA</strong> for research</li>
-<li><strong>Simulated</strong> but highly realistic</li>
-<li>Engines “fly” until they break</li>
+<li><strong>Simulated</strong> turbofan degradation</li>
+<li>Run-to-failure data (engines break)</li>
 </ul>
-<p><strong>Format:</strong> <code>.txt</code> files (space-separated)</p>
-<p><strong>Structure:</strong> 26 columns - Column 1: <code>unit_id</code> (engine number) - Column 2: <code>cycle</code> (flight number) - Columns 3-5: <code>settings</code> (flight conditions) - Columns 6-26: <code>sensors</code> (21 measurements)</p>
-</div><div class="column" style="width:55%;">
+<p><strong>File Format:</strong> <code>.txt</code> (space-separated)</p>
+<p><strong>Structure:</strong> 26 columns</p>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Columns</th>
+<th style="text-align: left;">Content</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">1</td>
+<td style="text-align: left;"><code>unit_id</code> (engine #)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2</td>
+<td style="text-align: left;"><code>cycle</code> (time step)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">3-5</td>
+<td style="text-align: left;"><code>settings</code> (flight conditions)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">6-26</td>
+<td style="text-align: left;"><code>sensors</code> (21 measurements)</td>
+</tr>
+</tbody>
+</table>
+</div><div class="column" style="width:50%;">
 <p><strong>The 3 File Types:</strong></p>
-<div class="dataset-card">
-<p>📗 <strong>train_FD001.txt</strong> — Full History<br>
-Engines run <strong>until failure</strong> (RUL=0 at end)</p>
-</div>
-<div class="dataset-card test">
-<p>📕 <strong>test_FD001.txt</strong> — Partial History<br>
-Stops <strong>before failure</strong> → We predict remaining RUL</p>
-</div>
-<div class="dataset-card rul">
-<p>📙 <strong>RUL_FD001.txt</strong> — Ground Truth<br>
-Real RUL values to evaluate our predictions</p>
-</div>
+<p><strong>1. train_FD001.txt</strong> - Full history until failure - Used to train the model</p>
+<p><strong>2. test_FD001.txt</strong> - Partial history (stops before failure) - We predict the remaining RUL</p>
+<p><strong>3. RUL_FD001.txt</strong> - Ground truth answers - Used to evaluate predictions</p>
 </div></div>
 </section>
-<section id="fd001-fd004-from-simple-to-ultimate" class="slide level2" data-auto-animate="true">
-<h2 data-id="quarto-animate-title">🔢 FD001 → FD004: From Simple to Ultimate</h2>
+<section id="dataset-variants-fd001-to-fd004" class="slide level2" data-auto-animate="true">
+<h2 data-id="quarto-animate-title">Dataset Variants: FD001 to FD004</h2>
 <table class="caption-top">
 <thead>
 <tr class="header">
@@ -301,7 +349,7 @@ Real RUL values to evaluate our predictions</p>
 <th style="text-align: center;">Flight Conditions</th>
 <th style="text-align: center;">Fault Types</th>
 <th style="text-align: center;">Engines</th>
-<th style="text-align: left;">Difficulty</th>
+<th style="text-align: left;">Complexity</th>
 </tr>
 </thead>
 <tbody>
@@ -310,32 +358,31 @@ Real RUL values to evaluate our predictions</p>
 <td style="text-align: center;">1 (Sea Level)</td>
 <td style="text-align: center;">1 (HPC)</td>
 <td style="text-align: center;">100</td>
-<td style="text-align: left;">⭐ Baseline</td>
+<td style="text-align: left;">Baseline</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;"><strong>FD002</strong></td>
 <td style="text-align: center;">6 (Multi-Altitude)</td>
 <td style="text-align: center;">1 (HPC)</td>
 <td style="text-align: center;">260</td>
-<td style="text-align: left;">⭐⭐⭐ Hard</td>
+<td style="text-align: left;">Hard</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;"><strong>FD003</strong></td>
 <td style="text-align: center;">1 (Sea Level)</td>
 <td style="text-align: center;">2 (HPC + Fan)</td>
 <td style="text-align: center;">100</td>
-<td style="text-align: left;">⭐⭐ Medium</td>
+<td style="text-align: left;">Medium</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;"><strong>FD004</strong></td>
 <td style="text-align: center;">6</td>
 <td style="text-align: center;">2</td>
 <td style="text-align: center;">248</td>
-<td style="text-align: left;">⭐⭐⭐⭐ Ultimate</td>
+<td style="text-align: left;"><strong>Ultimate</strong></td>
 </tr>
 </tbody>
 </table>
-<div class="fragment fade-up">
 <div class="callout callout-note callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
@@ -347,153 +394,129 @@ Real RUL values to evaluate our predictions</p>
 <div class="callout-content">
 <p><strong>HPC</strong> = High-Pressure Compressor degradation<br>
 <strong>Fan</strong> = Fan blade erosion<br>
-<strong>We tackled ALL 4 datasets</strong> with increasing complexity!</p>
-</div>
+<strong>We analyzed ALL 4 datasets</strong> with increasing complexity!</p>
 </div>
 </div>
 </div>
 </section>
-<section id="aeroguard-our-3-pillar-solution" class="slide level2" data-auto-animate="true">
-<h2 data-id="quarto-animate-title">🚀 AeroGuard: Our 3-Pillar Solution</h2>
+<section id="aeroguard-our-approach" class="slide level2" data-auto-animate="true">
+<h2 data-id="quarto-animate-title">AeroGuard: Our Approach</h2>
 <div class="columns">
 <div class="column" style="width:33%;">
-<div class="stat-box">
-<p><span class="number">1</span> <span class="label">Statistical Analysis</span></p>
-</div>
-<p><strong>Cox Proportional Hazards</strong></p>
+<p><strong>1. Statistical Analysis</strong></p>
 <ul>
-<li>Find which sensors predict failure</li>
-<li>Quantify hazard ratios</li>
-<li>Survival curves by fault type</li>
+<li>Cox Proportional Hazards</li>
+<li>Identify killer sensors</li>
+<li>Hazard ratios</li>
+<li>Survival curves</li>
 </ul>
 </div><div class="column" style="width:33%;">
-<div class="stat-box">
-<p><span class="number">2</span> <span class="label">Unsupervised Learning</span></p>
-</div>
-<p><strong>K-Means + Hierarchical</strong></p>
+<p><strong>2. Unsupervised Learning</strong></p>
 <ul>
-<li>Detect operating regimes</li>
-<li>Isolate fault signatures</li>
-<li>Cluster engines by behavior</li>
+<li>K-Means Clustering</li>
+<li>Hierarchical Clustering</li>
+<li>Regime detection</li>
+<li>Fault isolation</li>
 </ul>
 </div><div class="column" style="width:33%;">
-<div class="stat-box">
-<p><span class="number">3</span> <span class="label">Ensemble ML</span></p>
-</div>
-<p><strong>Random Forest + XGBoost</strong></p>
+<p><strong>3. Ensemble ML</strong></p>
 <ul>
-<li>Gradient boosting for accuracy</li>
-<li>Feature importance analysis</li>
-<li>Physics-based smoothing</li>
+<li>Random Forest</li>
+<li>XGBoost</li>
+<li>Feature engineering</li>
+<li>Physics smoothing</li>
 </ul>
 </div></div>
 </section>
-<section id="the-scoreboard" class="slide level2" data-auto-animate="true">
-<h2 data-id="quarto-animate-title">🏆 The Scoreboard</h2>
-<table class="caption-top" style="width:100%;">
-<colgroup>
-<col style="width: 18%">
-<col style="width: 14%">
-<col style="width: 14%">
-<col style="width: 14%">
-<col style="width: 18%">
-<col style="width: 18%">
-</colgroup>
+<section id="results-summary" class="slide level2" data-auto-animate="true">
+<h2 data-id="quarto-animate-title">Results Summary</h2>
+<table class="caption-top">
 <thead>
 <tr class="header">
-<th style="text-align: center;">Phase</th>
 <th style="text-align: left;">Dataset</th>
 <th style="text-align: left;">Challenge</th>
-<th style="text-align: left;">Our Method</th>
+<th style="text-align: left;">Method</th>
 <th style="text-align: center;">RMSE</th>
 <th style="text-align: center;">Status</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: center;">1</td>
-<td style="text-align: left;"><strong>FD001</strong></td>
+<td style="text-align: left;">FD001</td>
 <td style="text-align: left;">Baseline</td>
 <td style="text-align: left;">Cox + Random Forest</td>
 <td style="text-align: center;"><strong>17.53</strong></td>
-<td style="text-align: center;">✅ Excellent</td>
+<td style="text-align: center;">Excellent</td>
 </tr>
 <tr class="even">
-<td style="text-align: center;">2</td>
-<td style="text-align: left;"><strong>FD002</strong></td>
+<td style="text-align: left;">FD002</td>
 <td style="text-align: left;">6 Regimes</td>
 <td style="text-align: left;">K-Means + Hybrid</td>
 <td style="text-align: center;"><strong>26.54</strong></td>
-<td style="text-align: center;">✅ Good</td>
+<td style="text-align: center;">Good</td>
 </tr>
 <tr class="odd">
-<td style="text-align: center;">3</td>
-<td style="text-align: left;"><strong>FD003</strong></td>
+<td style="text-align: left;">FD003</td>
 <td style="text-align: left;">2 Faults</td>
 <td style="text-align: left;">Hierarchical + XGB</td>
 <td style="text-align: center;"><strong>20.05</strong></td>
-<td style="text-align: center;">✅ Excellent</td>
+<td style="text-align: center;">Excellent</td>
 </tr>
 <tr class="even">
-<td style="text-align: center;">4</td>
-<td style="text-align: left;"><strong>FD004</strong></td>
+<td style="text-align: left;">FD004</td>
 <td style="text-align: left;">Combined</td>
 <td style="text-align: left;">Grand Unified</td>
 <td style="text-align: center;"><strong>32.97</strong></td>
-<td style="text-align: center;">✅ Competitive</td>
+<td style="text-align: center;">Competitive</td>
 </tr>
 </tbody>
 </table>
-<div class="fragment fade-up">
-<p><strong>RMSE Interpretation:</strong><br>
-&lt; 20 = Excellent | 20-30 = Good | 30-40 = Competitive</p>
-</div>
+<p><strong>RMSE &lt; 20</strong> = Excellent | <strong>20-30</strong> = Good | <strong>30-40</strong> = Competitive</p>
 </section>
-<section id="resources-links" class="slide level2">
-<h2>📓 Resources &amp; Links</h2>
+<section id="project-resources" class="slide level2" data-auto-animate="true">
+<h2 data-id="quarto-animate-title">Project Resources</h2>
 <div class="columns">
 <div class="column" style="width:50%;">
-<p><strong>Interactive Notebooks:</strong></p>
+<p><strong>Notebooks:</strong></p>
 <table class="caption-top">
 <thead>
 <tr class="header">
 <th style="text-align: center;">#</th>
 <th style="text-align: left;">Notebook</th>
-<th style="text-align: left;">Focus</th>
+<th style="text-align: left;">Dataset</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td style="text-align: center;">1</td>
-<td style="text-align: left;"><code>Engine_Predictive_Maintenance.ipynb</code></td>
-<td style="text-align: left;">FD001 Baseline</td>
+<td style="text-align: left;">Engine_Predictive_Maintenance</td>
+<td style="text-align: left;">FD001</td>
 </tr>
 <tr class="even">
 <td style="text-align: center;">2</td>
-<td style="text-align: left;"><code>AeroGuard_FD002_MultiRegime.ipynb</code></td>
-<td style="text-align: left;">Multi-Regime</td>
+<td style="text-align: left;">AeroGuard_FD002_MultiRegime</td>
+<td style="text-align: left;">FD002</td>
 </tr>
 <tr class="odd">
 <td style="text-align: center;">3</td>
-<td style="text-align: left;"><code>AeroGuard_FD003_Diagnostics.ipynb</code></td>
-<td style="text-align: left;">Multi-Fault</td>
+<td style="text-align: left;">AeroGuard_FD003_Diagnostics</td>
+<td style="text-align: left;">FD003</td>
 </tr>
 <tr class="even">
 <td style="text-align: center;">4</td>
-<td style="text-align: left;"><code>AeroGuard_FD004_Ultimate.ipynb</code></td>
-<td style="text-align: left;">Grand Unified</td>
+<td style="text-align: left;">AeroGuard_FD004_Ultimate</td>
+<td style="text-align: left;">FD004</td>
 </tr>
 </tbody>
 </table>
 </div><div class="column" style="width:50%;">
-<p><strong>Quick Links:</strong></p>
+<p><strong>Links:</strong></p>
 <ul>
-<li>🔗 <strong>GitHub:</strong> <a href="https://github.com/AymenMB/AeroGuard">AymenMB/AeroGuard</a></li>
-<li>🌐 <strong>Live:</strong> <a href="https://aymenmb.github.io/AeroGuard">aymenmb.github.io/AeroGuard</a></li>
-<li>📊 <strong>Dataset:</strong> <a href="https://data.nasa.gov">NASA C-MAPSS</a></li>
+<li><strong>GitHub:</strong> <a href="https://github.com/AymenMB/AeroGuard">AymenMB/AeroGuard</a></li>
+<li><strong>Live:</strong> <a href="https://aymenmb.github.io/AeroGuard">aymenmb.github.io/AeroGuard</a></li>
+<li><strong>Dataset:</strong> <a href="https://data.nasa.gov">NASA C-MAPSS</a></li>
 </ul>
-<p><strong>Technologies:</strong></p>
-<p><img data-src="https://img.shields.io/badge/R-276DC3?logo=r&amp;logoColor=white.png" alt="R"> <img data-src="https://img.shields.io/badge/Quarto-75AADB?logo=quarto&amp;logoColor=white.png" alt="Quarto"> <img data-src="https://img.shields.io/badge/XGBoost-FF6600?logo=xgboost&amp;logoColor=white.png" alt="XGBoost"></p>
+<p><strong>Technologies:</strong> R, Quarto, XGBoost, RevealJS</p>
 </div></div>
 </section>
 <section class="slide level2">
