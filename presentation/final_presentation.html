@@ -1003,9 +1003,154 @@ Aymen Mabrouk
 
 </section></section>
 <section>
-<section id="complete-results-summary" class="title-slide slide level1 center" data-background-color="#1a1a2e">
-<h1>📊 Complete Results Summary</h1>
-<p><strong>SUMMARY &amp; CONCLUSIONS</strong></p>
+<section id="mlops-production-pipeline" class="title-slide slide level1 center" data-background-color="#306998">
+<h1>MLOps Production Pipeline</h1>
+<p><strong>BONUS: MLOps Implementation</strong><br>
+<em>Taking AeroGuard from R Analysis to Production API</em></p>
+</section>
+<section id="mlops-stack-overview" class="slide level2">
+<h2>MLOps Stack Overview</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Component</th>
+<th>Technology</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Version Control</strong></td>
+<td>Git + GitHub</td>
+</tr>
+<tr class="even">
+<td><strong>Data Versioning</strong></td>
+<td>DVC</td>
+</tr>
+<tr class="odd">
+<td><strong>Experiment Tracking</strong></td>
+<td>MLflow</td>
+</tr>
+<tr class="even">
+<td><strong>Pipeline</strong></td>
+<td>ZenML</td>
+</tr>
+<tr class="odd">
+<td><strong>Optimization</strong></td>
+<td>Optuna</td>
+</tr>
+</tbody>
+</table>
+</div><div class="column" style="width:50%;">
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Component</th>
+<th>Technology</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>API Serving</strong></td>
+<td>FastAPI</td>
+</tr>
+<tr class="even">
+<td><strong>Containerization</strong></td>
+<td>Docker</td>
+</tr>
+<tr class="odd">
+<td><strong>CI/CD</strong></td>
+<td>GitHub Actions</td>
+</tr>
+<tr class="even">
+<td><strong>Monitoring</strong></td>
+<td>Drift Detection</td>
+</tr>
+<tr class="odd">
+<td><strong>Model</strong></td>
+<td>XGBoost (Python)</td>
+</tr>
+</tbody>
+</table>
+</div></div>
+<p><strong>Repository:</strong> <a href="https://github.com/AymenMB/turbofan-predictive-maintenance-mlops">turbofan-predictive-maintenance-mlops</a></p>
+</section>
+<section id="mlops-pipeline-architecture" class="slide level2">
+<h2>MLOps Pipeline Architecture</h2>
+<pre><code>┌─────────────────────────────────────────────────────────┐
+│                   GitHub Repository                      │
+└─────────────────────────┬───────────────────────────────┘
+                          │ git push
+                          ▼
+┌─────────────────────────────────────────────────────────┐
+│                 GitHub Actions CI/CD                     │
+│  Test/Lint → Build Docker → ML Validation → Security    │
+└─────────────────────────┬───────────────────────────────┘
+                          │
+                          ▼
+┌─────────────────────────────────────────────────────────┐
+│                   Docker Container                       │
+│            FastAPI + XGBoost (RMSE: 50.71)              │
+│                 http://localhost:8000                    │
+└─────────────────────────────────────────────────────────┘</code></pre>
+</section>
+<section id="mlops-results" class="slide level2">
+<h2>MLOps Results</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><strong>Model Performance:</strong></p>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Metric</th>
+<th>Baseline</th>
+<th>Optimized</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>RMSE</td>
+<td>51.35</td>
+<td><strong>50.71</strong></td>
+</tr>
+<tr class="even">
+<td>Improvement</td>
+<td>-</td>
+<td>1.26%</td>
+</tr>
+</tbody>
+</table>
+<p><em>Optuna optimization with 20 trials</em></p>
+</div><div class="column" style="width:50%;">
+<p><strong>API Endpoints:</strong></p>
+<ul>
+<li><code>GET /health</code> → Status check</li>
+<li><code>POST /predict</code> → RUL prediction</li>
+<li><code>GET /monitoring</code> → Drift detection</li>
+<li><code>GET /docs</code> → Swagger UI</li>
+</ul>
+</div></div>
+</section>
+<section id="deployment-example" class="slide level2">
+<h2>Deployment Example</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb17-1"><a href=""></a><span class="co"># Clone and run</span></span>
+<span id="cb17-2"><a href=""></a><span class="fu">git</span> clone https://github.com/AymenMB/turbofan-predictive-maintenance-mlops</span>
+<span id="cb17-3"><a href=""></a><span class="ex">docker-compose</span> up <span class="at">-d</span></span>
+<span id="cb17-4"><a href=""></a></span>
+<span id="cb17-5"><a href=""></a><span class="co"># Test prediction</span></span>
+<span id="cb17-6"><a href=""></a><span class="ex">curl</span> http://localhost:8000/predict <span class="dt">\</span></span>
+<span id="cb17-7"><a href=""></a>  <span class="at">-d</span> <span class="st">'{"s_2": 641.82, "s_3": 1589.70, ...}'</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Response:</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode numberSource json number-lines code-with-copy"><code class="sourceCode json"><span id="cb18-1"><a href=""></a><span class="fu">{</span><span class="dt">"RUL"</span><span class="fu">:</span> <span class="fl">112.45</span><span class="fu">,</span> <span class="dt">"status"</span><span class="fu">:</span> <span class="st">"Healthy"</span><span class="fu">,</span> <span class="dt">"confidence"</span><span class="fu">:</span> <span class="st">"High"</span><span class="fu">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section class="slide level2">
+
+</section></section>
+<section>
+<section id="summary-conclusions" class="title-slide slide level1 center" data-background-color="#1a1a2e">
+<h1>Summary &amp; Conclusions</h1>
+
 </section>
 <section id="aeroguard-performance-across-all-datasets" class="slide level2">
 <h2>🏆 AeroGuard Performance Across All Datasets</h2>
@@ -1140,206 +1285,8 @@ Aymen Mabrouk
 </ul></li>
 </ol>
 </section>
-<section class="slide level2">
-
-</section></section>
-<section>
-<section id="mlops-extension" class="title-slide slide level1 center" data-background-color="#306998">
-<h1>🐍 MLOps Extension</h1>
-<p><strong>BONUS: MLOPS IMPLEMENTATION</strong><br>
-<em>Production Deployment with Python</em></p>
-</section>
-<h3 id="taking-aeroguard-to-production">Taking AeroGuard to Production</h3>
-<section id="mlops-stack-overview" class="slide level2">
-<h2>🔧 MLOps Stack Overview</h2>
-<p>We extended the R analysis with a <strong>complete Python MLOps pipeline</strong>:</p>
-<div class="columns">
-<div class="column" style="width:50%;">
-<table class="caption-top">
-<thead>
-<tr class="header">
-<th>Component</th>
-<th>Technology</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><strong>Version Control</strong></td>
-<td>Git + GitHub</td>
-</tr>
-<tr class="even">
-<td><strong>Data Versioning</strong></td>
-<td>DVC</td>
-</tr>
-<tr class="odd">
-<td><strong>Experiment Tracking</strong></td>
-<td>MLflow</td>
-</tr>
-<tr class="even">
-<td><strong>Pipeline</strong></td>
-<td>ZenML</td>
-</tr>
-<tr class="odd">
-<td><strong>Optimization</strong></td>
-<td>Optuna</td>
-</tr>
-</tbody>
-</table>
-</div><div class="column" style="width:50%;">
-<table class="caption-top">
-<thead>
-<tr class="header">
-<th>Component</th>
-<th>Technology</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><strong>API Serving</strong></td>
-<td>FastAPI</td>
-</tr>
-<tr class="even">
-<td><strong>Containerization</strong></td>
-<td>Docker</td>
-</tr>
-<tr class="odd">
-<td><strong>CI/CD</strong></td>
-<td>GitHub Actions</td>
-</tr>
-<tr class="even">
-<td><strong>Monitoring</strong></td>
-<td>Custom Drift Detection</td>
-</tr>
-<tr class="odd">
-<td><strong>Model</strong></td>
-<td>XGBoost (Python)</td>
-</tr>
-</tbody>
-</table>
-</div></div>
-<div class="fragment fade-up">
-<p><strong>Repository:</strong> <a href="https://github.com/AymenMB/turbofan-predictive-maintenance-mlops">github.com/AymenMB/turbofan-predictive-maintenance-mlops</a></p>
-</div>
-</section>
-<section id="mlops-pipeline-architecture" class="slide level2">
-<h2>📊 MLOps Pipeline Architecture</h2>
-<pre><code>┌─────────────────────────────────────────────────────────────┐
-│                    GitHub Repository                         │
-└─────────────────────────┬───────────────────────────────────┘
-                          │ git push
-                          ▼
-┌─────────────────────────────────────────────────────────────┐
-│                   GitHub Actions CI/CD                       │
-│   Test/Lint → Build Docker → ML Validation → Security Scan  │
-└─────────────────────────┬───────────────────────────────────┘
-                          │
-                          ▼
-┌─────────────────────────────────────────────────────────────┐
-│                    Docker Container                          │
-│              FastAPI + XGBoost (RMSE: 50.71)                │
-│                   http://localhost:8000                      │
-└─────────────────────────────────────────────────────────────┘</code></pre>
-</section>
-<section id="key-mlops-results" class="slide level2">
-<h2>🎯 Key MLOps Results</h2>
-<div class="columns">
-<div class="column" style="width:50%;">
-<p><strong>Model Performance:</strong></p>
-<table class="caption-top">
-<thead>
-<tr class="header">
-<th>Metric</th>
-<th>Baseline</th>
-<th>Optimized</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><strong>RMSE</strong></td>
-<td>51.35</td>
-<td><strong>50.71</strong></td>
-</tr>
-<tr class="even">
-<td>Improvement</td>
-<td>-</td>
-<td><strong>1.26%</strong></td>
-</tr>
-</tbody>
-</table>
-<p><em>Optuna optimization with 20 trials</em></p>
-</div><div class="column" style="width:50%;">
-<p><strong>API Performance:</strong></p>
-<table class="caption-top">
-<thead>
-<tr class="header">
-<th>Endpoint</th>
-<th>Latency</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><code>/health</code></td>
-<td>&lt;100ms</td>
-</tr>
-<tr class="even">
-<td><code>/predict</code></td>
-<td>&lt;200ms</td>
-</tr>
-<tr class="odd">
-<td><code>/monitoring</code></td>
-<td>&lt;50ms</td>
-</tr>
-</tbody>
-</table>
-<p><em>Production-ready REST API</em></p>
-</div></div>
-</section>
-<section id="complete-mlops-workflow" class="slide level2">
-<h2>🔄 Complete MLOps Workflow</h2>
-<ol type="1">
-<li class="fragment"><strong>DVC</strong> → Version control for 20K+ sensor readings</li>
-<li class="fragment"><strong>MLflow</strong> → Track all experiments and metrics</li>
-<li class="fragment"><strong>ZenML</strong> → Reproducible 4-step pipeline (ingest → clean → train → evaluate)</li>
-<li class="fragment"><strong>Optuna</strong> → Automated hyperparameter search (9 parameters, 20 trials)</li>
-<li class="fragment"><strong>FastAPI</strong> → REST API with Swagger documentation</li>
-<li class="fragment"><strong>Docker</strong> → Containerized deployment with health checks</li>
-<li class="fragment"><strong>GitHub Actions</strong> → Automated CI/CD on every push</li>
-<li class="fragment"><strong>Drift Detection</strong> → Monitor input data quality in production</li>
-</ol>
-</section>
-<section id="deployment-ready" class="slide level2">
-<h2>🐳 Deployment Ready</h2>
-<div class="columns">
-<div class="column" style="width:60%;">
-<p><strong>Quick Start:</strong></p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb17-1"><a href=""></a><span class="co"># Clone repository</span></span>
-<span id="cb17-2"><a href=""></a><span class="fu">git</span> clone https://github.com/AymenMB/...</span>
-<span id="cb17-3"><a href=""></a></span>
-<span id="cb17-4"><a href=""></a><span class="co"># Run with Docker</span></span>
-<span id="cb17-5"><a href=""></a><span class="ex">docker-compose</span> up <span class="at">-d</span></span>
-<span id="cb17-6"><a href=""></a></span>
-<span id="cb17-7"><a href=""></a><span class="co"># Test API</span></span>
-<span id="cb17-8"><a href=""></a><span class="ex">curl</span> http://localhost:8000/predict <span class="dt">\</span></span>
-<span id="cb17-9"><a href=""></a>  <span class="at">-d</span> <span class="st">'{"s_2": 641.82, "s_3": 1589.70, ...}'</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p><strong>Response:</strong></p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode numberSource json number-lines code-with-copy"><code class="sourceCode json"><span id="cb18-1"><a href=""></a><span class="fu">{</span></span>
-<span id="cb18-2"><a href=""></a>  <span class="dt">"RUL"</span><span class="fu">:</span> <span class="fl">112.45</span><span class="fu">,</span></span>
-<span id="cb18-3"><a href=""></a>  <span class="dt">"status"</span><span class="fu">:</span> <span class="st">"Healthy"</span><span class="fu">,</span></span>
-<span id="cb18-4"><a href=""></a>  <span class="dt">"confidence"</span><span class="fu">:</span> <span class="st">"High"</span></span>
-<span id="cb18-5"><a href=""></a><span class="fu">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div><div class="column" style="width:40%;">
-<p><strong>API Endpoints:</strong></p>
-<ul>
-<li><code>GET /health</code> → Status check</li>
-<li><code>POST /predict</code> → RUL prediction</li>
-<li><code>GET /monitoring</code> → Drift detection</li>
-<li><code>GET /docs</code> → Swagger UI</li>
-</ul>
-<p><em>Interactive documentation at <code>/docs</code></em></p>
-</div></div>
-</section>
 <section id="questions-anticipées-réponses" class="slide level2" data-background-color="#34495e">
-<h2>🎤 Questions Anticipées &amp; Réponses</h2>
+<h2>Questions Anticipées &amp; Réponses</h2>
 <div class="columns">
 <div class="column" style="width:50%;">
 <p><strong>Q: Pourquoi XGBoost plutôt que Deep Learning (LSTM)?</strong></p>

@@ -885,9 +885,110 @@ Combine everything we learned into a single unified pipeline.
 
 ---
 
-# 📊 Complete Results Summary {background-color="#1a1a2e"}
+# MLOps Production Pipeline {background-color="#306998"}
 
-**SUMMARY & CONCLUSIONS**
+**BONUS: MLOps Implementation**  
+*Taking AeroGuard from R Analysis to Production API*
+
+---
+
+## MLOps Stack Overview
+
+::: {.columns}
+::: {.column width="50%"}
+| Component | Technology |
+|-----------|------------|
+| **Version Control** | Git + GitHub |
+| **Data Versioning** | DVC |
+| **Experiment Tracking** | MLflow |
+| **Pipeline** | ZenML |
+| **Optimization** | Optuna |
+:::
+
+::: {.column width="50%"}
+| Component | Technology |
+|-----------|------------|
+| **API Serving** | FastAPI |
+| **Containerization** | Docker |
+| **CI/CD** | GitHub Actions |
+| **Monitoring** | Drift Detection |
+| **Model** | XGBoost (Python) |
+:::
+:::
+
+**Repository:** [turbofan-predictive-maintenance-mlops](https://github.com/AymenMB/turbofan-predictive-maintenance-mlops)
+
+---
+
+## MLOps Pipeline Architecture
+
+```
+┌─────────────────────────────────────────────────────────┐
+│                   GitHub Repository                      │
+└─────────────────────────┬───────────────────────────────┘
+                          │ git push
+                          ▼
+┌─────────────────────────────────────────────────────────┐
+│                 GitHub Actions CI/CD                     │
+│  Test/Lint → Build Docker → ML Validation → Security    │
+└─────────────────────────┬───────────────────────────────┘
+                          │
+                          ▼
+┌─────────────────────────────────────────────────────────┐
+│                   Docker Container                       │
+│            FastAPI + XGBoost (RMSE: 50.71)              │
+│                 http://localhost:8000                    │
+└─────────────────────────────────────────────────────────┘
+```
+
+---
+
+## MLOps Results
+
+::: {.columns}
+::: {.column width="50%"}
+**Model Performance:**
+
+| Metric | Baseline | Optimized |
+|--------|----------|-----------|
+| RMSE | 51.35 | **50.71** |
+| Improvement | - | 1.26% |
+
+*Optuna optimization with 20 trials*
+:::
+
+::: {.column width="50%"}
+**API Endpoints:**
+
+- `GET /health` → Status check
+- `POST /predict` → RUL prediction
+- `GET /monitoring` → Drift detection
+- `GET /docs` → Swagger UI
+:::
+:::
+
+---
+
+## Deployment Example
+
+```bash
+# Clone and run
+git clone https://github.com/AymenMB/turbofan-predictive-maintenance-mlops
+docker-compose up -d
+
+# Test prediction
+curl http://localhost:8000/predict \
+  -d '{"s_2": 641.82, "s_3": 1589.70, ...}'
+```
+
+**Response:**
+```json
+{"RUL": 112.45, "status": "Healthy", "confidence": "High"}
+```
+
+---
+
+# Summary & Conclusions {background-color="#1a1a2e"}
 
 ---
 
@@ -1014,156 +1115,7 @@ Combine everything we learned into a single unified pipeline.
 
 ---
 
-# 🐍 MLOps Extension {background-color="#306998"}
-
-**BONUS: MLOPS IMPLEMENTATION**  
-*Production Deployment with Python*
-
-### Taking AeroGuard to Production
-
----
-
-## 🔧 MLOps Stack Overview
-
-We extended the R analysis with a **complete Python MLOps pipeline**:
-
-::: {.columns}
-::: {.column width="50%"}
-| Component | Technology |
-|-----------|------------|
-| **Version Control** | Git + GitHub |
-| **Data Versioning** | DVC |
-| **Experiment Tracking** | MLflow |
-| **Pipeline** | ZenML |
-| **Optimization** | Optuna |
-:::
-
-::: {.column width="50%"}
-| Component | Technology |
-|-----------|------------|
-| **API Serving** | FastAPI |
-| **Containerization** | Docker |
-| **CI/CD** | GitHub Actions |
-| **Monitoring** | Custom Drift Detection |
-| **Model** | XGBoost (Python) |
-:::
-:::
-
-::: {.fragment .fade-up}
-**Repository:** [github.com/AymenMB/turbofan-predictive-maintenance-mlops](https://github.com/AymenMB/turbofan-predictive-maintenance-mlops)
-:::
-
----
-
-## 📊 MLOps Pipeline Architecture
-
-```
-┌─────────────────────────────────────────────────────────────┐
-│                    GitHub Repository                         │
-└─────────────────────────┬───────────────────────────────────┘
-                          │ git push
-                          ▼
-┌─────────────────────────────────────────────────────────────┐
-│                   GitHub Actions CI/CD                       │
-│   Test/Lint → Build Docker → ML Validation → Security Scan  │
-└─────────────────────────┬───────────────────────────────────┘
-                          │
-                          ▼
-┌─────────────────────────────────────────────────────────────┐
-│                    Docker Container                          │
-│              FastAPI + XGBoost (RMSE: 50.71)                │
-│                   http://localhost:8000                      │
-└─────────────────────────────────────────────────────────────┘
-```
-
----
-
-## 🎯 Key MLOps Results
-
-::: {.columns}
-::: {.column width="50%"}
-**Model Performance:**
-
-| Metric | Baseline | Optimized |
-|--------|----------|-----------|
-| **RMSE** | 51.35 | **50.71** |
-| Improvement | - | **1.26%** |
-
-*Optuna optimization with 20 trials*
-:::
-
-::: {.column width="50%"}
-**API Performance:**
-
-| Endpoint | Latency |
-|----------|---------|
-| `/health` | <100ms |
-| `/predict` | <200ms |
-| `/monitoring` | <50ms |
-
-*Production-ready REST API*
-:::
-:::
-
----
-
-## 🔄 Complete MLOps Workflow
-
-::: {.incremental}
-1. **DVC** → Version control for 20K+ sensor readings
-2. **MLflow** → Track all experiments and metrics
-3. **ZenML** → Reproducible 4-step pipeline (ingest → clean → train → evaluate)
-4. **Optuna** → Automated hyperparameter search (9 parameters, 20 trials)
-5. **FastAPI** → REST API with Swagger documentation
-6. **Docker** → Containerized deployment with health checks
-7. **GitHub Actions** → Automated CI/CD on every push
-8. **Drift Detection** → Monitor input data quality in production
-:::
-
----
-
-## 🐳 Deployment Ready
-
-::: {.columns}
-::: {.column width="60%"}
-**Quick Start:**
-```bash
-# Clone repository
-git clone https://github.com/AymenMB/...
-
-# Run with Docker
-docker-compose up -d
-
-# Test API
-curl http://localhost:8000/predict \
-  -d '{"s_2": 641.82, "s_3": 1589.70, ...}'
-```
-
-**Response:**
-```json
-{
-  "RUL": 112.45,
-  "status": "Healthy",
-  "confidence": "High"
-}
-```
-:::
-
-::: {.column width="40%"}
-**API Endpoints:**
-
-- `GET /health` → Status check
-- `POST /predict` → RUL prediction
-- `GET /monitoring` → Drift detection
-- `GET /docs` → Swagger UI
-
-*Interactive documentation at `/docs`*
-:::
-:::
-
----
-
-## 🎤 Questions Anticipées & Réponses {background-color="#34495e"}
+## Questions Anticipées & Réponses {background-color="#34495e"}
 
 ::: {.columns}
 ::: {.column width="50%"}
