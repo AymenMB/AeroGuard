@@ -17,10 +17,11 @@ format:
     css: style.css
     auto-animate: true
     incremental: false
+    scrollable: true
 resources:
   - images/
 execute:
-  echo: false
+  echo: true
   eval: false
   warning: false
   cache: true
@@ -226,8 +227,6 @@ $$RUL = MaxCycle - CurrentCycle$$
 :::
 :::
 
----
-
 # Phase 1: Statistical Baseline (FD001) {background-color="#2C3E50"}
 
 **PHASE 1: THE BASELINE (FD001)**  
@@ -299,20 +298,15 @@ As compressor blades erode, the engine works harder to maintain thrust, increasi
 :::
 
 ::: {.column width="50%"}
-**The Degradation Curve:**
-```r
-# Reverse X-axis: Failure on the right
-ggplot(data, aes(x = RUL, y = s11)) +
-  geom_line() +
-  scale_x_reverse()  # RUL=0 is failure
-```
-Multiple engines show the same "death curve" pattern.
+![Sensor Degradation Pattern](images/FD001 RUL SENSOR.png){width="60%"}
+
+*Multiple engines show the same "death curve" pattern as they approach failure.*
 :::
 :::
 
 ---
 
-## 📊 Survival Analysis: Cox Proportional Hazards
+## 📊 Survival Analysis: Cox Proportional Hazards {.smaller}
 
 We use **Cox PH** to statistically quantify which sensors are the "Killers."
 
@@ -327,12 +321,11 @@ $$h(t) = h_0(t) \cdot \exp(\beta_1 \cdot s_{11} + \beta_2 \cdot s_{12} + \beta_3
 cox_model <- coxph(Surv(cycle, failed) ~ s11 + s12 + s4, data = data_clean)
 ```
 
+![Risk Factors Analysis](images/FD001 Risk factors.png){width="80%"}
 
 ::: {.callout-important}
 **Critical Finding:** Sensor 11 has a **Hazard Ratio > 200**. It is the primary leading indicator of impending failure.
 :::
-
-
 
 ---
 
@@ -426,13 +419,16 @@ rf_model <- randomForest(
 )
 ```
 
-**Top 15 Predictive Features:**
-Rolling means of s11, s12, s4 dominate — consistent with Cox analysis.
+![Top 15 Sensors Driving Engine Failure](images/FD001 top 15 sensors driving engine failure.png){width="85%"}
+
+**Key Insight:** Rolling means of s11, s12, s4 dominate — consistent with Cox analysis.
 
 ---
 
 ## 🏆 FD001 Validation Results
 
+::: {.columns}
+::: {.column width="50%"}
 **Test Protocol:**
 1. Apply identical preprocessing to `test_FD001.txt`
 2. Predict RUL at the final cycle of each test engine
@@ -441,6 +437,12 @@ Rolling means of s11, s12, s4 dominate — consistent with Cox analysis.
 **Metric:** Root Mean Square Error (RMSE)
 
 $$RMSE = \sqrt{\frac{1}{n}\sum_{i=1}^{n}(RUL_{true} - RUL_{pred})^2}$$
+:::
+
+::: {.column width="50%"}
+![Model Performance Metrics](images/FD001 engine prediction performance.png){width="85%"}
+:::
+:::
 
 ::: {.fragment .fade-up}
 ### 🎯 FD001 Final Score: RMSE = 17.53
@@ -451,7 +453,15 @@ $$RMSE = \sqrt{\frac{1}{n}\sum_{i=1}^{n}(RUL_{true} - RUL_{pred})^2}$$
 
 ## 📈 FD001 Prediction Visualization
 
-![FD001 Predicted vs Actual RUL](images/FD001 FINAL PREDICTION.png){width="70%"}
+::: {.columns}
+::: {.column width="50%"}
+![FD001 Predicted vs Actual RUL](images/FD001 FINAL PREDICTION.png){width="85%"}
+:::
+
+::: {.column width="50%"}
+![Final Accuracy Check](images/FD001 final accuracy check.png){width="85%"}
+:::
+:::
 
 ::: {.columns}
 ::: {.column width="60%"}
@@ -702,7 +712,7 @@ cut_avg <- cutree(hclust_avg, k = 2)  # Cut into 2 fault modes
 
 ::: {.columns}
 ::: {.column width="65%"}
-![Survival Analysis: Kaplan-Meier Curves](images/FD003FLIGHT CYCLES.png){width="100%"}
+![Survival Analysis: Kaplan-Meier Curves](images/FD003FLIGHT CYCLES.png){width="90%"}
 :::
 
 ::: {.column width="35%"}

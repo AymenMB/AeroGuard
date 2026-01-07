@@ -10,7 +10,7 @@
   <meta name="generator" content="quarto-1.8.26">
 
   <meta name="author" content="Aymen Mabrouk">
-  <meta name="dcterms.date" content="2026-01-05">
+  <meta name="dcterms.date" content="2026-01-07">
   <title>Project AeroGuard</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -113,6 +113,7 @@
     }
     .reveal .slide:not(.center) {
       height: 100%;
+      overflow-y: auto;
     }
     .reveal .slide.scrollable {
       overflow-y: auto;
@@ -209,7 +210,7 @@ Aymen Mabrouk
     </div>
 </div>
 
-  <p class="date">2026-01-05</p>
+  <p class="date">2026-01-07</p>
 </section>
 <section>
 <section id="the-challenge" class="title-slide slide level1 center" data-background-color="#1a1a2e">
@@ -452,7 +453,7 @@ Aymen Mabrouk
 <td style="text-align: left;">FD002</td>
 <td style="text-align: left;">6 Regimes</td>
 <td style="text-align: left;">K-Means + Hybrid</td>
-<td style="text-align: center;"><strong>26.54</strong></td>
+<td style="text-align: center;"><strong>26.3</strong></td>
 <td style="text-align: center;">Good</td>
 </tr>
 <tr class="odd">
@@ -518,9 +519,6 @@ Aymen Mabrouk
 </ul>
 <p><strong>Technologies:</strong> R, Quarto, XGBoost, RevealJS</p>
 </div></div>
-</section>
-<section class="slide level2">
-
 </section></section>
 <section>
 <section id="phase-1-statistical-baseline-fd001" class="title-slide slide level1 center" data-background-color="#2C3E50">
@@ -561,21 +559,23 @@ Aymen Mabrouk
 <p><strong>Key Observation:</strong> Sensor 11 (Static Pressure at HPC Outlet) shows a clear upward trend as engines degrade.</p>
 <p><strong>Physics Interpretation:</strong> As compressor blades erode, the engine works harder to maintain thrust, increasing internal pressure.</p>
 </div><div class="column" style="width:50%;">
-<p><strong>The Degradation Curve:</strong></p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href=""></a><span class="co"># Reverse X-axis: Failure on the right</span></span>
-<span id="cb3-2"><a href=""></a><span class="fu">ggplot</span>(data, <span class="fu">aes</span>(<span class="at">x =</span> RUL, <span class="at">y =</span> s11)) <span class="sc">+</span></span>
-<span id="cb3-3"><a href=""></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
-<span id="cb3-4"><a href=""></a>  <span class="fu">scale_x_reverse</span>()  <span class="co"># RUL=0 is failure</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Multiple engines show the same “death curve” pattern.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/FD001%20RUL%20SENSOR.png" style="width:60.0%"></p>
+<figcaption>Sensor Degradation Pattern</figcaption>
+</figure>
+</div>
+<p><em>Multiple engines show the same “death curve” pattern as they approach failure.</em></p>
 </div></div>
 </section>
-<section id="survival-analysis-cox-proportional-hazards" class="slide level2">
+<section id="survival-analysis-cox-proportional-hazards" class="slide level2 smaller">
 <h2>📊 Survival Analysis: Cox Proportional Hazards</h2>
 <p>We use <strong>Cox PH</strong> to statistically quantify which sensors are the “Killers.”</p>
 <p><strong>The Model:</strong> <span class="math display">\[h(t) = h_0(t) \cdot \exp(\beta_1 \cdot s_{11} + \beta_2 \cdot s_{12} + \beta_3 \cdot s_4)\]</span></p>
 <p><strong>Interpretation:</strong> - <strong>Hazard Ratio (HR) &gt; 1:</strong> Sensor increases failure risk - <strong>Hazard Ratio (HR) &lt; 1:</strong> Sensor is protective/healthy indicator</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href=""></a>cox_model <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(cycle, failed) <span class="sc">~</span> s11 <span class="sc">+</span> s12 <span class="sc">+</span> s4, <span class="at">data =</span> data_clean)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="callout callout-important callout-titled callout-style-default">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href=""></a>cox_model <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(cycle, failed) <span class="sc">~</span> s11 <span class="sc">+</span> s12 <span class="sc">+</span> s4, <span class="at">data =</span> data_clean)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+
+<img data-src="images/FD001%20Risk%20factors.png" style="width:80.0%" class="r-stretch quarto-figure-center"><p class="caption">Risk Factors Analysis</p><div class="callout callout-important callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
 <div class="callout-icon-container">
@@ -596,24 +596,35 @@ Aymen Mabrouk
 <div class="column" style="width:50%;">
 <p><strong>Rolling Mean (Trend):</strong> Smooths noise, reveals underlying degradation trajectory.</p>
 <p><strong>Rolling Standard Deviation (Volatility):</strong> Detects instability — engines “shake” more before failure.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href=""></a>data_ml <span class="ot">&lt;-</span> data_ml <span class="sc">%&gt;%</span></span>
-<span id="cb5-2"><a href=""></a>  <span class="fu">group_by</span>(unit_id) <span class="sc">%&gt;%</span></span>
-<span id="cb5-3"><a href=""></a>  <span class="fu">mutate</span>(</span>
-<span id="cb5-4"><a href=""></a>    <span class="at">s11_mean =</span> <span class="fu">rollmean</span>(s11, <span class="at">k=</span><span class="dv">5</span>, <span class="at">fill=</span><span class="cn">NA</span>),</span>
-<span id="cb5-5"><a href=""></a>    <span class="at">s11_sd =</span> <span class="fu">rollapply</span>(s11, <span class="at">width=</span><span class="dv">5</span>, <span class="at">FUN=</span>sd)</span>
-<span id="cb5-6"><a href=""></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href=""></a>data_ml <span class="ot">&lt;-</span> data_ml <span class="sc">%&gt;%</span></span>
+<span id="cb4-2"><a href=""></a>  <span class="fu">group_by</span>(unit_id) <span class="sc">%&gt;%</span></span>
+<span id="cb4-3"><a href=""></a>  <span class="fu">mutate</span>(</span>
+<span id="cb4-4"><a href=""></a>    <span class="at">s11_mean =</span> <span class="fu">rollmean</span>(s11, <span class="at">k=</span><span class="dv">5</span>, <span class="at">fill=</span><span class="cn">NA</span>),</span>
+<span id="cb4-5"><a href=""></a>    <span class="at">s11_sd =</span> <span class="fu">rollapply</span>(s11, <span class="at">width=</span><span class="dv">5</span>, <span class="at">FUN=</span>sd)</span>
+<span id="cb4-6"><a href=""></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div><div class="column" style="width:50%;">
 <p><strong>The RUL Clipping Trick:</strong> Industry standard: Cap RUL at 125 cycles.</p>
 <p><strong>Why?</strong> When RUL &gt; 125, sensors are essentially flat (healthy engine). Training on these “boring” samples adds noise.</p>
 <p><span class="math display">\[RUL_{clipped} = \min(RUL, 125)\]</span></p>
 </div></div>
 </section>
+<section id="the-oracle-weibull-aft-model" class="slide level2">
+<h2>🔮 The Oracle: Weibull AFT Model</h2>
+<p><strong>Surpassing the Cox Model:</strong> Cox PH tells us <em>risk</em> (who dies first), but it can’t predict <em>when</em>. We need a model that output <strong>time</strong>.</p>
+<p><strong>Why Weibull?</strong> - It’s the standard engineering curve for “wear-out”. - It assumes engines age like a tire losing tread.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href=""></a><span class="co"># The Oracle: Accelerated Failure Time (AFT) Model</span></span>
+<span id="cb5-2"><a href=""></a><span class="co"># We tell the model: "Predict the exact cycle of death"</span></span>
+<span id="cb5-3"><a href=""></a>weibull_model <span class="ot">&lt;-</span> <span class="fu">survreg</span>(<span class="fu">Surv</span>(cycle, failed) <span class="sc">~</span> s11 <span class="sc">+</span> s12 <span class="sc">+</span> s4, </span>
+<span id="cb5-4"><a href=""></a>                         <span class="at">data =</span> data_clean, </span>
+<span id="cb5-5"><a href=""></a>                         <span class="at">dist =</span> <span class="st">"weibull"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
 <section id="principal-component-analysis-pca" class="slide level2">
 <h2>🧠 Principal Component Analysis (PCA)</h2>
-<p><strong>Goal:</strong> Compress 14+ sensors into a single “Health Index” for pilot dashboards.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href=""></a>pca_result <span class="ot">&lt;-</span> <span class="fu">prcomp</span>(sensors_only, <span class="at">scale. =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb6-2"><a href=""></a>data<span class="sc">$</span>Health_Index <span class="ot">&lt;-</span> pca_result<span class="sc">$</span>x[, <span class="dv">1</span>]  <span class="co"># First principal component</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p><strong>Interpretation:</strong> - <strong>PC1 captures ~60% of variance</strong> - As Health_Index increases → Engine is degrading - Simple metric for non-technical stakeholders</p>
+<p><strong>Goal:</strong> Compress 14+ sensors into a single “Health Index” for pilot dashboards. <strong>Method:</strong> Principal Component Analysis (PCA) reduces dimensionality while preserving signal.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href=""></a><span class="co"># Compress all sensor data into one single "Health Score"</span></span>
+<span id="cb6-2"><a href=""></a>pca_result <span class="ot">&lt;-</span> <span class="fu">prcomp</span>(sensors_only, <span class="at">scale. =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb6-3"><a href=""></a>data<span class="sc">$</span>Health_Index <span class="ot">&lt;-</span> pca_result<span class="sc">$</span>x[, <span class="dv">1</span>]  <span class="co"># First Principal Component</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Interpretation:</strong> - <strong>Health Index increases</strong> = Degradation severity increases. - <strong>Single Metric Monitoring</strong>: Replaces complex multi-sensor dashboards.</p>
 </section>
 <section id="machine-learning-random-forest-regressor" class="slide level2">
 <h2>🤖 Machine Learning: Random Forest Regressor</h2>
@@ -624,13 +635,24 @@ Aymen Mabrouk
 <span id="cb7-4"><a href=""></a>  <span class="at">ntree =</span> <span class="dv">50</span>,</span>
 <span id="cb7-5"><a href=""></a>  <span class="at">importance =</span> <span class="cn">TRUE</span></span>
 <span id="cb7-6"><a href=""></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p><strong>Top 15 Predictive Features:</strong> Rolling means of s11, s12, s4 dominate — consistent with Cox analysis.</p>
+
+<img data-src="images/FD001%20top%2015%20sensors%20driving%20engine%20failure.png" style="width:85.0%" class="r-stretch quarto-figure-center"><p class="caption">Top 15 Sensors Driving Engine Failure</p><p><strong>Key Insight:</strong> Rolling means of s11, s12, s4 dominate — consistent with Cox analysis.</p>
 </section>
 <section id="fd001-validation-results" class="slide level2">
 <h2>🏆 FD001 Validation Results</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
 <p><strong>Test Protocol:</strong> 1. Apply identical preprocessing to <code>test_FD001.txt</code> 2. Predict RUL at the final cycle of each test engine 3. Compare against ground truth (<code>RUL_FD001.txt</code>)</p>
 <p><strong>Metric:</strong> Root Mean Square Error (RMSE)</p>
 <p><span class="math display">\[RMSE = \sqrt{\frac{1}{n}\sum_{i=1}^{n}(RUL_{true} - RUL_{pred})^2}\]</span></p>
+</div><div class="column" style="width:50%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/FD001%20engine%20prediction%20performance.png" style="width:85.0%"></p>
+<figcaption>Model Performance Metrics</figcaption>
+</figure>
+</div>
+</div></div>
 <div class="fragment fade-up">
 <h3 id="fd001-final-score-rmse-17.53">🎯 FD001 Final Score: RMSE = 17.53</h3>
 <p><strong>Interpretation:</strong> On average, we predict within ~18 cycles of the true RUL. Excellent for baseline.</p>
@@ -638,8 +660,23 @@ Aymen Mabrouk
 </section>
 <section id="fd001-prediction-visualization" class="slide level2">
 <h2>📈 FD001 Prediction Visualization</h2>
-
-<img data-src="images/FD001%20FINAL%20PREDICTION.png" style="width:70.0%" class="r-stretch quarto-figure-center"><p class="caption">FD001 Predicted vs Actual RUL</p><div class="columns">
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/FD001%20FINAL%20PREDICTION.png" style="width:85.0%"></p>
+<figcaption>FD001 Predicted vs Actual RUL</figcaption>
+</figure>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/FD001%20final%20accuracy%20check.png" style="width:85.0%"></p>
+<figcaption>Final Accuracy Check</figcaption>
+</figure>
+</div>
+</div></div>
+<div class="columns">
 <div class="column" style="width:60%;">
 <p><strong>Predicted vs Actual RUL:</strong> - <strong>Red dashed line:</strong> Perfect prediction (y = x) - <strong>Blue dots:</strong> Our AI predictions - <strong>Closer to line = Better accuracy</strong></p>
 <p><strong>Observations:</strong> - Strong correlation across all RUL ranges - Slight under-prediction at high RUL (conservative — safer for maintenance)</p>
@@ -747,7 +784,7 @@ Aymen Mabrouk
 </div></div>
 <p><strong>Hybrid Ensemble:</strong> <span class="math display">\[Prediction_{hybrid} = \frac{RF_{pred} + XGB_{pred}}{2}\]</span></p>
 <div class="fragment fade-up">
-<h3 id="hybrid-rmse-26.54-best-of-both">🎯 Hybrid RMSE: 26.54 (Best of both!)</h3>
+<h3 id="hybrid-rmse-26.3-best-of-both">🎯 Hybrid RMSE: 26.3 (Best of both!)</h3>
 </div>
 </section>
 <section id="physics-based-smoothing-post-processing" class="slide level2">
@@ -764,7 +801,7 @@ Aymen Mabrouk
 
 <img data-src="images/FD002Multi-Regime%20Prediction.png" style="width:70.0%" class="r-stretch quarto-figure-center"><p class="caption">FD002 Multi-Regime Prediction Accuracy</p><p><strong>Key Achievement:</strong> - Successfully handled 6 different operating conditions - Regime normalization recovered the degradation signal from chaos - Hybrid ensemble achieved competitive RMSE</p>
 <div class="fragment">
-<h3 id="fd002-final-score-rmse-26.54">🎯 FD002 Final Score: RMSE = 26.54</h3>
+<h3 id="fd002-final-score-rmse-26.3">🎯 FD002 Final Score: RMSE = 26.3</h3>
 </div>
 </section>
 <section class="slide level2">
@@ -776,7 +813,7 @@ Aymen Mabrouk
 <p><strong>PHASE 3: MULTI-FAULT DIAGNOSTICS (FD003)</strong><br>
 <em>AeroGuard_FD003_Diagnostics.ipynb</em></p>
 </section>
-<section id="the-challenge-competing-risks" class="slide level2">
+<section id="the-challenge-competing-risks" class="slide level2 scrollable">
 <h2>🩺 The Challenge: Competing Risks</h2>
 <p><strong>FD003 Complexity:</strong> Engines fail due to <strong>TWO different mechanisms</strong>:</p>
 <ol type="1">
@@ -834,7 +871,7 @@ Aymen Mabrouk
 <div class="column" style="width:65%;">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="images/FD003FLIGHT%20CYCLES.png" style="width:100.0%"></p>
+<p><img data-src="images/FD003FLIGHT%20CYCLES.png" style="width:90.0%"></p>
 <figcaption>Survival Analysis: Kaplan-Meier Curves</figcaption>
 </figure>
 </div>
@@ -1143,7 +1180,7 @@ Aymen Mabrouk
 <p><strong>Response:</strong></p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode numberSource json number-lines code-with-copy"><code class="sourceCode json"><span id="cb18-1"><a href=""></a><span class="fu">{</span><span class="dt">"RUL"</span><span class="fu">:</span> <span class="fl">112.45</span><span class="fu">,</span> <span class="dt">"status"</span><span class="fu">:</span> <span class="st">"Healthy"</span><span class="fu">,</span> <span class="dt">"confidence"</span><span class="fu">:</span> <span class="st">"High"</span><span class="fu">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
-<section id="complete-mlops-workflow" class="slide level2">
+<section id="complete-mlops-workflow" class="slide level2 scrollable">
 <h2>Complete MLOps Workflow</h2>
 <ol type="1">
 <li class="fragment"><strong>DVC</strong> → Version control for 20K+ sensor readings</li>
@@ -1331,7 +1368,7 @@ Aymen Mabrouk
 <section class="slide level2">
 
 </section></section>
-<section id="thank-you" class="title-slide slide level1 center" data-background-color="#1a1a2e">
+<section id="thank-you" class="title-slide slide level1 center scrollable" data-background-color="#1a1a2e">
 <h1>Thank You!</h1>
 <div class="columns">
 <div class="column" style="width:50%;">
