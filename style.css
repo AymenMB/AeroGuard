@@ -1,0 +1,396 @@
+/* Professional Engineering Look - AeroGuard Theme */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Open+Sans:wght@400;600&display=swap');
+
+.reveal .slide-number {
+  font-size: 0.5em;
+  color: #bdc3c7;
+  bottom: 20px;
+  right: 20px;
+}
+
+.reveal {
+  font-family: 'Open Sans', sans-serif;
+  color: #ecf0f1;
+}
+
+.reveal h1,
+.reveal h2,
+.reveal h3 {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.reveal h1 {
+  color: #3498db;
+  /* Bright Blue */
+  font-size: 2.5em;
+  margin-bottom: 0.5em;
+}
+
+.reveal h2 {
+  color: #e74c3c;
+  /* Engineering Red accent */
+  font-size: 1.6em;
+  border-bottom: 2px solid #e74c3c;
+  padding-bottom: 0.2em;
+  display: inline-block;
+  margin-bottom: 0.8em;
+}
+
+.reveal h3 {
+  color: #f1c40f;
+  /* Yellow for sub-headers */
+  font-size: 1.3em;
+}
+
+.reveal p,
+.reveal li {
+  font-size: 0.9em;
+  line-height: 1.6;
+}
+
+/* Dark Slide text color override - Ensure contrast */
+.reveal section[data-background-color="#2C3E50"] h1,
+.reveal section[data-background-color="#2C3E50"] h2,
+.reveal section[data-background-color="#2C3E50"] h3,
+.reveal section[data-background-color="#2C3E50"] p,
+.reveal section[data-background-color="#2C3E50"] li {
+  color: #ecf0f1;
+}
+
+/* Callout box styling */
+.callout-important {
+  background-color: rgba(231, 76, 60, 0.15);
+  border-left: 5px solid #e74c3c;
+  padding: 1em;
+  margin-top: 1em;
+  border-radius: 5px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.callout-note {
+  background-color: rgba(52, 152, 219, 0.15);
+  border-left: 5px solid #3498db;
+  padding: 1em;
+  border-radius: 5px;
+}
+
+/* Code block styling */
+.reveal pre code {
+  background-color: #2c3e50;
+  border-radius: 8px;
+  border: 1px solid #34495e;
+  box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);
+  padding: 20px;
+  font-size: 0.8em;
+}
+
+/* Image styling */
+.reveal img {
+  border-radius: 8px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease;
+}
+
+.reveal img:hover {
+  transform: scale(1.02);
+}
+
+/* Table styling */
+.reveal table {
+  font-size: 0.8em;
+  border-collapse: collapse;
+  width: 100%;
+  margin: 20px 0;
+}
+
+.reveal th {
+  background-color: #34495e;
+  color: #ecf0f1;
+  padding: 12px;
+}
+
+.reveal td {
+  border-bottom: 1px solid #7f8c8d;
+  padding: 8px 10px;
+  font-size: 0.85em;
+}
+
+/* Column layout balancing */
+.columns {
+  display: flex;
+  align-items: center;
+  /* Vertically center content */
+}
+
+/* Custom animation utility */
+.fade-in-up {
+  animation: fadeInUp 0.8s ease-out;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Q&A Slide Styling */
+.reveal section[data-background-color="#34495e"] h2 {
+  color: #f39c12;
+  border-bottom-color: #f39c12;
+}
+
+.reveal section[data-background-color="#34495e"] strong {
+  color: #3498db;
+}
+
+/* Badge styling in presentation */
+.reveal img[alt="R"],
+.reveal img[alt="Quarto"],
+.reveal img[alt="XGBoost"] {
+  border-radius: 4px;
+  box-shadow: none;
+  margin: 5px;
+  display: inline-block;
+}
+
+/* Footer link styling */
+.reveal .slide-footer a {
+  color: #3498db;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.reveal .slide-footer a:hover {
+  color: #f1c40f;
+}
+
+/* RMSE highlight styling */
+.reveal td:last-child {
+  font-weight: bold;
+  color: #2ecc71;
+}
+
+/* Success checkmark styling */
+.reveal td:contains("✅") {
+  color: #2ecc71;
+}
+
+/* Subtle glow effect on key RMSE values */
+.reveal strong:contains("17.53"),
+.reveal strong:contains("20.05") {
+  text-shadow: 0 0 10px rgba(46, 204, 113, 0.5);
+}
+
+/* Thank you slide enhancement */
+.reveal section[data-background-color="#1a1a2e"] h1 {
+  background: linear-gradient(135deg, #3498db, #9b59b6);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-size: 3em;
+}
+
+/* Slide transitions enhancement */
+.reveal .slides section {
+  transition: transform 0.6s ease, opacity 0.6s ease;
+  padding-bottom: 60px !important;
+  /* Prevent footer overlap */
+}
+
+/* Footer styling */
+.reveal .slide-footer,
+.reveal footer {
+  font-size: 0.6em;
+  opacity: 0.8;
+}
+
+/* Progress bar styling */
+.reveal .progress {
+  background: rgba(0, 0, 0, 0.2);
+  height: 5px;
+}
+
+.reveal .progress span {
+  background: linear-gradient(90deg, #3498db, #2ecc71);
+}
+
+/* ASCII art container styling */
+.reveal pre:has(code:contains("────")) {
+  background: linear-gradient(135deg, #1a1a2e, #2c3e50);
+  border-left: 4px solid #3498db;
+}
+
+/* List item markers */
+.reveal ul li::marker {
+  color: #3498db;
+}
+
+.reveal ol li::marker {
+  color: #e74c3c;
+  font-weight: bold;
+}
+
+/* ===== FIX: Column layout text overlap ===== */
+.reveal .columns {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 2em;
+  align-items: flex-start;
+}
+
+.reveal .column {
+  flex: 1;
+  min-width: 0;
+  overflow: visible;
+}
+
+/* Prevent text from overflowing columns */
+.reveal .column p,
+.reveal .column li,
+.reveal .column a {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+/* Smaller font for dense slides */
+.reveal .slides section.smaller {
+  font-size: 0.8em;
+}
+
+/* Fix table in columns */
+.reveal .column table {
+  width: 100%;
+  font-size: 0.75em;
+}
+
+/* Badge images inline */
+.reveal .column img[src*="shields.io"] {
+  display: inline-block;
+  vertical-align: middle;
+  margin: 4px;
+  box-shadow: none;
+}
+
+/* Stat box styling */
+.stat-box {
+  background: linear-gradient(135deg, rgba(52, 152, 219, 0.2), rgba(155, 89, 182, 0.2));
+  border-radius: 12px;
+  padding: 1.5em;
+  text-align: center;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.stat-box .number {
+  font-size: 3em;
+  font-weight: 700;
+  color: #3498db;
+  display: block;
+}
+
+.stat-box .label {
+  font-size: 0.9em;
+  color: #bdc3c7;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+/* Hero slide styling */
+.reveal section.hero h1 {
+  font-size: 3.5em;
+  background: linear-gradient(135deg, #e74c3c, #f39c12);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 0.5em;
+}
+
+/* Comparison table styling */
+.reveal table.comparison {
+  font-size: 0.85em;
+}
+
+.reveal table.comparison td:first-child {
+  font-weight: bold;
+  color: #3498db;
+}
+
+/* Dataset card styling */
+.dataset-card {
+  background: rgba(44, 62, 80, 0.6);
+  border-radius: 10px;
+  padding: 1em;
+  border-left: 4px solid #2ecc71;
+  margin: 0.5em 0;
+}
+
+.dataset-card.test {
+  border-left-color: #e74c3c;
+}
+
+.dataset-card.rul {
+  border-left-color: #f39c12;
+}
+
+/* Animated gradient text */
+.gradient-text {
+  background: linear-gradient(90deg, #3498db, #2ecc71, #f39c12);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradient-flow 3s ease infinite;
+}
+
+@keyframes gradient-flow {
+  0% {
+    background-position: 0% center;
+  }
+
+  50% {
+    background-position: 100% center;
+  }
+
+  100% {
+    background-position: 0% center;
+  }
+}
+
+/* Pipeline step boxes */
+.pipeline-step {
+  background: linear-gradient(135deg, #2c3e50, #34495e);
+  border-radius: 8px;
+  padding: 0.8em 1.2em;
+  margin: 0.5em 0;
+  border-left: 3px solid #3498db;
+  display: flex;
+  align-items: center;
+  gap: 1em;
+}
+
+.pipeline-step .step-number {
+  background: #3498db;
+  color: white;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
+
+/* Difficulty stars */
+.stars {
+  color: #f39c12;
+  letter-spacing: 2px;
+}
