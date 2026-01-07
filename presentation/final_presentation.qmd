@@ -193,7 +193,7 @@ $$RUL = MaxCycle - CurrentCycle$$
 | Dataset | Challenge | Method | RMSE | Status |
 |:--------|:----------|:-------|:----:|:------:|
 | FD001 | Baseline | Cox + Random Forest | **17.53** | Excellent |
-| FD002 | 6 Regimes | K-Means + Hybrid | **26.54** | Good |
+| FD002 | 6 Regimes | K-Means + Hybrid | **26.3** | Good |
 | FD003 | 2 Faults | Hierarchical + XGB | **20.05** | Excellent |
 | FD004 | Combined | Grand Unified | **32.97** | Competitive |
 
@@ -327,9 +327,12 @@ $$h(t) = h_0(t) \cdot \exp(\beta_1 \cdot s_{11} + \beta_2 \cdot s_{12} + \beta_3
 cox_model <- coxph(Surv(cycle, failed) ~ s11 + s12 + s4, data = data_clean)
 ```
 
+
 ::: {.callout-important}
 **Critical Finding:** Sensor 11 has a **Hazard Ratio > 200**. It is the primary leading indicator of impending failure.
 :::
+
+
 
 ---
 
@@ -368,19 +371,42 @@ $$RUL_{clipped} = \min(RUL, 125)$$
 
 ---
 
+## 🔮 The Oracle: Weibull AFT Model
+
+**Surpassing the Cox Model:**
+Cox PH tells us *risk* (who dies first), but it can't predict *when*.
+We need a model that output **time**.
+
+**Why Weibull?**
+- It's the standard engineering curve for "wear-out".
+- It assumes engines age like a tire losing tread.
+
+```r
+# The Oracle: Accelerated Failure Time (AFT) Model
+# We tell the model: "Predict the exact cycle of death"
+weibull_model <- survreg(Surv(cycle, failed) ~ s11 + s12 + s4, 
+                         data = data_clean, 
+                         dist = "weibull")
+```
+
+
+
+---
+
 ## 🧠 Principal Component Analysis (PCA)
 
 **Goal:** Compress 14+ sensors into a single "Health Index" for pilot dashboards.
+**Method:** Principal Component Analysis (PCA) reduces dimensionality while preserving signal.
 
 ```r
+# Compress all sensor data into one single "Health Score"
 pca_result <- prcomp(sensors_only, scale. = TRUE)
-data$Health_Index <- pca_result$x[, 1]  # First principal component
+data$Health_Index <- pca_result$x[, 1]  # First Principal Component
 ```
 
 **Interpretation:**
-- **PC1 captures ~60% of variance**
-- As Health_Index increases → Engine is degrading
-- Simple metric for non-technical stakeholders
+- **Health Index increases** = Degradation severity increases.
+- **Single Metric Monitoring**: Replaces complex multi-sensor dashboards.
 
 ---
 
@@ -568,7 +594,7 @@ We recover the degradation trend using Regime Normalization. *Pure degradation s
 $$Prediction_{hybrid} = \frac{RF_{pred} + XGB_{pred}}{2}$$
 
 ::: {.fragment .fade-up}
-### 🎯 Hybrid RMSE: 26.54 (Best of both!)
+### 🎯 Hybrid RMSE: 26.3 (Best of both!)
 :::
 
 ---
@@ -600,7 +626,7 @@ smooth_preds <- stats::filter(raw_preds, rep(1/5, 5), sides = 1)
 - Hybrid ensemble achieved competitive RMSE
 
 ::: {.fragment}
-### 🎯 FD002 Final Score: RMSE = 26.54
+### 🎯 FD002 Final Score: RMSE = 26.3
 :::
 
 ---
